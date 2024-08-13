@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Activation Mail</title>
+
+    <style type="text/css">
+      body {
+        margin: 0px;
+        padding: 0px;
+        min-width: 100%;
+        font-size: 16px;
+        line-height: 1.5;
+        color: #222222;
+        background-color: #f4f4f4;
+        font-family: Arial, sans-serif;
+      }
+
+      a {
+        color: #000;
+        text-decoration: none;
+      }
+
+      h1 {
+        margin-top: 0;
+        margin-top: 0px;
+        font-weight: 700;
+        line-height: 1.25;
+        font-size: larger;
+        text-align: center;
+        margin-bottom: 15px;
+      }
+
+      p {
+        margin-top: 0px;
+        margin-bottom: 24px;
+      }
+
+      table td {
+        vertical-align: top;
+      }
+
+      .email-wrapper {
+        margin: 0px;
+        max-width: 600px;
+      }
+
+      .email-header {
+        padding: 20px;
+        color: white;
+        background-color: #3364d7;
+      }
+
+      .email-body {
+        padding: 20px;
+        background-color: #ffffff;
+      }
+
+      .email-footer {
+        padding: 20px;
+        background-color: #f6f6f6;
+      }
+
+      .button {
+        color: white;
+        font-size: 16px;
+        font-weight: 700;
+        text-align: center;
+        padding: 10px 20px;
+        border-radius: 5px;
+        padding: 12px 24px;
+        display: inline-block;
+        text-decoration: none;
+        background-color: #3364d7;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="email-wrapper">
+      <div class="email-header">
+        <h1>Welcome To LMS</h1>
+      </div>
+
+      <div class="email-body">
+        <p>Hello <%= name%></p>
+        <p>
+          Thankyou for registering. To Activate your account, kindly use
+          following code.
+        </p>
+        <h2><%= activeCode%></h2>
+        <p>Please use this code within 7 minutes</p>
+        <p>If you didn't register for course, then ignore it.</p>
+      </div>
+
+      <div class="email-footer">
+        If you have any questions, please contact us at
+        <a href="shaheryarbakir998877@gmail.com">Support@Tatari.com</a>
+      </div>
+    </div>
+  </body>
+</html>
