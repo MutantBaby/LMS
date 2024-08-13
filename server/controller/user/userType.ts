@@ -7,3 +7,8 @@ export interface IUserRegistration {
 }
 
 export interface IUserActivation extends IActivationToken {}
+
+export interface IUserLogin {
+  email: string;
+  password: string;
+}
