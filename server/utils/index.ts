@@ -2,52 +2,41 @@ require("dotenv").config();
 
 import ejs from "ejs";
 import path from "path";
-import jsonWebToken, { Secret } from "jsonwebtoken";
+import { Secret } from "jsonwebtoken";
 import nodeMailer, { Transporter } from "nodemailer";
 
-import {
-  CustomError,
-  EmailOptions,
-  IActivationToken,
-  ActivationTokenPayload,
-} from "./types";
+import { EmailOptions } from "./types";
+import { jwtSign, jwtVerify } from "@jwt";
 
-export function errorHandler(
-  statusCode: number,
-  message: string | any
-): CustomError {
-  const error = new Error(message) as CustomError;
-  error.statusCode = statusCode;
+export function errorHandler(statusCode: number, message: string | any): Error {
+  const error = new Error(message);
 
-  Error.captureStackTrace(error, errorHandler);
+  error.name = "AppError";
+  (error as any).isOperational = true;
+  (error as any).statusCode = statusCode;
+  (error as any).status = `${statusCode}`.startsWith("4") ? "fail" : "error";
+
+  if (Error.captureStackTrace) Error.captureStackTrace(error, errorHandler);
 
   return error;
 }
 
-export async function activationTokenValidator<
-  T extends ActivationTokenPayload
->(token: string): Promise<T> {
-  const payload = (await jsonWebToken.verify(
-    token,
-    process.env.JWT_ACTIVATION_SECRET as Secret,
-    {}
-  )) as T;
+export function activationTokenValidator<T>(token: string): T {
+  const payload = jwtVerify(token, process.env.JWT_ACTIVATION_SECRET as Secret);
 
-  return payload;
+  return payload as T;
 }
 
-export async function activationTokenGenerator<T>(
-  user: T
-): Promise<IActivationToken> {
+export function activationTokenGenerator<T, U>(user: T): U {
   const activeCode = Math.floor(1000 + Math.random() * 9999).toString();
 
-  const token = await jsonWebToken.sign(
+  const token = jwtSign(
     { user, activeCode },
     process.env.JWT_ACTIVATION_SECRET as Secret,
     { expiresIn: "10m" }
   );
 
-  return { token, activeCode };
+  return { token, activeCode } as U;
 }
 
 const transporter: Transporter = nodeMailer.createTransport({

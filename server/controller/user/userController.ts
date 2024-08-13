@@ -8,10 +8,17 @@ import {
   activationTokenGenerator,
   activationTokenValidator,
 } from "@utils";
+import {
+  IUserLogin,
+  IUserActivation,
+  IActivationToken,
+  IUserRegistration,
+  IActivationTokenPayload,
+} from "./userType";
 import { sendToken } from "@jwt";
 import userModel from "@models/User";
 import asyncErrorMiddleware from "@middleware/asyncErrorMiddleware";
-import { IUserActivation, IUserLogin, IUserRegistration } from "./userType";
+import { redis } from "app";
 
 export const userRegisteration_post = asyncErrorMiddleware(async function (
   req: Request,
@@ -27,8 +34,10 @@ export const userRegisteration_post = asyncErrorMiddleware(async function (
 
     const userObj = { name, email, password };
 
-    const { token, activeCode } =
-      await activationTokenGenerator<IUserRegistration>(userObj);
+    const { token, activeCode } = activationTokenGenerator<
+      IUserRegistration,
+      IActivationToken
+    >(userObj);
 
     const data = { name, activeCode };
 
@@ -62,7 +71,7 @@ export const userActivation_post = asyncErrorMiddleware(async function (
   const { token, activeCode } = req.body as IUserActivation;
 
   try {
-    const payload = await activationTokenValidator(token);
+    const payload = activationTokenValidator<IActivationTokenPayload>(token);
 
     if (payload.activeCode !== activeCode)
       return next(errorHandler(400, "Invalid Activation Code"));
@@ -117,13 +126,12 @@ export const userLogout_get = asyncErrorMiddleware(async function (
   res: Response,
   next: NextFunction
 ) {
+  const { user } = req;
+
+  await redis.del(user?._id as string);
+
   res.clearCookie("accessToken");
   res.clearCookie("refreshToken");
-
-  const accTok = req.cookies.accessToken;
-  const refTok = req.cookies.refreshToken;
-
-  if (!accTok || !refTok) console.log("Cookies Cleared");
 
   res.status(200).json({ success: true, message: "Logout Success" });
 });
