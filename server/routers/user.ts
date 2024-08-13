@@ -5,7 +5,7 @@ import {
   userLogout_get,
   userActivation_post,
   userRegisteration_post,
-} from "../controller/user/userController";
+} from "@userContr/userController";
 
 const router = Router();
 
@@ -14,4 +14,4 @@ router.post("/login", userLogin_post);
 router.post("/activate", userActivation_post);
 router.post("/register", userRegisteration_post);
 
-export default router;
+export { router as user };

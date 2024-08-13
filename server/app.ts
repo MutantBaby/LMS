@@ -4,8 +4,8 @@ import cors from "cors";
 import express from "express";
 import cookieParser from "cookie-parser";
 
-import routers from "./routers";
-import syncErrorMiddleware from "./middleware/syncErrorMiddleware";
+import { routers } from "@routers";
+import syncErrorMiddleware from "@middleware/syncErrorMiddleware";
 
 export const app = express();
 

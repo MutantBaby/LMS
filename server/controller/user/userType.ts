@@ -1,4 +1,4 @@
-import { IActivationToken } from "./../../utils/types";
+import { IActivationToken } from "@utils/types";
 
 export interface IUserRegistration {
   name: string;

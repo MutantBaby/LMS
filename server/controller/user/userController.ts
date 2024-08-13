@@ -2,16 +2,16 @@ import ejs from "ejs";
 import path from "path";
 import { Request, Response, NextFunction } from "express";
 
-import userModel from "../../models/User";
-import { IUserActivation, IUserLogin, IUserRegistration } from "./userType";
-import asyncErrorMiddleware from "../../middleware/asyncErrorMiddleware";
 import {
   sendMail,
   errorHandler,
-  activationTokenValidator,
   activationTokenGenerator,
-} from "../../utils";
-import { sendToken } from "../../utils/jwt";
+  activationTokenValidator,
+} from "@utils";
+import { sendToken } from "@jwt";
+import userModel from "@models/User";
+import asyncErrorMiddleware from "@middleware/asyncErrorMiddleware";
+import { IUserActivation, IUserLogin, IUserRegistration } from "./userType";
 
 export const userRegisteration_post = asyncErrorMiddleware(async function (
   req: Request,

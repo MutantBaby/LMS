@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
-import { errorHandler } from "../utils";
+
+import { errorHandler } from "@utils";
 
 export default function (
   err: any,
