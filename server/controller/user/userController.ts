@@ -160,23 +160,26 @@ export const updateAccessToken_get = asyncErrorMiddleware(async function (
     const user: IUser = JSON.parse(session);
 
     const accessToken = jwtSign(
-      user._id as string,
+      { id: user._id },
       process.env.ACCESS_TOKEN as Secret,
       {
-        expiresIn: new Date(Date.now() + 10 * 60 * 60 * 1000).toUTCString(),
+        expiresIn: "10m",
       }
     );
 
     const refreshToken = jwtSign(
-      user._id as string,
+      { id: user._id },
       process.env.REFRESH_TOKEN as Secret,
       {
-        expiresIn: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toUTCString(),
+        expiresIn: "3d",
       }
     );
 
     res.cookie("accessToken", accessToken, accTokOpt as CookieOptions);
+
     res.cookie("refreshToken", refreshToken, refTokOpt as CookieOptions);
+
+    res.status(200).json({ accessToken, success: true });
   } catch (error: any) {
     return next(errorHandler(400, error.message));
   }

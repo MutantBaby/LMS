@@ -13,8 +13,8 @@ const router = Router();
 
 router.post("/login", userLogin_post);
 router.post("/activate", userActivation_post);
+router.get("/refresh", updateAccessToken_get);
 router.post("/register", userRegisteration_post);
-router.get("/refresh-token", updateAccessToken_get);
 router.get("/logout", authMiddleware, userLogout_get);
-  
+
 export { router as user };
