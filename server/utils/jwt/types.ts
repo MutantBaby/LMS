@@ -15,14 +15,14 @@ export const accTokOpt: ITokenOptions = {
   secure: true,
   httpOnly: false,
   sameSite: "none",
-  maxAge: (accTokExp * 1000) as number,
-  expiresIn: new Date(Date.now() + accTokExp * 1000),
+  maxAge: (accTokExp * 60 * 60 * 1000) as number,
+  expiresIn: new Date(Date.now() + accTokExp * 60 * 60 * 1000),
 };
 
 export const refTokOpt: ITokenOptions = {
   secure: true,
   httpOnly: false,
   sameSite: "none",
-  maxAge: (refTokExp * 1000) as number,
-  expiresIn: new Date(Date.now() + refTokExp * 1000),
+  maxAge: (refTokExp * 24 * 60 * 60 * 1000) as number,
+  expiresIn: new Date(Date.now() + refTokExp * 24 * 60 * 60 * 1000),
 };

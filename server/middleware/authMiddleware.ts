@@ -6,6 +6,17 @@ import { redis } from "app";
 import { jwtVerify } from "@jwt";
 import { errorHandler } from "@utils";
 
+export const authorizeRolesMiddleware = function (...roles: string[]) {
+  return function (req: Request, res: Response, next: NextFunction) {
+    const user = req?.user;
+
+    if (!roles.includes(user?.role || ""))
+      return next(errorHandler(403, "Not Authorized To Access This Route"));
+
+    next();
+  };
+};
+
 export default async function (
   req: Request,
   res: Response,
@@ -18,14 +29,14 @@ export default async function (
 
   console.log("ACCESS ", accessToken);
 
-  const result: any = jwtVerify(
+  const payload: any = jwtVerify(
     accessToken,
     process.env.ACCESS_TOKEN as string
   );
 
-  if (!result) return next(errorHandler(401, "Unauthorized"));
+  if (!payload) return next(errorHandler(401, "Unauthorized"));
 
-  const user = await redis.get(result.id);
+  const user = await redis.get(payload.id);
 
   if (!user) return next(errorHandler(401, "User Not Found"));
 

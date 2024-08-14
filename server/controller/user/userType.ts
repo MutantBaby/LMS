@@ -15,11 +15,7 @@ export interface IUserLogin {
 
 export interface IActivationTokenPayload extends JwtPayload {
   activeCode: string;
-  user: {
-    name: string;
-    email: string;
-    password: string;
-  };
+  user: IUserRegistration;
 }
 
 export interface IActivationToken {

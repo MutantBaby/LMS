@@ -78,14 +78,16 @@ userSchema.methods.compPassword = async function (
 userSchema.methods.signAccessToken = function (): string {
   return jsonWebToken.sign(
     { id: this._id },
-    process.env.ACCESS_TOKEN as Secret
+    process.env.ACCESS_TOKEN as Secret,
+    { expiresIn: "10m" }
   );
 };
 
 userSchema.methods.signRefreshToken = function (): string {
   return jsonWebToken.sign(
     { id: this._id },
-    process.env.REFRESH_TOKEN as Secret
+    process.env.REFRESH_TOKEN as Secret,
+    { expiresIn: "3d" }
   );
 };
 

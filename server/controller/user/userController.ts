@@ -1,6 +1,8 @@
 import ejs from "ejs";
 import path from "path";
-import { Request, Response, NextFunction } from "express";
+import { redis } from "app";
+import { Secret } from "jsonwebtoken";
+import { Request, Response, NextFunction, CookieOptions } from "express";
 
 import {
   sendMail,
@@ -15,10 +17,10 @@ import {
   IUserRegistration,
   IActivationTokenPayload,
 } from "./userType";
-import { sendToken } from "@jwt";
-import userModel from "@models/User";
+import userModel, { IUser } from "@models/User";
+import { accTokOpt, refTokOpt } from "@jwt/types";
+import { jwtSign, jwtVerify, sendToken } from "@jwt";
 import asyncErrorMiddleware from "@middleware/asyncErrorMiddleware";
-import { redis } from "app";
 
 export const userRegisteration_post = asyncErrorMiddleware(async function (
   req: Request,
@@ -134,4 +136,48 @@ export const userLogout_get = asyncErrorMiddleware(async function (
   res.clearCookie("refreshToken");
 
   res.status(200).json({ success: true, message: "Logout Success" });
+});
+
+export const updateAccessToken_get = asyncErrorMiddleware(async function (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  const refreshToken: string = req.cookies.refreshToken;
+
+  const payload: any = jwtVerify(
+    refreshToken,
+    process.env.REFRESH_TOKEN as Secret
+  );
+
+  if (!payload) return next(errorHandler(400, "Invalid Refresh Token"));
+
+  try {
+    const session = await redis.get(payload.id);
+
+    if (!session) return next(errorHandler(400, "Invalid Refresh Token"));
+
+    const user: IUser = JSON.parse(session);
+
+    const accessToken = jwtSign(
+      user._id as string,
+      process.env.ACCESS_TOKEN as Secret,
+      {
+        expiresIn: new Date(Date.now() + 10 * 60 * 60 * 1000).toUTCString(),
+      }
+    );
+
+    const refreshToken = jwtSign(
+      user._id as string,
+      process.env.REFRESH_TOKEN as Secret,
+      {
+        expiresIn: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toUTCString(),
+      }
+    );
+
+    res.cookie("accessToken", accessToken, accTokOpt as CookieOptions);
+    res.cookie("refreshToken", refreshToken, refTokOpt as CookieOptions);
+  } catch (error: any) {
+    return next(errorHandler(400, error.message));
+  }
 });
