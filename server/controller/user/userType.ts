@@ -6,11 +6,10 @@ export interface IUserRegistration {
   password: string;
 }
 
-export interface IUserActivation extends IActivationToken {}
-
-export interface IUserLogin {
+export interface ISocialAuth {
+  name: string;
   email: string;
-  password: string;
+  avatar: string;
 }
 
 export interface IActivationTokenPayload extends JwtPayload {
@@ -18,7 +17,23 @@ export interface IActivationTokenPayload extends JwtPayload {
   user: IUserRegistration;
 }
 
+export interface IUserLogin {
+  email: string;
+  password: string;
+}
+
 export interface IActivationToken {
   token: string;
   activeCode: string;
 }
+export interface IUpdateUserInfo {
+  name: string;
+  email: string;
+}
+
+export interface IUpdateUserPassword {
+  oldPassword: string;
+  newPassword: string;
+}
+
+export interface IUserActivation extends IActivationToken {}

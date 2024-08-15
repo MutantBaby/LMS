@@ -12,6 +12,7 @@ export interface IUser extends Document {
   email: string;
   password: string;
   isverified: boolean;
+  isSocialLogin: boolean;
   signAccessToken: () => string;
   signRefreshToken: () => string;
   courses: Array<{ courseId: string }>;
@@ -46,10 +47,19 @@ const userSchema: Schema<IUser> = new mongoose.Schema(
     password: {
       type: String,
       select: false,
-      required: [true, "Please Enter Password"],
+      required: [
+        function (this: IUser) {
+          return !this.isSocialLogin;
+        },
+        "Please Enter Password",
+      ],
       minlength: [6, "Must be 6 Characters Long"],
     },
     isverified: {
+      type: Boolean,
+      default: false,
+    },
+    isSocialLogin: {
       type: Boolean,
       default: false,
     },
@@ -63,7 +73,9 @@ const userSchema: Schema<IUser> = new mongoose.Schema(
 );
 
 userSchema.pre("save", async function (next) {
-  if (!this.isModified("password")) next();
+  if (!this.isModified("password")) return next();
+
+  if (this.isSocialLogin) return next();
 
   this.password = await bcrypt.hash(this.password, 10);
   next();

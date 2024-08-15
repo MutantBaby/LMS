@@ -12,11 +12,15 @@ import {
 } from "@utils";
 import {
   IUserLogin,
+  ISocialAuth,
   IUserActivation,
+  IUpdateUserInfo,
   IActivationToken,
   IUserRegistration,
+  IUpdateUserPassword,
   IActivationTokenPayload,
 } from "./userType";
+import { getUserById } from "@services/user";
 import userModel, { IUser } from "@models/User";
 import { accTokOpt, refTokOpt } from "@jwt/types";
 import { jwtSign, jwtVerify, sendToken } from "@jwt";
@@ -128,9 +132,9 @@ export const userLogout_get = asyncErrorMiddleware(async function (
   res: Response,
   next: NextFunction
 ) {
-  const { user } = req;
+  const userId = req.user!._id as string;
 
-  await redis.del(user?._id as string);
+  await redis.del(userId);
 
   res.clearCookie("accessToken");
   res.clearCookie("refreshToken");
@@ -184,3 +188,114 @@ export const updateAccessToken_get = asyncErrorMiddleware(async function (
     return next(errorHandler(400, error.message));
   }
 });
+
+export const getUserInfo_get = asyncErrorMiddleware(async function (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  const userId = req.user!._id as string;
+
+  await getUserById(userId, res, next);
+});
+
+export const socialAuth_post = asyncErrorMiddleware(async function (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  const { name, email, avatar } = req.body as ISocialAuth;
+
+  try {
+    const user = (await userModel.findOne({ email: email })) as IUser;
+
+    if (!user) {
+      const newUser = await userModel.create({
+        name,
+        email,
+        avatar,
+        isSocialLogin: true,
+      });
+      const accessToken = await sendToken(newUser, res);
+
+      return res
+        .status(200)
+        .json({ user: newUser, accessToken, success: true });
+    }
+
+    const accessToken = await sendToken(user, res);
+
+    res.status(200).json({ user, accessToken, success: true });
+  } catch (error: any) {
+    return next(errorHandler(400, error.message));
+  }
+});
+
+export const updateUserInfo_patch = asyncErrorMiddleware(async function (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  // user get from session.
+  // get name & gmail to update.
+
+  const userId = req.user!._id as string;
+
+  const { name, email } = req.body as IUpdateUserInfo;
+
+  try {
+    const sessionUser = await userModel.findById(userId);
+
+    if (!sessionUser) return next(errorHandler(404, "No User Found"));
+
+    if (email) {
+      if (sessionUser.email !== email) {
+        const newUser = await userModel.findOne({ email });
+
+        if (newUser) return next(errorHandler(400, "User Already Exist"));
+        sessionUser.email = email;
+      }
+    }
+
+    if (name) sessionUser.name = name;
+
+    await sessionUser?.save();
+    await redis.set(userId, JSON.stringify(sessionUser));
+
+    res.status(200).json({ user: sessionUser, success: true });
+  } catch (error: any) {
+    return next(errorHandler(400, error.message));
+  }
+});
+
+export const updateUserPassword_patch = asyncErrorMiddleware(async function (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  const { oldPassword, newPassword } = req.body as IUpdateUserPassword;
+
+  if (!oldPassword || !newPassword)
+    return next(errorHandler(400, "Enter old & new Passwords"));
+
+  try {
+    const user = (await userModel
+      .findOne({ _id: req.user!._id })
+      .select("+password")) as IUser;
+
+    const isMatch = await user.compPassword(oldPassword);
+
+    if (!isMatch) return next(errorHandler(400, "Invalid Password"));
+
+    user.password = newPassword;
+
+    await user.save();
+
+    await redis.set(user._id as string, JSON.stringify(user));
+
+    res.status(200).json({ user, success: true });
+  } catch (error: any) {
+    return next(errorHandler(400, error.message));
+  }
+});
+

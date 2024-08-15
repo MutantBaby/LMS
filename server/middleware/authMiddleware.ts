@@ -27,8 +27,6 @@ export default async function (
   if (!accessToken)
     return next(errorHandler(401, "Login First To Access Resourse"));
 
-  console.log("ACCESS ", accessToken);
-
   const payload: any = jwtVerify(
     accessToken,
     process.env.ACCESS_TOKEN as string
