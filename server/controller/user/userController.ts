@@ -1,8 +1,8 @@
 import ejs from "ejs";
 import path from "path";
 import { redis } from "app";
-import { v2 as cloudinary } from "cloudinary";
 import { Secret } from "jsonwebtoken";
+import { v2 as cloudinary } from "cloudinary";
 import { Request, Response, NextFunction, CookieOptions } from "express";
 
 import {
@@ -18,12 +18,13 @@ import {
   IUpdateUserInfo,
   IActivationToken,
   IUserRegistration,
+  IUpdateUserProfile,
   IUpdateUserPassword,
   IActivationTokenPayload,
-  IUpdateUserProfile,
 } from "./userType";
+import userModel from "@userMod/User";
+import { IUser } from "@userMod/types";
 import { getUserById } from "@services/user";
-import userModel, { IUser } from "@models/User";
 import { accTokOpt, refTokOpt } from "@jwt/types";
 import { jwtSign, jwtVerify, sendToken } from "@jwt";
 import asyncErrorMiddleware from "@middleware/asyncErrorMiddleware";

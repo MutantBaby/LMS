@@ -2,7 +2,7 @@ import { CookieOptions, Response } from "express";
 import jsonWebToken, { Secret, SignOptions, VerifyOptions } from "jsonwebtoken";
 
 import { redis } from "app";
-import { IUser } from "@models/User";
+import { IUser } from "@userMod/types";
 import { accTokOpt, refTokOpt } from "./types";
 
 export const sendToken = async function (user: IUser, res: Response) {

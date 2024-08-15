@@ -1,27 +1,12 @@
 require("dotenv").config();
 
 import bcrypt from "bcryptjs";
+import mongoose, { Model, Schema } from "mongoose";
 import jsonWebToken, { Secret } from "jsonwebtoken";
-import mongoose, { Document, Model, Schema } from "mongoose";
+
+import { IUser } from "./types";
 
 const emailRegexPattren = /^[^\s@]+@[^\s@].[^\s@]+$/;
-
-export interface IUser extends Document {
-  name: string;
-  role: string;
-  email: string;
-  password: string;
-  isverified: boolean;
-  isSocialLogin: boolean;
-  signAccessToken: () => string;
-  signRefreshToken: () => string;
-  courses: Array<{ courseId: string }>;
-  compPassword: (password: string) => Promise<boolean>;
-  avatar: {
-    url: string;
-    publicId: string;
-  };
-}
 
 const userSchema: Schema<IUser> = new mongoose.Schema(
   {
