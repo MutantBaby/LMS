@@ -36,4 +36,11 @@ export interface IUpdateUserPassword {
   newPassword: string;
 }
 
+export interface IUpdateUserProfile {
+  avatar: {
+    url: string;
+    publicId: string;
+  };
+}
+
 export interface IUserActivation extends IActivationToken {}

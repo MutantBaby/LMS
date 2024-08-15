@@ -1,6 +1,7 @@
 import ejs from "ejs";
 import path from "path";
 import { redis } from "app";
+import { v2 as cloudinary } from "cloudinary";
 import { Secret } from "jsonwebtoken";
 import { Request, Response, NextFunction, CookieOptions } from "express";
 
@@ -19,6 +20,7 @@ import {
   IUserRegistration,
   IUpdateUserPassword,
   IActivationTokenPayload,
+  IUpdateUserProfile,
 } from "./userType";
 import { getUserById } from "@services/user";
 import userModel, { IUser } from "@models/User";
@@ -299,3 +301,40 @@ export const updateUserPassword_patch = asyncErrorMiddleware(async function (
   }
 });
 
+export const updateUserProfile_patch = asyncErrorMiddleware(async function (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  const userId = req.user!._id as string;
+
+  const { avatar } = req.body as IUpdateUserProfile;
+
+  if (!avatar) return next(errorHandler(400, "No Profile Info Provided"));
+
+  try {
+    const user = await userModel.findOne({ _id: userId });
+
+    if (!user) return next(errorHandler(404, "No User Found"));
+
+    if (user.avatar.publicId)
+      await cloudinary.uploader.destroy(user.avatar.publicId);
+
+    const result = await cloudinary.uploader.upload(avatar.url, {
+      folder: "avatars",
+      width: 150,
+    });
+
+    user.avatar = {
+      url: result.secure_url,
+      publicId: result.public_id,
+    };
+
+    await user.save();
+    await redis.set(userId, JSON.stringify(user));
+
+    res.status(200).json({ user, success: true });
+  } catch (error: any) {
+    return next(errorHandler(400, error.message));
+  }
+});

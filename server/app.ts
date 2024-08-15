@@ -6,9 +6,10 @@ import { Redis } from "ioredis";
 import cookieParser from "cookie-parser";
 
 import { routers } from "@routers";
-import { connectRedis } from "@database";
+import { connectCloudinary, connectRedis } from "@database";
 import syncErrorMiddleware from "@middleware/syncErrorMiddleware";
 
+connectCloudinary();
 export const app = express();
 export const redis: Redis = connectRedis()!;
 

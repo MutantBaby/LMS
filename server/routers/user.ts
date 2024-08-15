@@ -9,6 +9,7 @@ import {
   updateUserInfo_patch,
   updateAccessToken_get,
   userRegisteration_post,
+  updateUserProfile_patch,
   updateUserPassword_patch,
 } from "@userContr/userController";
 import authMiddleware from "@middleware/authMiddleware";
@@ -25,6 +26,7 @@ router.post("/activate", userActivation_post);
 router.post("/register", userRegisteration_post);
 
 router.patch("/update-info", authMiddleware, updateUserInfo_patch);
-router.patch("/update-pass", authMiddleware, updateUserPassword_patch);
+router.patch("/update-avatar", authMiddleware, updateUserProfile_patch);
+router.patch("/update-password", authMiddleware, updateUserPassword_patch);
 
 export { router as user };
