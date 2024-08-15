@@ -8,6 +8,8 @@
     /* Visit https://aka.ms/tsconfig to read more about this file */
     "baseUrl": "./",
     "paths": {
+      "@courContr": ["controller/course"],
+      "@courContr/*": ["controller/course/*"],
       "@userContr": ["controller/user"],
       "@userContr/*": ["controller/user/*"],
       "@controller": ["controller"],
