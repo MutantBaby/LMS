@@ -1,9 +1,12 @@
 import { Router } from "express";
 
-import { courseUpload_post } from "@courContr/courseController";
 import authMiddleware, {
   authorizeRolesMiddleware,
 } from "@middleware/authMiddleware";
+import {
+  courseEdit_patch,
+  courseUpload_post,
+} from "@courContr/courseController";
 
 const router = Router();
 
@@ -12,6 +15,12 @@ router.post(
   authMiddleware,
   authorizeRolesMiddleware("admin"),
   courseUpload_post
+);
+router.patch(
+  "/edit/:id",
+  authMiddleware,
+  authorizeRolesMiddleware("admin"),
+  courseEdit_patch
 );
 
 export { router as course };

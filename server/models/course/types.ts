@@ -8,13 +8,13 @@ export interface ICourse extends Document {
   demoUrl: string;
   rating?: number;
   diffLevel: string;
-  thumbnail: object;
   purchased?: number;
   reviews: ICourReview[];
   courseData: ICourData[];
   estimatedPrice?: number;
   benefits: { title: string }[];
   preRequisites: { title: string }[];
+  thumbnail: { publicId: string; url: string };
 }
 
 export interface ICourData extends Document {
@@ -25,7 +25,6 @@ export interface ICourData extends Document {
   videoLength: number;
   videoPlayer: string;
   videoSection: string;
-  videothumbnail: string;
   questions: ICourComment[];
 }
 

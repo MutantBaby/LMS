@@ -33,7 +33,6 @@ const dataSchema = new Schema<ICourData>({
   videoLength: Number,
   videoPlayer: String,
   videoSection: String,
-  videothumbnail: String,
   questions: [commentSchema],
 });
 
@@ -46,8 +45,8 @@ const courseSchema = new Schema<ICourse>({
   rating: { type: Number, default: 0 },
   diffLevel: { type: String, required: true },
   thumbnail: {
-    publicId: { type: String, required: true },
-    url: { type: String, required: true },
+    publicId: { type: String },
+    url: { type: String },
   },
   purchased: { type: Number, default: 0 },
   reviews: [reviewSchema],
