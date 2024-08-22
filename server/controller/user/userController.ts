@@ -135,7 +135,7 @@ export const userLogout_get = asyncErrorMiddleware(async function (
   res: Response,
   next: NextFunction
 ) {
-  const userId = req.user!._id as string;
+  const userId = req.user?._id as string;
 
   await redis.del(userId);
 
