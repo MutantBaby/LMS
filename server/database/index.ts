@@ -17,7 +17,9 @@ export function connectMongodb() {
 export function connectRedis(): Redis | void {
   if (!process.env.REDIS_URL) return console.log("No Redis URL");
 
-  return new Redis(process.env.REDIS_URL);
+  return new Redis(process.env.REDIS_URL, {
+    tls: { rejectUnauthorized: false },
+  });
 }
 
 export function connectCloudinary() {

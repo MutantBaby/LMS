@@ -1,5 +1,6 @@
 import { Document } from "mongoose";
 
+import { IUser } from "@userMod/types";
 export interface ICourse extends Document {
   name: string;
   desc: string;
@@ -19,13 +20,14 @@ export interface ICourse extends Document {
 
 export interface ICourData extends Document {
   desc: string;
+  title: string;
   videoUrl: string;
   links: ICourLink[];
   suggestion: string;
   videoLength: number;
   videoPlayer: string;
   videoSection: string;
-  questions: ICourComment[];
+  questions: ICourQuestion[];
 }
 
 export interface ICourLink extends Document {
@@ -33,12 +35,12 @@ export interface ICourLink extends Document {
   title: string;
 }
 
-export interface ICourComment extends Document {
-  user: object;
-  comment: string;
-  commentReplies: ICourComment[];
+export interface ICourQuestion extends Document {
+  user: IUser;
+  question: string;
+  questionReplies: ICourQuestion[];
 }
 
-export interface ICourReview extends ICourComment {
+export interface ICourReview extends ICourQuestion {
   rating: number;
 }

@@ -5,7 +5,7 @@ import {
   ICourData,
   ICourLink,
   ICourReview,
-  ICourComment,
+  ICourQuestion,
 } from "./types";
 
 const linkSchema = new Schema<ICourLink>({
@@ -15,14 +15,14 @@ const linkSchema = new Schema<ICourLink>({
 
 const reviewSchema = new Schema<ICourReview>({
   user: Object,
-  comment: String,
+  question: String,
   rating: { type: Number, default: 0 },
 });
 
-const commentSchema = new Schema<ICourComment>({
+const questionSchema = new Schema<ICourQuestion>({
   user: Object,
-  comment: String,
-  commentReplies: [Object],
+  question: String,
+  questionReplies: [Object],
 });
 
 const dataSchema = new Schema<ICourData>({
@@ -33,7 +33,7 @@ const dataSchema = new Schema<ICourData>({
   videoLength: Number,
   videoPlayer: String,
   videoSection: String,
-  questions: [commentSchema],
+  questions: [questionSchema],
 });
 
 const courseSchema = new Schema<ICourse>({
