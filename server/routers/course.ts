@@ -11,6 +11,7 @@ import {
   singleCourse_get,
   courseUpload_post,
   courseContentByUser_get,
+  addReview_put,
 } from "@courContr/courseController";
 
 const router = Router();
@@ -21,6 +22,8 @@ router.get("/content/:id", authMiddleware, courseContentByUser_get);
 
 router.put("/add-answer", authMiddleware, addAnswer_put);
 router.put("/add-question", authMiddleware, addQuestion_put);
+
+router.put("/add-review/:id", authMiddleware, addReview_put);
 
 router.post(
   "/create",

@@ -7,6 +7,7 @@ import nodeMailer, { Transporter } from "nodemailer";
 
 import { EmailOptions } from "./types";
 import { jwtSign, jwtVerify } from "@jwt";
+import { ICourReview, ICourse } from "@courseMod/types";
 
 export function errorHandler(statusCode: number, message: string | any): Error {
   const error = new Error(message);
@@ -64,4 +65,14 @@ export async function sendMail(options: EmailOptions): Promise<void> {
   };
 
   await transporter.sendMail(mailOptions);
+}
+
+export function calReviewRating(course: ICourse): number {
+  let avg = 0;
+
+  course.reviews.forEach((item: ICourReview) => {
+    avg += item.rating;
+  });
+
+  return avg / course.reviews.length;
 }

@@ -15,7 +15,8 @@ const linkSchema = new Schema<ICourLink>({
 
 const reviewSchema = new Schema<ICourReview>({
   user: Object,
-  question: String,
+  comment: String,
+  commentReplies: [Object],
   rating: { type: Number, default: 0 },
 });
 

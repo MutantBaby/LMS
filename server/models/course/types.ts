@@ -41,6 +41,9 @@ export interface ICourQuestion extends Document {
   questionReplies: ICourQuestion[];
 }
 
-export interface ICourReview extends ICourQuestion {
+export interface ICourReview extends Document {
+  user: IUser;
   rating: number;
+  comment: string;
+  commentReplies?: ICourQuestion[];
 }

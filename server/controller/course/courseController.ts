@@ -5,12 +5,19 @@ import { v2 as cloudinary } from "cloudinary";
 import { Request, Response, NextFunction } from "express";
 
 import { redis } from "app";
-import { errorHandler, sendMail } from "@utils";
+import { calReviewRating, errorHandler, sendMail } from "@utils";
 import courseModel from "@courseMod/Course";
 import { createCourse } from "@services/coures";
-import { IAddAnswer, IAddQuestion } from "./courseType";
+import { IAddAnswer, IAddQuestion, IAddReview } from "./courseType";
 import asyncErrorMiddleware from "@middleware/asyncErrorMiddleware";
-import { ICourData, ICourse, ICourQuestion } from "@courseMod/types";
+import {
+  ICourData,
+  ICourse,
+  ICourQuestion,
+  ICourReview,
+} from "@courseMod/types";
+import { course } from "@routers/course";
+import { IUser } from "@userMod/types";
 
 export const courseUpload_post = asyncErrorMiddleware(async function (
   req: Request,
@@ -182,7 +189,7 @@ export const addQuestion_put = asyncErrorMiddleware(async function (
 
     if (!courseContent) return next(errorHandler(404, "Content not found"));
 
-    const newQuestion: any = {
+    const newQuestion: unknown = {
       user: req.user,
       question: question,
       questionReplies: [],
@@ -263,4 +270,56 @@ export const addAnswer_put = asyncErrorMiddleware(async function (
   } catch (error: any) {
     return next(errorHandler(500, error.message));
   }
+});
+
+export const addReview_put = asyncErrorMiddleware(async function (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  const courseId = req.params.id as string;
+  const userCourselist = req.user?.courses;
+  const { review, rating } = req.body as IAddReview;
+
+  // if user buy course; it will be there
+  const isCourseExist = userCourselist?.find(
+    (course: any) => course._id!.toString() === courseId
+  );
+
+  if (!isCourseExist) return next(errorHandler(404, "Not Eligible For Course"));
+
+  try {
+    const course = await courseModel.findById(courseId);
+
+    if (!course) return next(errorHandler(404, "Course not found"));
+
+    const reviewData: unknown = {
+      user: req.user,
+      rating,
+      comment: review,
+    };
+
+    course.reviews.push(reviewData as ICourReview);
+
+    course.rating = calReviewRating(course);
+
+    await course.save();
+
+    const notification = {
+      title: "New Review Recieved",
+      message: `${req.user?.name} has given a review in ${course.name}`,
+    };
+
+    res.status(200).json({ course, success: true });
+  } catch (error: any) {
+    return next(errorHandler(500, error.message));
+  }
+});
+
+export const addReviewReply_put = asyncErrorMiddleware(async function (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  
 });

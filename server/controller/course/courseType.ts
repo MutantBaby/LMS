@@ -1,3 +1,17 @@
+export interface IAddReviewReply {
+  userId: string;
+  review: string;
+  rating: number;
+  courseId: string;
+}
+
+export interface IAddReview {
+  userId: string;
+  review: string;
+  rating: number;
+  courseId: string;
+}
+
 export interface IAddQuestion {
   question: string;
   courseId: string;
