@@ -193,9 +193,9 @@ export const addQuestion_put = asyncErrorMiddleware(async function (
     if (!courseContent) return next(errorHandler(404, "Content not found"));
 
     const newQuestion: unknown = {
-      user: req.user?._id,
-      question: question,
+      question,
       questionReplies: [],
+      user: new mongoose.Types.ObjectId(req.user?._id as string),
     };
 
     courseContent.questions.push(newQuestion as ICourQuestion);
@@ -235,12 +235,12 @@ export const addAnswer_put = asyncErrorMiddleware(async function (
 
     if (!question) return next(errorHandler(404, "Question not found"));
 
-    const newAnswer: any = {
+    const newAnswer: unknown = {
       answer,
       user: new mongoose.Types.ObjectId(req.user?._id as string),
     };
 
-    question.questionReplies.push(newAnswer);
+    question.questionReplies.push(newAnswer as ICourQuestion);
 
     await course.save();
 
@@ -302,8 +302,8 @@ export const addReview_put = asyncErrorMiddleware(async function (
 
     const reviewData: unknown = {
       rating,
-      user: req.user,
       comment: review,
+      user: new mongoose.Types.ObjectId(req.user?._id as string),
     };
 
     course.reviews.push(reviewData as ICourReview);
@@ -343,7 +343,7 @@ export const addReviewReply_put = asyncErrorMiddleware(async function (
 
     const newReply: unknown = {
       comment,
-      user: req.user,
+      user: new mongoose.Types.ObjectId(req.user?._id as string),
     };
 
     if (!review.commentReplies) review.commentReplies = [];
