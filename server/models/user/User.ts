@@ -48,7 +48,7 @@ const userSchema: Schema<IUser> = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    courses: [{ courseId: String }],
+    courses: [{ courseId: { type: Schema.Types.ObjectId, ref: "Course" } }],
     avatar: {
       url: String,
       publicId: String,

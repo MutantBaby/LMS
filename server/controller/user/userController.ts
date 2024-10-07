@@ -5,6 +5,12 @@ import { Secret } from "jsonwebtoken";
 import { v2 as cloudinary } from "cloudinary";
 import { Request, Response, NextFunction, CookieOptions } from "express";
 
+import userModel from "@userMod/User";
+import { IUser } from "@userMod/types";
+import { getUserById } from "@services/user";
+import { accTokOpt, refTokOpt } from "@jwt/types";
+import { jwtSign, jwtVerify, sendToken } from "@jwt";
+import asyncErrorMiddleware from "@middleware/asyncErrorMiddleware";
 import {
   sendMail,
   errorHandler,
@@ -22,12 +28,6 @@ import {
   IUpdateUserPassword,
   IActivationTokenPayload,
 } from "./userType";
-import userModel from "@userMod/User";
-import { IUser } from "@userMod/types";
-import { getUserById } from "@services/user";
-import { accTokOpt, refTokOpt } from "@jwt/types";
-import { jwtSign, jwtVerify, sendToken } from "@jwt";
-import asyncErrorMiddleware from "@middleware/asyncErrorMiddleware";
 
 export const userRegisteration_post = asyncErrorMiddleware(async function (
   req: Request,

@@ -14,16 +14,16 @@ const linkSchema = new Schema<ICourLink>({
 });
 
 const reviewSchema = new Schema<ICourReview>({
-  user: Object,
   comment: String,
-  commentReplies: [Object],
+  commentReplies: [this],
   rating: { type: Number, default: 0 },
+  user: { type: Schema.Types.ObjectId, ref: "User" },
 });
 
 const questionSchema = new Schema<ICourQuestion>({
-  user: Object,
   question: String,
-  questionReplies: [Object],
+  questionReplies: [this],
+  user: { type: Schema.Types.ObjectId, ref: "User" },
 });
 
 const dataSchema = new Schema<ICourData>({
@@ -38,23 +38,23 @@ const dataSchema = new Schema<ICourData>({
 });
 
 const courseSchema = new Schema<ICourse>({
+  estimatedPrice: { type: Number },
+  rating: { type: Number, default: 0 },
   name: { type: String, required: true },
   desc: { type: String, required: true },
   tags: { type: String, required: true },
   price: { type: Number, required: true },
+  purchased: { type: Number, default: 0 },
   demoUrl: { type: String, required: true },
-  rating: { type: Number, default: 0 },
   diffLevel: { type: String, required: true },
+  reviews: [reviewSchema],
+  courseData: [dataSchema],
+  benefits: [{ title: String }],
+  preRequisites: [{ title: String }],
   thumbnail: {
     publicId: { type: String },
     url: { type: String },
   },
-  purchased: { type: Number, default: 0 },
-  reviews: [reviewSchema],
-  courseData: [dataSchema],
-  estimatedPrice: { type: Number },
-  benefits: [{ title: String }],
-  preRequisites: [{ title: String }],
 });
 
 const courseModel: Model<ICourse> = mongoose.model("Course", courseSchema);

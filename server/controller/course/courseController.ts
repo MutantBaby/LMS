@@ -1,23 +1,26 @@
 import ejs from "ejs";
 import path from "path";
-import mongoose from "mongoose";
-import { v2 as cloudinary } from "cloudinary";
-import { Request, Response, NextFunction } from "express";
-
 import { redis } from "app";
-import { calReviewRating, errorHandler, sendMail } from "@utils";
+import mongoose, { ObjectId } from "mongoose";
 import courseModel from "@courseMod/Course";
+import { v2 as cloudinary } from "cloudinary";
 import { createCourse } from "@services/coures";
-import { IAddAnswer, IAddQuestion, IAddReview } from "./courseType";
+import { Request, Response, NextFunction } from "express";
+import { calReviewRating, errorHandler, sendMail } from "@utils";
 import asyncErrorMiddleware from "@middleware/asyncErrorMiddleware";
 import {
-  ICourData,
+  IAddAnswer,
+  IAddReview,
+  IAddQuestion,
+  IAddReviewReply,
+} from "./courseType";
+import {
   ICourse,
-  ICourQuestion,
+  ICourData,
   ICourReview,
+  ICourQuestion,
 } from "@courseMod/types";
-import { course } from "@routers/course";
-import { IUser } from "@userMod/types";
+import userModel from "@userMod/User";
 
 export const courseUpload_post = asyncErrorMiddleware(async function (
   req: Request,
@@ -150,7 +153,7 @@ export const courseContentByUser_get = asyncErrorMiddleware(async function (
 
   // if user buy course; it will be there
   const isCourseExist = userCourselist?.find(
-    (course: any) => course._id === courseId
+    (course: any) => course._id!.toString() === courseId
   );
 
   if (!isCourseExist) return next(errorHandler(404, "Not Eligible For Course"));
@@ -190,7 +193,7 @@ export const addQuestion_put = asyncErrorMiddleware(async function (
     if (!courseContent) return next(errorHandler(404, "Content not found"));
 
     const newQuestion: unknown = {
-      user: req.user,
+      user: req.user?._id,
       question: question,
       questionReplies: [],
     };
@@ -234,18 +237,22 @@ export const addAnswer_put = asyncErrorMiddleware(async function (
 
     const newAnswer: any = {
       answer,
-      user: req.user,
+      user: new mongoose.Types.ObjectId(req.user?._id as string),
     };
 
     question.questionReplies.push(newAnswer);
 
     await course.save();
 
-    if (req.user?._id === question.user._id) {
+    if (req.user?._id?.toString() === question.user?.toString()) {
       // send notification
     } else {
+      const ourUser = await userModel
+        .findById(question.user)
+        .select("name email");
+
       const data = {
-        name: question.user.name,
+        name: ourUser!.name,
         title: courseContent.title,
       };
 
@@ -259,7 +266,7 @@ export const addAnswer_put = asyncErrorMiddleware(async function (
           data,
           subject: "Question Reply",
           template: "ques-reply.ejs",
-          email: question.user.email,
+          email: ourUser!.email,
         });
       } catch (error: any) {
         return next(errorHandler(500, error.message));
@@ -294,8 +301,8 @@ export const addReview_put = asyncErrorMiddleware(async function (
     if (!course) return next(errorHandler(404, "Course not found"));
 
     const reviewData: unknown = {
-      user: req.user,
       rating,
+      user: req.user,
       comment: review,
     };
 
@@ -321,5 +328,32 @@ export const addReviewReply_put = asyncErrorMiddleware(async function (
   res: Response,
   next: NextFunction
 ) {
-  
+  const { comment, reviewId, courseId } = req.body as IAddReviewReply;
+
+  try {
+    const course = await courseModel.findById(courseId);
+
+    if (!course) return next(errorHandler(404, "Course not found"));
+
+    const review = course.reviews.find(
+      (item: ICourReview) => item._id!.toString() === reviewId
+    );
+
+    if (!review) return next(errorHandler(404, "Review not found"));
+
+    const newReply: unknown = {
+      comment,
+      user: req.user,
+    };
+
+    if (!review.commentReplies) review.commentReplies = [];
+
+    review.commentReplies.push(newReply as ICourReview);
+
+    await course.save();
+
+    res.status(200).json({ course, success: true });
+  } catch (error: any) {
+    return next(errorHandler(500, error.message));
+  }
 });

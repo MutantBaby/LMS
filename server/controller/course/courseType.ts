@@ -1,8 +1,7 @@
 export interface IAddReviewReply {
-  userId: string;
-  review: string;
-  rating: number;
+  comment: string;
   courseId: string;
+  reviewId: string;
 }
 
 export interface IAddReview {

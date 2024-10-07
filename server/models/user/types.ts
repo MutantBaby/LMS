@@ -1,4 +1,4 @@
-import { Document } from "mongoose";
+import { Document, ObjectId } from "mongoose";
 
 export interface IUser extends Document {
   name: string;
@@ -9,7 +9,7 @@ export interface IUser extends Document {
   isSocialLogin: boolean;
   signAccessToken: () => string;
   signRefreshToken: () => string;
-  courses: Array<{ courseId: string }>;
+  courses: Array<{ courseId: ObjectId }>;
   compPassword: (password: string) => Promise<boolean>;
   avatar: {
     url: string;

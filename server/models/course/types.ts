@@ -1,6 +1,5 @@
-import { Document } from "mongoose";
+import { Document, ObjectId } from "mongoose";
 
-import { IUser } from "@userMod/types";
 export interface ICourse extends Document {
   name: string;
   desc: string;
@@ -36,14 +35,14 @@ export interface ICourLink extends Document {
 }
 
 export interface ICourQuestion extends Document {
-  user: IUser;
+  user: ObjectId;
   question: string;
   questionReplies: ICourQuestion[];
 }
 
 export interface ICourReview extends Document {
-  user: IUser;
+  user: ObjectId;
   rating: number;
   comment: string;
-  commentReplies?: ICourQuestion[];
+  commentReplies?: ICourReview[];
 }

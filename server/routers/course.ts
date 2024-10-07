@@ -6,12 +6,13 @@ import authMiddleware, {
 import {
   allCourse_get,
   addAnswer_put,
+  addReview_put,
   addQuestion_put,
   courseEdit_patch,
   singleCourse_get,
   courseUpload_post,
+  addReviewReply_put,
   courseContentByUser_get,
-  addReview_put,
 } from "@courContr/courseController";
 
 const router = Router();
@@ -24,6 +25,12 @@ router.put("/add-answer", authMiddleware, addAnswer_put);
 router.put("/add-question", authMiddleware, addQuestion_put);
 
 router.put("/add-review/:id", authMiddleware, addReview_put);
+router.put(
+  "/add-reply",
+  authMiddleware,
+  authorizeRolesMiddleware("admin"),
+  addReviewReply_put
+);
 
 router.post(
   "/create",
