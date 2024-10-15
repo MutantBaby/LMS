@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Order Confirmed</title>
+  </head>
+  <body>
+    <div>
+      <div>
+        <h1>Hello <%= order?.name %></h1>
+        <p>Your Order is Confirmed with ID: <%= order?._id %></p>
+        <p>
+          With Price of <%= order?.price %> purchased at date <%= order?.date %>
+        </p>
+        <p>Login First; to access resource</p>
+        <p>Thanks for being part of us</p>
+      </div>
+    </div>
+  </body>
+</html>
