@@ -9,10 +9,10 @@ import { IOrder } from "./orderType";
 import userModel from "@userMod/User";
 import courseModel from "@courseMod/Course";
 import { createCourse } from "@services/coures";
+import { createNewOrder } from "@services/order";
 import notificationModel from "@notifiMod/notification";
 import { calReviewRating, errorHandler, sendMail } from "@utils";
 import asyncErrorMiddleware from "@middleware/asyncErrorMiddleware";
-import { createNewOrder } from "@services/order";
 
 export const createOrder = asyncErrorMiddleware(async function (
   req: Request,
@@ -39,10 +39,16 @@ export const createOrder = asyncErrorMiddleware(async function (
 
     if (!course) return next(errorHandler(404, "Course Not Found"));
 
-    const data: any = {
-      user: new mongoose.Types.ObjectId(userId as string),
-      course: new mongoose.Types.ObjectId(courseId as string),
+    const addNewCourse: any = {
+      courseId: new mongoose.Types.ObjectId(course._id as string),
     };
+
+    user.courses.push(addNewCourse);
+
+    course.purchased += 1;
+
+    await user?.save();
+    await course?.save();
 
     const mailData: any = {
       order: {
@@ -71,19 +77,16 @@ export const createOrder = asyncErrorMiddleware(async function (
       });
     }
 
-    const pushData: any = {
-      courseId: new mongoose.Types.ObjectId(course._id as string),
-    };
-
-    user?.courses.push(pushData);
-
-    await user?.save();
-
     await notificationModel.create({
       title: "New Order",
-      message: `You have successfully purchased ${course!.name}`,
-      user: new mongoose.Types.ObjectId(userId as string),
+      message: `You have successfully purchased ${course.name}`,
+      userId: new mongoose.Types.ObjectId(userId as string),
     });
+
+    const data: any = {
+      userId: new mongoose.Types.ObjectId(userId as string),
+      courseId: new mongoose.Types.ObjectId(courseId as string),
+    };
 
     createNewOrder(data, res, next);
   } catch (error: any) {

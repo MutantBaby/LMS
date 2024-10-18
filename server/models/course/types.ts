@@ -8,7 +8,7 @@ export interface ICourse extends Document {
   demoUrl: string;
   rating?: number;
   diffLevel: string;
-  purchased?: number;
+  purchased: number;
   reviews: ICourReview[];
   courseData: ICourData[];
   estimatedPrice?: number;
