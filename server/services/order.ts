@@ -10,8 +10,9 @@ export const createNewOrder = asyncErrorMiddleware(async function (
   next: NextFunction
 ) {
   try {
-    const newOrder = await orderModel.create(data);
-    next(newOrder);
+    const order = await orderModel.create(data);
+
+    res.status(201).json({ order, success: true });
   } catch (error: any) {
     return next(errorHandler(500, error.message));
   }

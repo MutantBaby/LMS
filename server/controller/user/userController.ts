@@ -169,17 +169,13 @@ export const updateAccessToken_get = asyncErrorMiddleware(async function (
     const accessToken = jwtSign(
       { id: user._id },
       process.env.ACCESS_TOKEN as Secret,
-      {
-        expiresIn: "10m",
-      }
+      { expiresIn: "100m" }
     );
 
     const refreshToken = jwtSign(
       { id: user._id },
       process.env.REFRESH_TOKEN as Secret,
-      {
-        expiresIn: "3d",
-      }
+      { expiresIn: "5d" }
     );
 
     res.cookie("accessToken", accessToken, accTokOpt as CookieOptions);

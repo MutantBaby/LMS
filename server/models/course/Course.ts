@@ -17,13 +17,13 @@ const reviewSchema = new Schema<ICourReview>({
   comment: String,
   commentReplies: [this],
   rating: { type: Number, default: 0 },
-  user: { type: Schema.Types.ObjectId, ref: "User" },
+  userId: { type: Schema.Types.ObjectId, ref: "User" },
 });
 
 const questionSchema = new Schema<ICourQuestion>({
   question: String,
   questionReplies: [this],
-  user: { type: Schema.Types.ObjectId, ref: "User" },
+  userId: { type: Schema.Types.ObjectId, ref: "User" },
 });
 
 const dataSchema = new Schema<ICourData>({

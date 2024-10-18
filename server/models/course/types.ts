@@ -35,13 +35,13 @@ export interface ICourLink extends Document {
 }
 
 export interface ICourQuestion extends Document {
-  user: ObjectId;
+  userId: ObjectId;
   question: string;
   questionReplies: ICourQuestion[];
 }
 
 export interface ICourReview extends Document {
-  user: ObjectId;
+  userId: ObjectId;
   rating: number;
   comment: string;
   commentReplies?: ICourReview[];

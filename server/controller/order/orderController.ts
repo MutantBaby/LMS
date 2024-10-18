@@ -26,6 +26,8 @@ export const createOrder = asyncErrorMiddleware(async function (
   try {
     const user = await userModel.findById(userId);
 
+    if (!user) return next(errorHandler(400, "User Not Found"));
+
     const isCourseExistInUser = user?.courses.find((item) => {
       return item.courseId.toString() === courseId.toString();
     });
@@ -35,18 +37,16 @@ export const createOrder = asyncErrorMiddleware(async function (
 
     const course = await courseModel.findById(courseId);
 
-    if (course) return next(errorHandler(404, "Course Not Found"));
+    if (!course) return next(errorHandler(404, "Course Not Found"));
 
     const data: any = {
       user: new mongoose.Types.ObjectId(userId as string),
       course: new mongoose.Types.ObjectId(courseId as string),
     };
 
-    createNewOrder(data, res, next);
-
     const mailData: any = {
       order: {
-        _id: course!._id!.toString().slice(0, 6),
+        _id: course._id?.toString().slice(0, 6),
         name: course!.name,
         price: course!.price,
         date: new Date().toLocaleDateString("en-US", {
@@ -71,8 +71,8 @@ export const createOrder = asyncErrorMiddleware(async function (
       });
     }
 
-    const pushData: { courseId: mongoose.Schema.Types.ObjectId } = {
-      courseId: new mongoose.Schema.Types.ObjectId(course!._id as string),
+    const pushData: any = {
+      courseId: new mongoose.Types.ObjectId(course._id as string),
     };
 
     user?.courses.push(pushData);
@@ -82,10 +82,10 @@ export const createOrder = asyncErrorMiddleware(async function (
     await notificationModel.create({
       title: "New Order",
       message: `You have successfully purchased ${course!.name}`,
-      user: new mongoose.Schema.Types.ObjectId(userId as string),
+      user: new mongoose.Types.ObjectId(userId as string),
     });
 
-    res.status(200).json({ course, success: true });
+    createNewOrder(data, res, next);
   } catch (error: any) {
     return next(errorHandler(500, error.message));
   }

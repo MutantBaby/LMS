@@ -153,7 +153,7 @@ export const courseContentByUser_get = asyncErrorMiddleware(async function (
 
   // if user buy course; it will be there
   const isCourseExist = userCourselist?.find(
-    (course: any) => course._id!.toString() === courseId
+    (course) => course.courseId.toString() === courseId
   );
 
   if (!isCourseExist) return next(errorHandler(404, "Not Eligible For Course"));
@@ -195,7 +195,7 @@ export const addQuestion_put = asyncErrorMiddleware(async function (
     const newQuestion: unknown = {
       question,
       questionReplies: [],
-      user: new mongoose.Types.ObjectId(req.user?._id as string),
+      userId: new mongoose.Types.ObjectId(req.user?._id as string),
     };
 
     courseContent.questions.push(newQuestion as ICourQuestion);
@@ -236,19 +236,19 @@ export const addAnswer_put = asyncErrorMiddleware(async function (
     if (!question) return next(errorHandler(404, "Question not found"));
 
     const newAnswer: unknown = {
-      answer,
-      user: new mongoose.Types.ObjectId(req.user?._id as string),
+      answer: answer,
+      userId: new mongoose.Types.ObjectId(req.user?._id as string),
     };
 
     question.questionReplies.push(newAnswer as ICourQuestion);
 
     await course.save();
 
-    if (req.user?._id?.toString() === question.user?.toString()) {
+    if (req.user?._id?.toString() === question.userId?.toString()) {
       // send notification
     } else {
       const ourUser = await userModel
-        .findById(question.user)
+        .findById(question.userId)
         .select("name email");
 
       const data = {
@@ -290,7 +290,7 @@ export const addReview_put = asyncErrorMiddleware(async function (
 
   // if user buy course; it will be there
   const isCourseExist = userCourselist?.find(
-    (course: any) => course._id!.toString() === courseId
+    (course: any) => course.courseId.toString() === courseId
   );
 
   if (!isCourseExist) return next(errorHandler(404, "Not Eligible For Course"));
@@ -303,7 +303,7 @@ export const addReview_put = asyncErrorMiddleware(async function (
     const reviewData: unknown = {
       rating,
       comment: review,
-      user: new mongoose.Types.ObjectId(req.user?._id as string),
+      userId: new mongoose.Types.ObjectId(req.user?._id as string),
     };
 
     course.reviews.push(reviewData as ICourReview);
@@ -343,7 +343,7 @@ export const addReviewReply_put = asyncErrorMiddleware(async function (
 
     const newReply: unknown = {
       comment,
-      user: new mongoose.Types.ObjectId(req.user?._id as string),
+      userId: new mongoose.Types.ObjectId(req.user?._id as string),
     };
 
     if (!review.commentReplies) review.commentReplies = [];
