@@ -17,7 +17,7 @@ import {
 import userModel from "@userMod/User";
 import notificationModel from "@notifiMod/notification";
 
-export const getNotification_post = asyncErrorMiddleware(async function (
+export const getNotification_get = asyncErrorMiddleware(async function (
   req: Request,
   res: Response,
   next: NextFunction

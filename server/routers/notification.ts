@@ -3,10 +3,15 @@ import { Router } from "express";
 import authMiddleware, {
   authorizeRolesMiddleware,
 } from "@middleware/authMiddleware";
-import { getNotification_post } from "@notifiContr/notificationController";
+import { getNotification_get } from "@notifiContr/notificationController";
 
 const router = Router();
 
-router.get("/all", getNotification_post);
+router.get(
+  "/get-notifications",
+  authMiddleware,
+  authorizeRolesMiddleware("admin"),
+  getNotification_get
+);
 
 export { router as notification };
