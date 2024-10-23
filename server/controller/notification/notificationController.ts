@@ -1,21 +1,9 @@
-import ejs from "ejs";
-import path from "path";
-import { redis } from "app";
-import mongoose, { ObjectId } from "mongoose";
-import courseModel from "@courseMod/Course";
-import { v2 as cloudinary } from "cloudinary";
-import { createCourse } from "@services/coures";
+import cron from "node-cron";
 import { Request, Response, NextFunction } from "express";
 import { calReviewRating, errorHandler, sendMail } from "@utils";
-import asyncErrorMiddleware from "@middleware/asyncErrorMiddleware";
-import {
-  ICourse,
-  ICourData,
-  ICourReview,
-  ICourQuestion,
-} from "@courseMod/types";
-import userModel from "@userMod/User";
+
 import notificationModel from "@notifiMod/notification";
+import asyncErrorMiddleware from "@middleware/asyncErrorMiddleware";
 
 export const getNotification_get = asyncErrorMiddleware(async function (
   req: Request,
@@ -46,21 +34,12 @@ export const updateNotification_patch = asyncErrorMiddleware(async function (
   res.status(200).json({ notifications, success: true });
 });
 
-export const deleteNotification_delete = asyncErrorMiddleware(async function (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) {
-  const notifiId = req.params.id as string;
+// delete notification after 30 days
+cron.schedule("0 0 0 * * *", async function () {
+  const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
 
-  const notification = await notificationModel.findById(notifiId);
-  if (!notification) return next(errorHandler(404, "Notification Not Found"));
-
-  notification.status = "read";
-
-  await notification.save();
-
-  const notifications = await notificationModel.find().sort({ createdAt: -1 });
-
-  res.status(200).json({ notifications, success: true });
+  await notificationModel.deleteMany({
+    status: "read",
+    createdAt: { $lt: thirtyDaysAgo },
+  });
 });
