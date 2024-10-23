@@ -46,7 +46,7 @@ export const updateNotification_patch = asyncErrorMiddleware(async function (
   res.status(200).json({ notifications, success: true });
 });
 
-export const updateNotification_patch = asyncErrorMiddleware(async function (
+export const deleteNotification_delete = asyncErrorMiddleware(async function (
   req: Request,
   res: Response,
   next: NextFunction

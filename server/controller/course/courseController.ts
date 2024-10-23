@@ -21,6 +21,7 @@ import {
   ICourQuestion,
 } from "@courseMod/types";
 import userModel from "@userMod/User";
+import notificationModel from "@notifiMod/notification";
 
 export const courseUpload_post = asyncErrorMiddleware(async function (
   req: Request,
@@ -200,6 +201,12 @@ export const addQuestion_put = asyncErrorMiddleware(async function (
 
     courseContent.questions.push(newQuestion as ICourQuestion);
 
+    await notificationModel.create({
+      title: "New Question Received",
+      message: `You have new question in ${courseContent.title}`,
+      userId: new mongoose.Types.ObjectId(req.user?._id as string),
+    });
+
     await course.save();
 
     res.status(200).json({ course, success: true });
@@ -223,12 +230,14 @@ export const addAnswer_put = asyncErrorMiddleware(async function (
     if (!mongoose.Types.ObjectId.isValid(contentId))
       return next(errorHandler(404, "Invalid Content Id"));
 
+    // finding specific video
     const courseContent = course.courseData.find(
       (item: ICourData) => item._id!.toString() === contentId
     );
 
     if (!courseContent) return next(errorHandler(404, "Content not found"));
 
+    // finding specific question
     const question = courseContent.questions.find(
       (item: ICourQuestion) => item._id!.toString() === questionId
     );
@@ -245,7 +254,11 @@ export const addAnswer_put = asyncErrorMiddleware(async function (
     await course.save();
 
     if (req.user?._id?.toString() === question.userId?.toString()) {
-      // send notification
+      await notificationModel.create({
+        title: "Reply Received For Your Question",
+        message: `You Received new Reply For Your Question in ${courseContent.title}`,
+        userId: new mongoose.Types.ObjectId(req.user?._id as string),
+      });
     } else {
       const ourUser = await userModel
         .findById(question.userId)
