@@ -11,14 +11,22 @@ import {
   userRegisteration_post,
   updateUserProfile_patch,
   updateUserPassword_patch,
+  getAllUsers_get,
 } from "@userContr/userController";
-import authMiddleware from "@middleware/authMiddleware";
+import authMiddleware, { authorizeRolesMiddleware } from "@middleware/authMiddleware";
 
 const router = Router();
 
 router.get("/id", authMiddleware, getUserInfo_get);
 router.get("/logout", authMiddleware, userLogout_get);
 router.get("/update-accToken", updateAccessToken_get);
+router.get(
+  "/all-users",
+  authMiddleware,
+  authorizeRolesMiddleware("admin"),
+  getAllUsers_get
+);
+
 
 router.post("/login", userLogin_post);
 router.post("/social-auth", socialAuth_post);

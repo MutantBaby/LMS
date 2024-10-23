@@ -16,3 +16,9 @@ export async function createCourse(
     return next(errorHandler(500, error.message));
   }
 }
+
+export async function getAllCoursesService(res: Response) {
+  const courses = await courseModel.find().sort({ createdAt: -1 });
+
+  res.status(200).json({ courses, success: true });
+}

@@ -9,7 +9,7 @@ import { IOrder } from "./orderType";
 import userModel from "@userMod/User";
 import courseModel from "@courseMod/Course";
 import { createCourse } from "@services/coures";
-import { createNewOrder } from "@services/order";
+import { createNewOrder, getAllOrdersService } from "@services/order";
 import notificationModel from "@notifiMod/notification";
 import { calReviewRating, errorHandler, sendMail } from "@utils";
 import asyncErrorMiddleware from "@middleware/asyncErrorMiddleware";
@@ -91,5 +91,17 @@ export const createOrder = asyncErrorMiddleware(async function (
     createNewOrder(data, res, next);
   } catch (error: any) {
     return next(errorHandler(500, error.message));
+  }
+});
+
+export const getAllOrders_get = asyncErrorMiddleware(async function (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  try {
+    await getAllOrdersService(res);
+  } catch (error: any) {
+    return next(errorHandler(400, error.message));
   }
 });

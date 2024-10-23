@@ -13,6 +13,7 @@ import {
   courseUpload_post,
   addReviewReply_put,
   courseContentByUser_get,
+  getAllCourses_get,
 } from "@courContr/courseController";
 
 const router = Router();
@@ -20,6 +21,12 @@ const router = Router();
 router.get("/all", allCourse_get);
 router.get("/single/:id", singleCourse_get);
 router.get("/content/:id", authMiddleware, courseContentByUser_get);
+router.get(
+  "/all-courses",
+  authMiddleware,
+  authorizeRolesMiddleware("admin"),
+  getAllCourses_get
+);
 
 router.put("/add-answer", authMiddleware, addAnswer_put);
 router.put("/add-question", authMiddleware, addQuestion_put);
@@ -45,5 +52,6 @@ router.patch(
   authorizeRolesMiddleware("admin"),
   courseEdit_patch
 );
+
 
 export { router as course };

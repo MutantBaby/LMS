@@ -4,7 +4,7 @@ import { redis } from "app";
 import mongoose, { ObjectId } from "mongoose";
 import courseModel from "@courseMod/Course";
 import { v2 as cloudinary } from "cloudinary";
-import { createCourse } from "@services/coures";
+import { createCourse, getAllCoursesService } from "@services/coures";
 import { Request, Response, NextFunction } from "express";
 import { calReviewRating, errorHandler, sendMail } from "@utils";
 import asyncErrorMiddleware from "@middleware/asyncErrorMiddleware";
@@ -368,5 +368,17 @@ export const addReviewReply_put = asyncErrorMiddleware(async function (
     res.status(200).json({ course, success: true });
   } catch (error: any) {
     return next(errorHandler(500, error.message));
+  }
+});
+
+export const getAllCourses_get = asyncErrorMiddleware(async function (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  try {
+    await getAllCoursesService(res);
+  } catch (error: any) {
+    return next(errorHandler(400, error.message));
   }
 });

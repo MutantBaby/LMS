@@ -17,3 +17,9 @@ export const createNewOrder = asyncErrorMiddleware(async function (
     return next(errorHandler(500, error.message));
   }
 });
+
+export async function getAllOrdersService(res: Response) {
+  const orders = await orderModel.find().sort({ createdAt: -1 });
+
+  res.status(200).json({ orders, success: true });
+}

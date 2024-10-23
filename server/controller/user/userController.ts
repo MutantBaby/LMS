@@ -7,7 +7,7 @@ import { Request, Response, NextFunction, CookieOptions } from "express";
 
 import userModel from "@userMod/User";
 import { IUser } from "@userMod/types";
-import { getUserById } from "@services/user";
+import { getUserByIdService, getAllUsersService } from "@services/user";
 import { accTokOpt, refTokOpt } from "@jwt/types";
 import { jwtSign, jwtVerify, sendToken } from "@jwt";
 import asyncErrorMiddleware from "@middleware/asyncErrorMiddleware";
@@ -195,7 +195,7 @@ export const getUserInfo_get = asyncErrorMiddleware(async function (
 ) {
   const userId = req.user!._id as string;
 
-  await getUserById(userId, res, next);
+  await getUserByIdService(userId, res, next);
 });
 
 export const socialAuth_post = asyncErrorMiddleware(async function (
@@ -331,6 +331,18 @@ export const updateUserProfile_patch = asyncErrorMiddleware(async function (
     await redis.set(userId, JSON.stringify(user));
 
     res.status(200).json({ user, success: true });
+  } catch (error: any) {
+    return next(errorHandler(400, error.message));
+  }
+});
+
+export const getAllUsers_get = asyncErrorMiddleware(async function (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  try {
+    await getAllUsersService(res);
   } catch (error: any) {
     return next(errorHandler(400, error.message));
   }
