@@ -14,6 +14,7 @@ import {
   addReviewReply_put,
   courseContentByUser_get,
   getAllCourses_get,
+  deleteCourse_delete,
 } from "@courContr/courseController";
 
 const router = Router();
@@ -53,5 +54,11 @@ router.patch(
   courseEdit_patch
 );
 
+router.delete(
+  "/delete/:id",
+  authMiddleware,
+  authorizeRolesMiddleware("admin"),
+  deleteCourse_delete
+);
 
 export { router as course };

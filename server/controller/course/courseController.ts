@@ -382,3 +382,20 @@ export const getAllCourses_get = asyncErrorMiddleware(async function (
     return next(errorHandler(400, error.message));
   }
 });
+
+export const deleteCourse_delete = asyncErrorMiddleware(async function (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  const courseId = req.params.id as string;
+
+  try {
+    await courseModel.findByIdAndDelete(courseId);
+    await redis.del(courseId);
+
+    res.status(200).json({ success: true, message: "Course Deleted" });
+  } catch (error: any) {
+    return next(errorHandler(400, error.message));
+  }
+});
