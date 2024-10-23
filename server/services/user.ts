@@ -30,3 +30,13 @@ export async function getAllUsersService(res: Response) {
 
   res.status(200).json({ users, success: true });
 }
+
+export async function updateUserRoleService(
+  id: string,
+  role: string,
+  res: Response
+) {
+  const user = await userModel.findByIdAndUpdate(id, { role }, { new: true });
+
+  res.status(200).json({ user, success: true });
+}

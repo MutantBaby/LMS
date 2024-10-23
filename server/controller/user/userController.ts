@@ -7,10 +7,14 @@ import { Request, Response, NextFunction, CookieOptions } from "express";
 
 import userModel from "@userMod/User";
 import { IUser } from "@userMod/types";
-import { getUserByIdService, getAllUsersService } from "@services/user";
 import { accTokOpt, refTokOpt } from "@jwt/types";
 import { jwtSign, jwtVerify, sendToken } from "@jwt";
 import asyncErrorMiddleware from "@middleware/asyncErrorMiddleware";
+import {
+  getUserByIdService,
+  getAllUsersService,
+  updateUserRoleService,
+} from "@services/user";
 import {
   sendMail,
   errorHandler,
@@ -343,6 +347,37 @@ export const getAllUsers_get = asyncErrorMiddleware(async function (
 ) {
   try {
     await getAllUsersService(res);
+  } catch (error: any) {
+    return next(errorHandler(400, error.message));
+  }
+});
+
+export const updateUserRole_patch = asyncErrorMiddleware(async function (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  const { id, role } = req.body as { id: string; role: string };
+
+  try {
+    await updateUserRoleService(id, role, res);
+  } catch (error: any) {
+    return next(errorHandler(400, error.message));
+  }
+});
+
+export const deleteUser_delete = asyncErrorMiddleware(async function (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  const userId = req.params.id as string;
+
+  try {
+    await userModel.findByIdAndDelete(userId);
+    await redis.del(userId);
+
+    res.status(200).json({ success: true, message: "User Deleted" });
   } catch (error: any) {
     return next(errorHandler(400, error.message));
   }

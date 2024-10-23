@@ -12,6 +12,8 @@ import {
   updateUserProfile_patch,
   updateUserPassword_patch,
   getAllUsers_get,
+  updateUserRole_patch,
+  deleteUser_delete,
 } from "@userContr/userController";
 import authMiddleware, {
   authorizeRolesMiddleware,
@@ -37,5 +39,18 @@ router.post("/register", userRegisteration_post);
 router.patch("/update-info", authMiddleware, updateUserInfo_patch);
 router.patch("/update-avatar", authMiddleware, updateUserProfile_patch);
 router.patch("/update-password", authMiddleware, updateUserPassword_patch);
+router.patch(
+  "/update-role",
+  authMiddleware,
+  authorizeRolesMiddleware("admin"),
+  updateUserRole_patch
+);
+
+router.delete(
+  "/delete/:id",
+  authMiddleware,
+  authorizeRolesMiddleware("admin"),
+  deleteUser_delete
+);
 
 export { router as user };
