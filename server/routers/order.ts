@@ -9,7 +9,7 @@ const router = Router();
 
 router.post("/create", authMiddleware, createOrder);
 router.get(
-  "/all-orders",
+  "/get-all",
   authMiddleware,
   authorizeRolesMiddleware("admin"),
   getAllOrders_get

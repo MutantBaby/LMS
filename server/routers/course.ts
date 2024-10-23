@@ -22,7 +22,7 @@ router.get("/all", allCourse_get);
 router.get("/single/:id", singleCourse_get);
 router.get("/content/:id", authMiddleware, courseContentByUser_get);
 router.get(
-  "/all-courses",
+  "/get-all",
   authMiddleware,
   authorizeRolesMiddleware("admin"),
   getAllCourses_get
