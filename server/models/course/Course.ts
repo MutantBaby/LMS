@@ -7,6 +7,7 @@ import {
   ICourReview,
   ICourQuestion,
 } from "./types";
+import { timeStamp } from "console";
 
 const linkSchema = new Schema<ICourLink>({
   url: String,
@@ -37,25 +38,28 @@ const dataSchema = new Schema<ICourData>({
   questions: [questionSchema],
 });
 
-const courseSchema = new Schema<ICourse>({
-  estimatedPrice: { type: Number },
-  rating: { type: Number, default: 0 },
-  name: { type: String, required: true },
-  desc: { type: String, required: true },
-  tags: { type: String, required: true },
-  price: { type: Number, required: true },
-  purchased: { type: Number, default: 0 },
-  demoUrl: { type: String, required: true },
-  diffLevel: { type: String, required: true },
-  reviews: [reviewSchema],
-  courseData: [dataSchema],
-  benefits: [{ title: String }],
-  preRequisites: [{ title: String }],
-  thumbnail: {
-    publicId: { type: String },
-    url: { type: String },
+const courseSchema = new Schema<ICourse>(
+  {
+    estimatedPrice: { type: Number },
+    rating: { type: Number, default: 0 },
+    name: { type: String, required: true },
+    desc: { type: String, required: true },
+    tags: { type: String, required: true },
+    price: { type: Number, required: true },
+    purchased: { type: Number, default: 0 },
+    demoUrl: { type: String, required: true },
+    diffLevel: { type: String, required: true },
+    reviews: [reviewSchema],
+    courseData: [dataSchema],
+    benefits: [{ title: String }],
+    preRequisites: [{ title: String }],
+    thumbnail: {
+      publicId: { type: String },
+      url: { type: String },
+    },
   },
-});
+  { timestamps: true }
+);
 
 const courseModel: Model<ICourse> = mongoose.model("Course", courseSchema);
 export default courseModel;
