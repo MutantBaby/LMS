@@ -23,6 +23,8 @@
       "@database/*": ["database/*"],
       "@middleware": ["middleware"],
       "@middleware/*": ["middleware/*"],
+      "@layoutMod": ["models/layout"],
+      "@layoutMod/*": ["models/layout/*"],
       "@userMod": ["models/user"],
       "@userMod/*": ["models/user/*"],
       "@orderMod": ["models/order"],
