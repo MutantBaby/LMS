@@ -6,10 +6,17 @@ import authMiddleware, {
 import {
   editLayout_put,
   createLayout_post,
+  getLayoutByType_get,
 } from "@layoutContr/layoutController";
 
 const router = Router();
 
+router.get(
+  "/get",
+  authMiddleware,
+  authorizeRolesMiddleware("admin"),
+  getLayoutByType_get
+);
 router.post(
   "/create",
   authMiddleware,
