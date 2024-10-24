@@ -8,6 +8,8 @@
     /* Visit https://aka.ms/tsconfig to read more about this file */
     "baseUrl": "./",
     "paths": {
+      "@layoutContr": ["controller/layout"],
+      "@layoutContr/*": ["controller/layout/*"],
       "@analyticContr": ["controller/analytic"],
       "@analyticContr/*": ["controller/analytic/*"],
       "@notifiContr": ["controller/notification"],
@@ -19,6 +21,7 @@
       "@userContr": ["controller/user"],
       "@userContr/*": ["controller/user/*"],
       "@controller": ["controller"],
+      "@controller/*": ["controller/*"],
       "@database": ["database"],
       "@database/*": ["database/*"],
       "@middleware": ["middleware"],
