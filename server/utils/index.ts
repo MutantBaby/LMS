@@ -5,7 +5,7 @@ import path from "path";
 import { Secret } from "jsonwebtoken";
 import nodeMailer, { Transporter } from "nodemailer";
 
-import { EmailOptions } from "./types";
+import { IEmailOptions } from "./types";
 import { jwtSign, jwtVerify } from "@jwt";
 import { ICourReview, ICourse } from "@courseMod/types";
 
@@ -50,7 +50,7 @@ const transporter: Transporter = nodeMailer.createTransport({
   },
 });
 
-export async function sendMail(options: EmailOptions): Promise<void> {
+export async function sendMail(options: IEmailOptions): Promise<void> {
   const { data, email, subject, template } = options;
 
   const tempPath = path.join(__dirname, "..", "mail", template);

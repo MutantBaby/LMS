@@ -8,6 +8,8 @@
     /* Visit https://aka.ms/tsconfig to read more about this file */
     "baseUrl": "./",
     "paths": {
+      "@analyticContr": ["controller/analytic"],
+      "@analyticContr/*": ["controller/analytic/*"],
       "@notifiContr": ["controller/notification"],
       "@notifiContr/*": ["controller/notification/*"],
       "@courContr": ["controller/course"],
