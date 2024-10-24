@@ -166,7 +166,7 @@ export const updateAccessToken_get = asyncErrorMiddleware(async function (
   try {
     const session = await redis.get(payload.id);
 
-    if (!session) return next(errorHandler(400, "Invalid Refresh Token"));
+    if (!session) return next(errorHandler(400, "Login to access this resource"));
 
     const user: IUser = JSON.parse(session);
 
@@ -183,8 +183,9 @@ export const updateAccessToken_get = asyncErrorMiddleware(async function (
     );
 
     res.cookie("accessToken", accessToken, accTokOpt as CookieOptions);
-
     res.cookie("refreshToken", refreshToken, refTokOpt as CookieOptions);
+
+    await redis.set(user._id as string, JSON.stringify(user), "EX", 604800); // 7days
 
     res.status(200).json({ accessToken, success: true });
   } catch (error: any) {

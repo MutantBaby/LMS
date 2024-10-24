@@ -1,13 +1,16 @@
 import ejs from "ejs";
 import path from "path";
-import { redis } from "app";
-import mongoose, { ObjectId } from "mongoose";
-import courseModel from "@courseMod/Course";
+import mongoose from "mongoose";
 import { v2 as cloudinary } from "cloudinary";
-import { createCourse, getAllCoursesService } from "@services/coures";
 import { Request, Response, NextFunction } from "express";
+
+import { redis } from "app";
+import userModel from "@userMod/User";
+import courseModel from "@courseMod/Course";
+import notificationModel from "@notifiMod/notification";
 import { calReviewRating, errorHandler, sendMail } from "@utils";
 import asyncErrorMiddleware from "@middleware/asyncErrorMiddleware";
+import { createCourse, getAllCoursesService } from "@services/coures";
 import {
   IAddAnswer,
   IAddReview,
@@ -20,8 +23,6 @@ import {
   ICourReview,
   ICourQuestion,
 } from "@courseMod/types";
-import userModel from "@userMod/User";
-import notificationModel from "@notifiMod/notification";
 
 export const courseUpload_post = asyncErrorMiddleware(async function (
   req: Request,
@@ -107,7 +108,7 @@ export const singleCourse_get = asyncErrorMiddleware(async function (
 
     if (!course) return next(errorHandler(404, "Course not found"));
 
-    await redis.set(courseId, JSON.stringify(course));
+    await redis.set(courseId, JSON.stringify(course), "EX", 604800); // 7Days
 
     res.status(200).json({ course, success: true });
   } catch (error: any) {

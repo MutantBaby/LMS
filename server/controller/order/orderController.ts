@@ -1,18 +1,15 @@
 import ejs from "ejs";
 import path from "path";
-import mongoose, { ObjectId } from "mongoose";
-import { v2 as cloudinary } from "cloudinary";
+import mongoose from "mongoose";
 import { Request, Response, NextFunction } from "express";
 
-import { redis } from "app";
 import { IOrder } from "./orderType";
 import userModel from "@userMod/User";
 import courseModel from "@courseMod/Course";
-import { createCourse } from "@services/coures";
-import { createNewOrder, getAllOrdersService } from "@services/order";
 import notificationModel from "@notifiMod/notification";
 import { calReviewRating, errorHandler, sendMail } from "@utils";
 import asyncErrorMiddleware from "@middleware/asyncErrorMiddleware";
+import { createNewOrder, getAllOrdersService } from "@services/order";
 
 export const createOrder = asyncErrorMiddleware(async function (
   req: Request,

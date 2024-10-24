@@ -5,15 +5,15 @@ import {
   userLogout_get,
   getUserInfo_get,
   socialAuth_post,
+  getAllUsers_get,
+  deleteUser_delete,
   userActivation_post,
+  updateUserRole_patch,
   updateUserInfo_patch,
   updateAccessToken_get,
   userRegisteration_post,
   updateUserProfile_patch,
   updateUserPassword_patch,
-  getAllUsers_get,
-  updateUserRole_patch,
-  deleteUser_delete,
 } from "@userContr/userController";
 import authMiddleware, {
   authorizeRolesMiddleware,

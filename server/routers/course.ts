@@ -11,10 +11,10 @@ import {
   courseEdit_patch,
   singleCourse_get,
   courseUpload_post,
-  addReviewReply_put,
-  courseContentByUser_get,
   getAllCourses_get,
+  addReviewReply_put,
   deleteCourse_delete,
+  courseContentByUser_get,
 } from "@courContr/courseController";
 
 const router = Router();

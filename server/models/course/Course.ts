@@ -7,7 +7,6 @@ import {
   ICourReview,
   ICourQuestion,
 } from "./types";
-import { timeStamp } from "console";
 
 const linkSchema = new Schema<ICourLink>({
   url: String,

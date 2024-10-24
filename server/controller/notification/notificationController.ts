@@ -1,6 +1,7 @@
 import cron from "node-cron";
 import { Request, Response, NextFunction } from "express";
-import { calReviewRating, errorHandler, sendMail } from "@utils";
+
+import { errorHandler } from "@utils";
 
 import notificationModel from "@notifiMod/notification";
 import asyncErrorMiddleware from "@middleware/asyncErrorMiddleware";

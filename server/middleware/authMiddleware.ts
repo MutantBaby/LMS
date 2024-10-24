@@ -36,7 +36,7 @@ export default async function (
 
   const user = await redis.get(payload.id);
 
-  if (!user) return next(errorHandler(401, "User Not Found"));
+  if (!user) return next(errorHandler(401, "Login to access this resource"));
 
   req.user = JSON.parse(user);
   console.log("\nReq-User Value => ", req.user);
