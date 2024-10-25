@@ -1,0 +1,50 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  color: var(--foreground);
+}
+
+.hero_animation {
+  animation: changeBackgroundColor 10s infinite alternate;
+  background-color: liner-gradient(
+    150deg,
+    hsla(240, 75%, 55%, 0.5) 10.5%,
+    hsla(0%, 0%, 100%, 0) 90%
+  );
+}
+
+@keyframes changeBackgroundColor {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  16.5% {
+    opacity: 0.9;
+  }
+  33.3% {
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 0.6;
+  }
+  66.6% {
+    opacity: 0.4;
+  }
+  83.5% {
+    opacity: 0.3;
+  }
+}
