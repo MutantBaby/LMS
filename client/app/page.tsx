@@ -1,11 +1,15 @@
 "use client";
 
-import { FC } from "react";
+import { FC, useState } from "react";
 import Heading from "./utils/Heading";
+import Header from "./components/Header";
 
 interface Props {}
 
 const Page: FC<Props> = (props) => {
+  const [open, setOpen] = useState(false);
+  const [activeItems, setActiveItems] = useState(0);
+
   return (
     <div>
       <Heading
@@ -13,8 +17,10 @@ const Page: FC<Props> = (props) => {
         description="Learn Online Courses"
         keywords="Programming, MERN, MEAN, Python"
       />
+
+      <Header activeItems={activeItems} open={open} setOpen={setOpen} />
     </div>
   );
 };
- 
+
 export default Page;
