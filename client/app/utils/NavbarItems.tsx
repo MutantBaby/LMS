@@ -48,19 +48,24 @@ const NavbarItems: FC<Props> = ({ isMobile, activeItems }) => {
       {isMobile && (
         <div className="mt-5 800px:hidden">
           <div className="w-full text-center py-6">
-            {demoNavbarItems?.map((item, index) => (
-              <Link href={`${item.url}`} key={index} passHref>
-                <span
-                  className={`${
-                    activeItems === index
-                      ? "dark:text-[#3782bc] text-[crimson]"
-                      : "dark:text-[white] text-[black]"
-                  } block py-5 text-[18px] px-6 font-Poppins font-[400]`}>
-                  {item.name}
-                </span>
-              </Link>
-            ))}
+            <Link href={"/"} passHref>
+              <span className="text-[25px] font-Poppins font-[500] text-black dark:text-white">
+                LE-Course
+              </span>
+            </Link>
           </div>
+          {demoNavbarItems?.map((item, index) => (
+            <Link href={`${item.url}`} key={index} passHref>
+              <span
+                className={`${
+                  activeItems === index
+                    ? "dark:text-[#3782bc] text-[crimson]"
+                    : "dark:text-[white] text-[black]"
+                } block py-5 text-[18px] px-6 font-Poppins font-[400]`}>
+                {item.name}
+              </span>
+            </Link>
+          ))}
         </div>
       )}
     </>

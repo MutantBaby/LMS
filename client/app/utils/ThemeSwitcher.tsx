@@ -1,17 +1,25 @@
+"use client";
+
 import { useTheme } from "next-themes";
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { BiSun, BiMoon } from "react-icons/bi";
 
-const ThemeSwitcher = () => {
-  const { theme, setTheme } = useTheme();
+interface Props {
+  theme?: string;
+  setTheme: (theme: string) => void;
+}
+
+const ThemeSwitcher = ({ theme, setTheme }: Props) => {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => setMounted(true), []);
 
   if (!mounted) return null;
 
+  console.log("Theme: ", theme);
+
   return (
-    <div className="flex items-center justify-center mx-4">
+    <div className="flex items-center justify-center mx-4 z-50">
       {theme === "light" ? (
         <BiMoon
           size={25}

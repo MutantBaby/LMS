@@ -1,11 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import { FC, useState } from "react";
+import { useTheme } from "next-themes";
+import { FC, useEffect, useState } from "react";
+import { HiOutlineMenuAlt3, HiOutlineUserCircle } from "react-icons/hi";
+
 import NavbarItems from "@/app/utils/NavbarItems";
 import ThemeSwitcher from "@/app/utils/ThemeSwitcher";
 
 const Header: FC<TProps> = ({ open, activeItems, setOpen }) => {
+  const { theme, setTheme } = useTheme();
   const [active, setActive] = useState(false);
   const [openSideBar, setOpenSideBar] = useState(false);
 
@@ -15,6 +19,15 @@ const Header: FC<TProps> = ({ open, activeItems, setOpen }) => {
       else setActive(false);
     });
   }
+
+  const handleClose = (e: any) => {
+    if (e.target.id === "screen") setOpenSideBar(false);
+  };
+
+  useEffect(() => setActive(!active), [theme]);
+
+  console.log("Open or not: ", open);
+  console.log("openSideBar or not: ", openSideBar);
 
   return (
     <div className="w-full relative">
@@ -36,10 +49,44 @@ const Header: FC<TProps> = ({ open, activeItems, setOpen }) => {
 
             <div className="flex items-center">
               <NavbarItems activeItems={activeItems} isMobile={false} />
-              <ThemeSwitcher />
+              <ThemeSwitcher theme={theme} setTheme={setTheme} />
+
+              {/* Only for Mobile */}
+              <div className={`800px:hidden`}>
+                <HiOutlineMenuAlt3
+                  size={25}
+                  onClick={() => setOpenSideBar(true)}
+                  className="cursor-pointer dark:text-white text-black"
+                />
+              </div>
+              <HiOutlineUserCircle
+                size={25}
+                onClick={() => setOpen(true)}
+                className="hidden 800px:block cursor-pointer dark:text-white text-black"
+              />
             </div>
           </div>
         </div>
+
+        {/* mobile sidebar */}
+        {openSideBar && (
+          <div
+            id="screen"
+            onClick={handleClose}
+            className="fixed w-full h-screen top-0 left-0 z-[999] dark:bg-[unset] bg-[#00000024]">
+            <div className="w-[70%] fixed z-[99999] dark:bg-slate-900 h-screen bg-white dark:bg-opacity-90 top-0 right-0">
+              <NavbarItems activeItems={activeItems} isMobile={true} />
+              <HiOutlineUserCircle
+                size={25}
+                onClick={() => setOpen(true)}
+                className="cursor-pointer ml-2 my-2 dark:text-white text-black"
+              />
+              <br />
+              <br />
+              <p>Copy Right By LE-Course</p>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
