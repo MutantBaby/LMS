@@ -16,8 +16,6 @@ const ThemeSwitcher = ({ theme, setTheme }: Props) => {
 
   if (!mounted) return null;
 
-  console.log("Theme: ", theme);
-
   return (
     <div className="flex items-center justify-center mx-4 z-50">
       {theme === "light" ? (

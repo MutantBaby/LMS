@@ -13,21 +13,18 @@ const Header: FC<TProps> = ({ open, activeItems, setOpen }) => {
   const [active, setActive] = useState(false);
   const [openSideBar, setOpenSideBar] = useState(false);
 
-  if (typeof window !== "undefined") {
-    window.addEventListener("scroll", function () {
-      if (window.scrollY > 100) setActive(true);
-      else setActive(false);
-    });
-  }
+  // if (typeof window !== "undefined") {
+  //   window.addEventListener("scroll", function () {
+  //     if (window.scrollY > 100) setActive(true);
+  //     else setActive(false);
+  //   });
+  // }
 
   const handleClose = (e: any) => {
     if (e.target.id === "screen") setOpenSideBar(false);
   };
 
   useEffect(() => setActive(!active), [theme]);
-
-  console.log("Open or not: ", open);
-  console.log("openSideBar or not: ", openSideBar);
 
   return (
     <div className="w-full relative">
