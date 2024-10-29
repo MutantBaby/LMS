@@ -1,13 +1,14 @@
 "use client";
 
 import { FC, useState } from "react";
-import Heading from "./utils/Heading";
 import Hero from "./components/Hero";
+import Heading from "./utils/Heading";
 import Header from "./components/Header";
 
 interface Props {}
 
 const Page: FC<Props> = (props) => {
+  const [route, setRoute] = useState("login");
   const [open, setOpen] = useState(false);
   const [activeItems, setActiveItems] = useState(0);
 
@@ -19,7 +20,14 @@ const Page: FC<Props> = (props) => {
         keywords="Programming, MERN, MEAN, Python"
       />
 
-      <Header activeItems={activeItems} open={open} setOpen={setOpen} />
+      <Header
+        open={open}
+        route={route}
+        setOpen={setOpen}
+        setRoute={setRoute}
+        activeItems={activeItems}
+      />
+
       <Hero />
     </div>
   );

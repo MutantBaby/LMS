@@ -6,9 +6,17 @@ import { FC, useEffect, useState } from "react";
 import { HiOutlineMenuAlt3, HiOutlineUserCircle } from "react-icons/hi";
 
 import NavbarItems from "@/app/utils/NavbarItems";
+import CustomModel from "@/app/utils/CustomModel";
 import ThemeSwitcher from "@/app/utils/ThemeSwitcher";
+import Login from "../Login";
 
-const Header: FC<TProps> = ({ open, activeItems, setOpen }) => {
+const Header: FC<TProps> = ({
+  open,
+  route,
+  setOpen,
+  setRoute,
+  activeItems,
+}) => {
   const { theme, setTheme } = useTheme();
   const [active, setActive] = useState(false);
   const [openSideBar, setOpenSideBar] = useState(false);
@@ -85,6 +93,20 @@ const Header: FC<TProps> = ({ open, activeItems, setOpen }) => {
           </div>
         )}
       </div>
+
+      {route === "login" && (
+        <>
+          {open && (
+            <CustomModel
+              open={open}
+              setOpen={setOpen}
+              Component={Login}
+              setRoute={setRoute}
+              activeItems={activeItems}
+            />
+          )}
+        </>
+      )}
     </div>
   );
 };
