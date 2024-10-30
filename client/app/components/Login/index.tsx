@@ -21,6 +21,7 @@ const Login: FC<IProps> = ({ setRoute }) => {
     validationSchema: schema,
     onSubmit: async function ({ email, password }) {
       console.log(email, password);
+      setRoute("verification");
     },
   });
 

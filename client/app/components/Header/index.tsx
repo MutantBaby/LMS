@@ -10,6 +10,7 @@ import CustomModel from "@/app/utils/CustomModel";
 import ThemeSwitcher from "@/app/utils/ThemeSwitcher";
 import Login from "../Login";
 import Signup from "../Signup";
+import Verification from "../Verification";
 
 const Header: FC<TProps> = ({
   open,
