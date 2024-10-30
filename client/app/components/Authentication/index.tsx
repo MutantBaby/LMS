@@ -10,17 +10,19 @@ import {
 import { IProps } from "./types";
 
 const schema = Yup.object().shape({
+  name: Yup.string().required("Name is required"),
   email: Yup.string().email("Invalid Email").required(),
   password: Yup.string().required().min(6),
 });
 
-const Login: FC<IProps> = ({ setRoute }) => {
+const Signup: FC<IProps> = ({ setRoute }) => {
   const [show, setShow] = useState(false);
   const formik = useFormik({
-    initialValues: { email: "", password: "" },
+    initialValues: { name: "", email: "", password: "" },
     validationSchema: schema,
-    onSubmit: async function ({ email, password }) {
-      console.log(email, password);
+    onSubmit: async function ({ name, email, password }) {
+      console.log(name, email, password);
+      setRoute("verification");
     },
   });
 
@@ -30,7 +32,38 @@ const Login: FC<IProps> = ({ setRoute }) => {
   return (
     <div className="flex h-full flex-col justify-center gap-4 p-6">
       <form onSubmit={handleSubmit} className="flex flex-col gap-4 pb-4">
-        <h1 className="mb-4 text-2xl font-bold  dark:text-white">Login</h1>
+        <h1 className="mb-4 text-2xl font-bold  dark:text-white">
+          Join To LE-Course
+        </h1>
+        <div>
+          <div className="mb-2">
+            <label
+              htmlFor="name"
+              className="text-sm font-medium text-gray-900 dark:text-gray-300">
+              Name:
+            </label>
+          </div>
+          <div className="flex w-full rounded-lg pt-1">
+            <div className="relative w-full">
+              <input
+                className={`${
+                  errors.name && touched.name && "border-red-600"
+                } block w-full border disabled:cursor-not-allowed disabled:opacity-50 bg-gray-50 border-gray-300 text-gray-900 focus:border-cyan-500 focus:ring-cyan-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-cyan-500 dark:focus:ring-cyan-500 p-2.5 text-sm rounded-lg`}
+                id="name"
+                type="text"
+                name="name"
+                value={values.name}
+                onChange={handleChange}
+                placeholder="Enter Name"
+                autoComplete="name"
+              />
+              {errors.name && touched.name && (
+                <span className="text-red-500 pt-2 block">{errors.name}</span>
+              )}
+            </div>
+          </div>
+        </div>
+
         <div>
           <div className="mb-2">
             <label
@@ -115,7 +148,7 @@ const Login: FC<IProps> = ({ setRoute }) => {
             type="submit"
             className="border transition-colors focus:ring-2 p-0.5 disabled:cursor-not-allowed border-transparent bg-sky-600 hover:bg-sky-700 active:bg-sky-800 text-white disabled:bg-gray-300 disabled:text-gray-700 rounded-lg ">
             <span className="flex items-center justify-center gap-1 font-medium py-1 px-2.5 text-base false">
-              Login
+              Signup
             </span>
           </button>
           <button
@@ -123,7 +156,7 @@ const Login: FC<IProps> = ({ setRoute }) => {
             className="transition-colors focus:ring-2 p-0.5 disabled:cursor-not-allowed bg-white hover:bg-gray-100 text-gray-900 border border-gray-200 disabled:bg-gray-300 disabled:text-gray-700 rounded-lg ">
             <span className="flex items-center justify-center gap-1 font-medium py-1 px-2.5 text-base false">
               <FcGoogle size={20} />
-              Sign in with Google
+              Sign up with Google
             </span>
           </button>
 
@@ -132,7 +165,7 @@ const Login: FC<IProps> = ({ setRoute }) => {
             className="transition-colors focus:ring-2 p-0.5 disabled:cursor-not-allowed bg-white hover:bg-gray-100 text-gray-900 border border-gray-200 disabled:bg-gray-300 disabled:text-gray-700 rounded-lg ">
             <span className="flex items-center justify-center gap-1 font-medium py-1 px-2.5 text-base false">
               <AiFillGithub size={20} />
-              Sign in with Github
+              Sign up with Github
             </span>
           </button>
         </div>
@@ -140,11 +173,11 @@ const Login: FC<IProps> = ({ setRoute }) => {
 
       <div className="min-w-[270px]">
         <div className="mt-4 text-center dark:text-gray-200">
-          New user?
+          Already have an account?
           <span
-            onClick={() => setRoute("signup")}
+            onClick={() => setRoute("login")}
             className="text-blue-500 underline hover:text-blue-600">
-            Create account here
+            Login
           </span>
         </div>
       </div>
@@ -152,4 +185,4 @@ const Login: FC<IProps> = ({ setRoute }) => {
   );
 };
 
-export default Login;
+export default Signup;

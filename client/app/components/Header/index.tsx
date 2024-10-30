@@ -9,6 +9,7 @@ import NavbarItems from "@/app/utils/NavbarItems";
 import CustomModel from "@/app/utils/CustomModel";
 import ThemeSwitcher from "@/app/utils/ThemeSwitcher";
 import Login from "../Login";
+import Signup from "../Signup";
 
 const Header: FC<TProps> = ({
   open,
@@ -101,6 +102,34 @@ const Header: FC<TProps> = ({
               open={open}
               setOpen={setOpen}
               Component={Login}
+              setRoute={setRoute}
+              activeItems={activeItems}
+            />
+          )}
+        </>
+      )}
+
+      {route === "signup" && (
+        <>
+          {open && (
+            <CustomModel
+              open={open}
+              setOpen={setOpen}
+              Component={Signup}
+              setRoute={setRoute}
+              activeItems={activeItems}
+            />
+          )}
+        </>
+      )}
+
+      {route === "verification" && (
+        <>
+          {open && (
+            <CustomModel
+              open={open}
+              setOpen={setOpen}
+              Component={Verification}
               setRoute={setRoute}
               activeItems={activeItems}
             />
