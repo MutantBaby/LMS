@@ -4,8 +4,12 @@ export interface IInitialState {
 }
 
 export interface IRegistrationRes {
+  token: string;
   message: string;
-  activationToken: string;
 }
 
-export interface IRegistrationReq {}
+export interface IRegistrationReq {
+  name: string;
+  email: string;
+  password: string;
+}

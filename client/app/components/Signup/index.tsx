@@ -1,13 +1,17 @@
-import { FC, useState } from "react";
 import * as Yup from "yup";
 import { useFormik } from "formik";
+import toast from "react-hot-toast";
 import { FcGoogle } from "react-icons/fc";
+import { FC, useEffect, useState } from "react";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
+import { IProps } from "./types";
 import {
   AiOutlineEye,
   AiFillGithub,
   AiOutlineEyeInvisible,
 } from "react-icons/ai";
-import { IProps } from "./types";
+
+import { useRegisterMutation } from "@/app/redux/features/auth/authApi";
 
 const schema = Yup.object().shape({
   name: Yup.string().required("Name is required"),
@@ -17,12 +21,39 @@ const schema = Yup.object().shape({
 
 const Signup: FC<IProps> = ({ setRoute }) => {
   const [show, setShow] = useState(false);
+  const [register, { isLoading, isError, isSuccess, data, error }] =
+    useRegisterMutation();
+
+  useEffect(() => {
+    if (isSuccess) {
+      console.log("Data Im 2: ", data);
+      toast.success(
+        "User Registered Successfully, Check mail for verification"
+      );
+      setRoute("verification");
+    }
+
+    if (error)
+      if (("data" in error) as any) {
+        if ("data" in error) {
+          const errorData = (error as FetchBaseQueryError).data as any;
+          toast.error(errorData.message);
+        }
+      }
+  }, [isSuccess, error]);
+
   const formik = useFormik({
     initialValues: { name: "", email: "", password: "" },
     validationSchema: schema,
     onSubmit: async function ({ name, email, password }) {
       console.log(name, email, password);
-      setRoute("verification");
+      const data = { name, email, password };
+
+      try {
+        await register(data);
+      } catch (err) {
+        console.log("Error Im 3: ", err);
+      }
     },
   });
 

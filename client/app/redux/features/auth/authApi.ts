@@ -22,7 +22,7 @@ export const authApi = apiSlice.injectEndpoints({
 
           dispatch(
             userRegisteration({
-              token: result.data.activationToken,
+              token: result.data.token,
             })
           );
         } catch (err) {
