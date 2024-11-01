@@ -1,47 +1,43 @@
 import { apiSlice } from "../api/apiSlice";
-import { IRegistrationData, IRegistrationRes } from "./types";
+import { userRegisteration } from "./authSlice";
+import { IRegistrationReq, IRegistrationRes } from "./types";
 
 export const authApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    register: builder.mutation<IRegistrationRes, IRegistrationData>({
-      query: (arg) => "",
-      // Pick out data and prevent nested properties in a hook or selector
-      transformResponse: (val, meta, args) => ({
-        message: "",
-        activationToken: "",
+    register: builder.mutation<IRegistrationRes, IRegistrationReq>({
+      query: (arg) => ({
+        body: arg,
+        method: "POST",
+        url: "user/register",
+        credentials: "include" as const,
       }),
-      // Pick out error and prevent nested properties in a hook or selector
-      transformErrorResponse: (val, meta, args) => new Error(),
-      // `result` is the server response
-      invalidatesTags: [],
-      // trigger side effects or optimistic updates
-      onQueryStarted(
+      async onQueryStarted(
         id,
         { dispatch, getState, extra, requestId, queryFulfilled, getCacheEntry }
-      ) {},
-      // handle subscriptions etc
-      onCacheEntryAdded(
-        id,
-        {
-          dispatch,
-          getState,
-          extra,
-          requestId,
-          cacheEntryRemoved,
-          cacheDataLoaded,
-          getCacheEntry,
+      ) {
+        try {
+          const result = await queryFulfilled;
+
+          console.log("Result Im 1: ", result);
+
+          dispatch(
+            userRegisteration({
+              token: result.data.activationToken,
+            })
+          );
+        } catch (err) {
+          console.log("Error Im 1: ", err);
         }
-      ) {},
+      },
+    }),
+    activation: builder.mutation({
+      query: ({ token, activeCode }) => ({
+        method: "POST",
+        url: "user/activate",
+        body: { token, activeCode },
+      }),
     }),
   }),
 });
 
-// query: (data) => ({
-//   body: data,
-//   method: "POST",
-//   url: "user/register",
-//   credentials: "include" as const,
-// }),
-// async onQueryStarted(data, { dispatch, queryFulfilled }) {
-//   const result = await queryFulfilled;
-// },
+export const { useRegisterMutation, useActivationMutation } = authApi;

@@ -193,7 +193,7 @@ export const updateAccessToken_get = asyncErrorMiddleware(async function (
   }
 });
 
-export const getUserInfo_get = asyncErrorMiddleware(async function (
+export const  getUserInfo_get = asyncErrorMiddleware(async function (
   req: Request,
   res: Response,
   next: NextFunction

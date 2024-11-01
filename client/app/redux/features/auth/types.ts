@@ -8,4 +8,4 @@ export interface IRegistrationRes {
   activationToken: string;
 }
 
-export interface IRegistrationData {}
+export interface IRegistrationReq {}
