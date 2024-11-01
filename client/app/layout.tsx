@@ -5,6 +5,7 @@ import { Poppins } from "next/font/google";
 import { Josefin_Sans } from "next/font/google";
 import { ThemeProvider } from "./utils/ThemeProvider";
 import { Toaster } from "react-hot-toast";
+import { Providers } from "./Provider";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -27,13 +28,15 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body
         className={`${poppins.variable} ${josefin.variable} bg-white bg-no-repeat dark:bg-gradient-to-b dark:to-black duration-300`}>
-        <ThemeProvider
-          attribute="class"
-          enableSystem={true}
-          defaultTheme="system">
-          {children}
-          <Toaster position="top-center" reverseOrder={false} />
-        </ThemeProvider>
+        <Providers>
+          <ThemeProvider
+            attribute="class"
+            enableSystem={true}
+            defaultTheme="system">
+            {children}
+            <Toaster position="top-center" reverseOrder={false} />
+          </ThemeProvider>
+        </Providers>
       </body>
     </html>
   );
