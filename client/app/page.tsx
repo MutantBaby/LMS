@@ -8,8 +8,8 @@ import Header from "./components/Header";
 interface Props {}
 
 const Page: FC<Props> = (props) => {
-  const [route, setRoute] = useState("verification");
   const [open, setOpen] = useState(false);
+  const [route, setRoute] = useState("login");
   const [activeItems, setActiveItems] = useState(0);
 
   return (

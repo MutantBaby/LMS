@@ -20,9 +20,16 @@ const schema = Yup.object().shape({
 });
 
 const Signup: FC<IProps> = ({ setRoute }) => {
-  const [show, setShow] = useState(false);
   const [register, { isLoading, isError, isSuccess, data, error }] =
     useRegisterMutation();
+
+  const [show, setShow] = useState(false);
+  const [verificationNumber, setVerificationNumber] = useState({
+    "0": "",
+    "1": "",
+    "2": "",
+    "3": "",
+  });
 
   useEffect(() => {
     if (isSuccess) {
@@ -33,12 +40,12 @@ const Signup: FC<IProps> = ({ setRoute }) => {
       setRoute("verification");
     }
 
-    if (error)
+    if (isError)
       if (("data" in error) as any) {
         if ("data" in error) {
           const errorData = (error as FetchBaseQueryError).data as any;
           toast.error(errorData.message);
-        }
+        } else toast.error("Some Error Occured");
       }
   }, [isSuccess, error]);
 
@@ -59,6 +66,10 @@ const Signup: FC<IProps> = ({ setRoute }) => {
 
   const { errors, touched, handleSubmit, handleChange, handleBlur, values } =
     formik;
+
+  const verificationHandler = async function () {
+    const veriicationNumber = "";
+  };
 
   return (
     <div className="flex h-full flex-col justify-center gap-4 p-6">

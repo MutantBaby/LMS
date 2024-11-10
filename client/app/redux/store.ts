@@ -13,3 +13,5 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(apiSlice.middleware),
 });
+
+export type IRootState = ReturnType<typeof store.getState>;

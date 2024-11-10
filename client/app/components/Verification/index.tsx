@@ -1,8 +1,16 @@
-import { FC, useRef, useState } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import { IProps, IVerifyNumber } from "./types";
 import { VscWorkspaceTrusted } from "react-icons/vsc";
+import { useActivationMutation } from "@/app/redux/features/auth/authApi";
+import { useSelector } from "react-redux";
+import { IRootState } from "@/app/redux/store";
+import toast from "react-hot-toast";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 
 const Verification: FC<IProps> = ({ setRoute }) => {
+  const [activation, { isError, isSuccess, error }] = useActivationMutation();
+  const { token } = useSelector((state: IRootState) => state.auth);
+
   const [inValidError, setInValidError] = useState(false);
   const inputRef = [
     useRef<HTMLInputElement>(null),
@@ -18,8 +26,14 @@ const Verification: FC<IProps> = ({ setRoute }) => {
   });
 
   const verifyHandler = async function () {
-    console.log("Verify Test");
-    setInValidError(true);
+    const verificationNumber = Object.values(verifyNumber).join("");
+
+    if (verificationNumber.length !== 4) return setInValidError(true);
+
+    await activation({
+      token,
+      activeCode: verificationNumber,
+    });
   };
 
   const handleInputChange = function (index: number, val: string) {
@@ -32,6 +46,24 @@ const Verification: FC<IProps> = ({ setRoute }) => {
     else if (val.length === 1 && index < 3)
       inputRef[index + 1].current?.focus();
   };
+
+  useEffect(
+    function () {
+      if (isSuccess) {
+        toast.success("Account Activated Successfully");
+        setRoute("login");
+      }
+
+      if (isError)
+        if (("data" in error) as any) {
+          if ("data" in error) {
+            const errorData = (error as FetchBaseQueryError).data as any;
+            toast.error(errorData.message);
+          } else toast.error("Some Error Occured");
+        }
+    },
+    [isSuccess, error]
+  );
 
   return (
     <div className="mx-auto border max-w-sm mt-20 rounded">

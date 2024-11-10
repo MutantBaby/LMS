@@ -59,6 +59,8 @@ export const userRegisteration_post = asyncErrorMiddleware(async function (
       data
     );
 
+    console.log("Activation code: ", activeCode);
+
     await sendMail({
       data,
       email,
@@ -166,7 +168,8 @@ export const updateAccessToken_get = asyncErrorMiddleware(async function (
   try {
     const session = await redis.get(payload.id);
 
-    if (!session) return next(errorHandler(400, "Login to access this resource"));
+    if (!session)
+      return next(errorHandler(400, "Login to access this resource"));
 
     const user: IUser = JSON.parse(session);
 
@@ -193,7 +196,7 @@ export const updateAccessToken_get = asyncErrorMiddleware(async function (
   }
 });
 
-export const  getUserInfo_get = asyncErrorMiddleware(async function (
+export const getUserInfo_get = asyncErrorMiddleware(async function (
   req: Request,
   res: Response,
   next: NextFunction
