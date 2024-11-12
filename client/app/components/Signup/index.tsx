@@ -24,12 +24,6 @@ const Signup: FC<IProps> = ({ setRoute }) => {
     useRegisterMutation();
 
   const [show, setShow] = useState(false);
-  const [verificationNumber, setVerificationNumber] = useState({
-    "0": "",
-    "1": "",
-    "2": "",
-    "3": "",
-  });
 
   useEffect(() => {
     if (isSuccess) {
@@ -66,10 +60,6 @@ const Signup: FC<IProps> = ({ setRoute }) => {
 
   const { errors, touched, handleSubmit, handleChange, handleBlur, values } =
     formik;
-
-  const verificationHandler = async function () {
-    const veriicationNumber = "";
-  };
 
   return (
     <div className="flex h-full flex-col justify-center gap-4 p-6">

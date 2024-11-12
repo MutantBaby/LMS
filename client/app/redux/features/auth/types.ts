@@ -13,3 +13,22 @@ export interface IRegistrationReq {
   email: string;
   password: string;
 }
+
+export interface IActivationRes {
+  message: string;
+}
+
+export interface IActivationReq {
+  token: string;
+  activeCode: string;
+}
+
+export interface ILoginRes {
+  user: string;
+  accessToken: string;
+}
+
+export interface ILoginReq {
+  email: string;
+  password: string;
+}

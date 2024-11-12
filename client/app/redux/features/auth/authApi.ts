@@ -1,6 +1,13 @@
 import { apiSlice } from "../api/apiSlice";
 import { userloggedIn, userRegisteration } from "./authSlice";
-import { IRegistrationReq, IRegistrationRes } from "./types";
+import {
+  IActivationReq,
+  IActivationRes,
+  ILoginReq,
+  ILoginRes,
+  IRegistrationReq,
+  IRegistrationRes,
+} from "./types";
 
 export const authApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -28,14 +35,14 @@ export const authApi = apiSlice.injectEndpoints({
         }
       },
     }),
-    activation: builder.mutation({
+    activation: builder.mutation<IActivationRes, IActivationReq>({
       query: (arg) => ({
         method: "POST",
         url: "user/activate",
         body: arg,
       }),
     }),
-    login: builder.mutation({
+    login: builder.mutation<ILoginRes, ILoginReq>({
       query: (arg) => ({
         body: arg,
         method: "POST",
