@@ -1,30 +1,22 @@
 import { apiSlice } from "../api/apiSlice";
-import { userRegisteration } from "./authSlice";
+import { userloggedIn, userRegisteration } from "./authSlice";
 import { IRegistrationReq, IRegistrationRes } from "./types";
 
 export const authApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     register: builder.mutation<IRegistrationRes, IRegistrationReq>({
-      query: (arg) => {
-        console.log("Query Running: ", arg, new Date().toLocaleTimeString());
-
-        return {
-          body: arg,
-          method: "POST",
-          url: "user/register",
-          credentials: "include" as const,
-        };
-      },
+      query: (arg) => ({
+        body: arg,
+        method: "POST",
+        url: "user/register",
+        credentials: "include" as const,
+      }),
       async onQueryStarted(
-        id,
+        arg,
         { dispatch, getState, extra, requestId, queryFulfilled, getCacheEntry }
       ) {
         try {
-          console.log("onQuery Running: ", new Date().toLocaleTimeString());
-
           const result = await queryFulfilled;
-
-          console.log("Result Im 1: ", result);
 
           dispatch(
             userRegisteration({
@@ -32,16 +24,41 @@ export const authApi = apiSlice.injectEndpoints({
             })
           );
         } catch (err) {
-          console.log("Error Im 1: ", err);
+          console.log("Error 1 authApi: ", err);
         }
       },
     }),
     activation: builder.mutation({
-      query: ({ token, activeCode }) => ({
+      query: (arg) => ({
         method: "POST",
         url: "user/activate",
-        body: { token, activeCode },
+        body: arg,
       }),
+    }),
+    login: builder.mutation({
+      query: (arg) => ({
+        body: arg,
+        method: "POST",
+        url: "user/login",
+        credentials: "include" as const,
+      }),
+      async onQueryStarted(
+        arg,
+        { dispatch, getState, extra, requestId, queryFulfilled, getCacheEntry }
+      ) {
+        try {
+          const result = await queryFulfilled;
+
+          dispatch(
+            userloggedIn({
+              user: result.data.user,
+              token: result.data.accessToken, // from server
+            })
+          );
+        } catch (err) {
+          console.log("Error 2 authApi: ", err);
+        }
+      },
     }),
   }),
 });
