@@ -20,14 +20,29 @@ const schema = Yup.object().shape({
 });
 
 const Signup: FC<IProps> = ({ setRoute }) => {
-  const [register, { isLoading, isError, isSuccess, data, error }] =
-    useRegisterMutation();
+  const [register, { isError, isSuccess, error }] = useRegisterMutation();
 
   const [show, setShow] = useState(false);
 
+  const formik = useFormik({
+    initialValues: { name: "", email: "", password: "" },
+    validationSchema: schema,
+    onSubmit: async function ({ name, email, password }) {
+      const data = { name, email, password };
+
+      try {
+        await register(data);
+      } catch (err) {
+        console.log("Error 1 Signup: ", err);
+      }
+    },
+  });
+
+  const { errors, touched, handleSubmit, handleChange, handleBlur, values } =
+    formik;
+
   useEffect(() => {
     if (isSuccess) {
-      console.log("Data Im 2: ", data);
       toast.success(
         "User Registered Successfully, Check mail for verification"
       );
@@ -42,24 +57,6 @@ const Signup: FC<IProps> = ({ setRoute }) => {
         } else toast.error("Some Error Occured");
       }
   }, [isSuccess, error]);
-
-  const formik = useFormik({
-    initialValues: { name: "", email: "", password: "" },
-    validationSchema: schema,
-    onSubmit: async function ({ name, email, password }) {
-      console.log(name, email, password);
-      const data = { name, email, password };
-
-      try {
-        await register(data);
-      } catch (err) {
-        console.log("Error Im 3: ", err);
-      }
-    },
-  });
-
-  const { errors, touched, handleSubmit, handleChange, handleBlur, values } =
-    formik;
 
   return (
     <div className="flex h-full flex-col justify-center gap-4 p-6">

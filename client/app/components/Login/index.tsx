@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { FcGoogle } from "react-icons/fc";
@@ -8,6 +8,9 @@ import {
   AiOutlineEyeInvisible,
 } from "react-icons/ai";
 import { IProps } from "./types";
+import { useLoginMutation } from "@/app/redux/features/auth/authApi";
+import toast from "react-hot-toast";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 
 const schema = Yup.object().shape({
   email: Yup.string().email("Invalid Email").required(),
@@ -15,18 +18,39 @@ const schema = Yup.object().shape({
 });
 
 const Login: FC<IProps> = ({ setRoute }) => {
+  const [login, { isError, isSuccess, error }] = useLoginMutation();
   const [show, setShow] = useState(false);
   const formik = useFormik({
     initialValues: { email: "", password: "" },
     validationSchema: schema,
     onSubmit: async function ({ email, password }) {
-      console.log(email, password);
-      setRoute("verification");
+      const data = { email, password };
+
+      try {
+        await login(data);
+      } catch (err) {
+        console.log("Error 1 Login: ", err);
+      }
     },
   });
 
   const { errors, touched, handleSubmit, handleChange, handleBlur, values } =
     formik;
+
+  useEffect(() => {
+    if (isSuccess) {
+      toast.success("User Login Successfully");
+      // setRoute("verification");
+    }
+
+    if (isError)
+      if (("data" in error) as any) {
+        if ("data" in error) {
+          const errorData = (error as FetchBaseQueryError).data as any;
+          toast.error(errorData.message);
+        } else toast.error("Some Error Occured");
+      }
+  }, [isSuccess, error]);
 
   return (
     <div className="flex h-full flex-col justify-center gap-4 p-6">

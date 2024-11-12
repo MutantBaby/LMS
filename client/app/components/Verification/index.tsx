@@ -30,10 +30,16 @@ const Verification: FC<IProps> = ({ setRoute }) => {
 
     if (verificationNumber.length !== 4) return setInValidError(true);
 
-    await activation({
+    const data = {
       token,
       activeCode: verificationNumber,
-    });
+    };
+
+    try {
+      await activation(data);
+    } catch (err) {
+      console.log("Error 1 Verification: ", err);
+    }
   };
 
   const handleInputChange = function (index: number, val: string) {
