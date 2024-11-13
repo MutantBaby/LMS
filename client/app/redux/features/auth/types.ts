@@ -32,3 +32,16 @@ export interface ILoginReq {
   email: string;
   password: string;
 }
+
+export interface IRefreshTokenRes {
+  accessToken: string;
+}
+
+export interface IRefreshTokenReq {}
+
+export interface ILoadUserRes {
+  user: string;
+  accessToken: string;
+}
+
+export interface ILoadUserReq {}

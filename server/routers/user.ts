@@ -21,7 +21,7 @@ import authMiddleware, {
 
 const router = Router();
 
-router.get("/id", authMiddleware, getUserInfo_get);
+router.get("/me", authMiddleware, getUserInfo_get);
 router.get("/logout", authMiddleware, userLogout_get);
 router.get("/update-accToken", updateAccessToken_get);
 router.get(

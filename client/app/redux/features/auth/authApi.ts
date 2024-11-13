@@ -1,10 +1,10 @@
 import { apiSlice } from "../api/apiSlice";
 import { userloggedIn, userRegisteration } from "./authSlice";
 import {
-  IActivationReq,
-  IActivationRes,
   ILoginReq,
   ILoginRes,
+  IActivationReq,
+  IActivationRes,
   IRegistrationReq,
   IRegistrationRes,
 } from "./types";
@@ -70,4 +70,5 @@ export const authApi = apiSlice.injectEndpoints({
   }),
 });
 
-export const { useRegisterMutation, useActivationMutation, useLoginMutation } = authApi;
+export const { useRegisterMutation, useActivationMutation, useLoginMutation } =
+  authApi;
