@@ -1,16 +1,20 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useTheme } from "next-themes";
 import { FC, useEffect, useState } from "react";
 import { HiOutlineMenuAlt3, HiOutlineUserCircle } from "react-icons/hi";
 
+import Login from "../Login";
+import Signup from "../Signup";
+import { IUser } from "@/app/types";
+import avatar from "@/assets/avatar.png";
+import Verification from "../Verification";
+import { useAppSelector } from "@/app/redux";
 import NavbarItems from "@/app/utils/NavbarItems";
 import CustomModel from "@/app/utils/CustomModel";
 import ThemeSwitcher from "@/app/utils/ThemeSwitcher";
-import Login from "../Login";
-import Signup from "../Signup";
-import Verification from "../Verification";
 
 const Header: FC<TProps> = ({
   open,
@@ -22,6 +26,7 @@ const Header: FC<TProps> = ({
   const { theme, setTheme } = useTheme();
   const [active, setActive] = useState(false);
   const [openSideBar, setOpenSideBar] = useState(false);
+  const { user }: { user: IUser } = useAppSelector((state) => state.auth);
 
   // if (typeof window !== "undefined") {
   //   window.addEventListener("scroll", function () {
@@ -35,6 +40,8 @@ const Header: FC<TProps> = ({
   };
 
   useEffect(() => setActive(!active), [theme]);
+
+  console.log("user: ", user);
 
   return (
     <div className="w-full relative">
@@ -66,11 +73,24 @@ const Header: FC<TProps> = ({
                   className="cursor-pointer dark:text-white text-black"
                 />
               </div>
-              <HiOutlineUserCircle
-                size={25}
-                onClick={() => setOpen(true)}
-                className="hidden 800px:block cursor-pointer dark:text-white text-black"
-              />
+
+              {user ? (
+                <Link href={"/profile"}>
+                  <Image
+                    width={30}
+                    height={30}
+                    alt="avatar"
+                    style={{ borderRadius: "100%" }}
+                    src={user?.avatar ? user.avatar : avatar}
+                  />
+                </Link>
+              ) : (
+                <HiOutlineUserCircle
+                  size={25}
+                  onClick={() => setOpen(true)}
+                  className="hidden 800px:block cursor-pointer dark:text-white text-black"
+                />
+              )}
             </div>
           </div>
         </div>

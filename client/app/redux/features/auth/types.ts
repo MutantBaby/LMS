@@ -1,5 +1,5 @@
 export interface IInitialState {
-  user: string;
+  user: Object;
   token: string;
 }
 
@@ -24,7 +24,7 @@ export interface IActivationReq {
 }
 
 export interface ILoginRes {
-  user: string;
+  user: Object;
   accessToken: string;
 }
 
@@ -40,7 +40,7 @@ export interface IRefreshTokenRes {
 export interface IRefreshTokenReq {}
 
 export interface ILoadUserRes {
-  user: string;
+  user: Object;
   accessToken: string;
 }
 
