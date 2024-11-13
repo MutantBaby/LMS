@@ -1,4 +1,6 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
+import type { PayloadAction } from "@reduxjs/toolkit";
+
 import { IInitialState } from "./types";
 
 const initialState: IInitialState = {
@@ -17,7 +19,7 @@ const authSlice = createSlice({
       state.user = action.payload.user;
       state.token = action.payload.token;
     },
-    userloggedOut: (state, action) => {
+    userloggedOut: (state, action: PayloadAction<IInitialState>) => {
       state.user = "";
       state.token = "";
     },

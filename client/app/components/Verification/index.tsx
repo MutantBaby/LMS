@@ -1,15 +1,15 @@
-import { FC, useEffect, useRef, useState } from "react";
-import { IProps, IVerifyNumber } from "./types";
-import { VscWorkspaceTrusted } from "react-icons/vsc";
-import { useActivationMutation } from "@/app/redux/features/auth/authApi";
-import { useSelector } from "react-redux";
-import { IRootState } from "@/app/redux/store";
 import toast from "react-hot-toast";
+import { VscWorkspaceTrusted } from "react-icons/vsc";
+import { FC, useEffect, useRef, useState } from "react";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
+
+import { useAppSelector } from "@/app/redux";
+import { IProps, IVerifyNumber } from "./types";
+import { useActivationMutation } from "@/app/redux/features/auth/authApi";
 
 const Verification: FC<IProps> = ({ setRoute }) => {
   const [activation, { isError, isSuccess, error }] = useActivationMutation();
-  const { token } = useSelector((state: IRootState) => state.auth);
+  const { token } = useAppSelector((state) => state.auth);
 
   const [inValidError, setInValidError] = useState(false);
   const inputRef = [
@@ -68,7 +68,7 @@ const Verification: FC<IProps> = ({ setRoute }) => {
           } else toast.error("Some Error Occured");
         }
     },
-    [isSuccess, error]
+    [isSuccess, isError, error]
   );
 
   return (

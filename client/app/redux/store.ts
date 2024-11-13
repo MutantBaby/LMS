@@ -14,4 +14,9 @@ export const store = configureStore({
     getDefaultMiddleware().concat(apiSlice.middleware),
 });
 
-export type IRootState = ReturnType<typeof store.getState>;
+const initializedApp = async function () {
+  // await store.dispatch(apiSlice.endpoints.refreshToken.initiate());
+};
+
+export type TRootState = ReturnType<typeof store.getState>;
+export type TAppDispatch = typeof store.dispatch;

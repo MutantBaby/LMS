@@ -4,13 +4,13 @@ import toast from "react-hot-toast";
 import { FcGoogle } from "react-icons/fc";
 import { FC, useEffect, useState } from "react";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
-import { IProps } from "./types";
 import {
   AiOutlineEye,
   AiFillGithub,
   AiOutlineEyeInvisible,
 } from "react-icons/ai";
 
+import { IProps } from "./types";
 import { useRegisterMutation } from "@/app/redux/features/auth/authApi";
 
 const schema = Yup.object().shape({
@@ -56,7 +56,7 @@ const Signup: FC<IProps> = ({ setRoute }) => {
           toast.error(errorData.message);
         } else toast.error("Some Error Occured");
       }
-  }, [isSuccess, error]);
+  }, [isSuccess, isError, error]);
 
   return (
     <div className="flex h-full flex-col justify-center gap-4 p-6">
