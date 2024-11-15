@@ -1,6 +1,7 @@
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import toast from "react-hot-toast";
+import { signIn } from "next-auth/react";
 import { FcGoogle } from "react-icons/fc";
 import { FC, useEffect, useState } from "react";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
@@ -148,6 +149,7 @@ const Login: FC<IProps> = ({ setRoute, setOpen }) => {
           </button>
           <button
             type="button"
+            onClick={() => signIn("google")}
             className="transition-colors focus:ring-2 p-0.5 disabled:cursor-not-allowed bg-white hover:bg-gray-100 text-gray-900 border border-gray-200 disabled:bg-gray-300 disabled:text-gray-700 rounded-lg ">
             <span className="flex items-center justify-center gap-1 font-medium py-1 px-2.5 text-base false">
               <FcGoogle size={20} />
@@ -157,6 +159,7 @@ const Login: FC<IProps> = ({ setRoute, setOpen }) => {
 
           <button
             type="button"
+            onClick={() => signIn("github")}
             className="transition-colors focus:ring-2 p-0.5 disabled:cursor-not-allowed bg-white hover:bg-gray-100 text-gray-900 border border-gray-200 disabled:bg-gray-300 disabled:text-gray-700 rounded-lg ">
             <span className="flex items-center justify-center gap-1 font-medium py-1 px-2.5 text-base false">
               <AiFillGithub size={20} />
