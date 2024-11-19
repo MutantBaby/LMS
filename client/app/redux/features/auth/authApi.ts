@@ -5,6 +5,8 @@ import {
   ILoginRes,
   IActivationReq,
   IActivationRes,
+  ISocialAuthRes,
+  ISocialAuthReq,
   IRegistrationReq,
   IRegistrationRes,
 } from "./types";
@@ -67,8 +69,37 @@ export const authApi = apiSlice.injectEndpoints({
         }
       },
     }),
+    socialAuth: builder.mutation<ISocialAuthRes, ISocialAuthReq>({
+      query: (arg) => ({
+        credentials: "include" as const,
+        url: "user/social-auth",
+        method: "POST",
+        body: arg,
+      }),
+      async onQueryStarted(
+        arg,
+        { dispatch, getState, extra, requestId, queryFulfilled, getCacheEntry }
+      ) {
+        try {
+          const result = await queryFulfilled;
+
+          dispatch(
+            userloggedIn({
+              user: result.data.user,
+              token: result.data.accessToken, // from server
+            })
+          );
+        } catch (err) {
+          console.log("Error 3 authApi: ", err);
+        }
+      },
+    }),
   }),
 });
 
-export const { useRegisterMutation, useActivationMutation, useLoginMutation } =
-  authApi;
+export const {
+  useLoginMutation,
+  useRegisterMutation,
+  useActivationMutation,
+  useSocialAuthMutation,
+} = authApi;

@@ -45,3 +45,14 @@ export interface ILoadUserRes {
 }
 
 export interface ILoadUserReq {}
+
+export interface ISocialAuthRes {
+  user: Object;
+  accessToken: string;
+}
+
+export interface ISocialAuthReq {
+  name: string;
+  email: string;
+  avatar: string;
+}

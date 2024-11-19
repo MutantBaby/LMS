@@ -1,8 +1,8 @@
 "use client";
 
-import { FC, useState } from "react";
-import Modal from "@mui/material/Modal";
+import { FC } from "react";
 import { Box } from "@mui/material";
+import Modal from "@mui/material/Modal";
 
 interface Props {
   open: boolean;

@@ -2,7 +2,9 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import toast from "react-hot-toast";
 import { useTheme } from "next-themes";
+import { useSession } from "next-auth/react";
 import { FC, useEffect, useState } from "react";
 import { HiOutlineMenuAlt3, HiOutlineUserCircle } from "react-icons/hi";
 
@@ -11,10 +13,13 @@ import Signup from "../Signup";
 import { IUser } from "@/app/types";
 import avatar from "@/assets/avatar.png";
 import Verification from "../Verification";
+import { isObjectEmpty } from "@/app/utils";
 import { useAppSelector } from "@/app/redux";
 import NavbarItems from "@/app/utils/NavbarItems";
 import CustomModel from "@/app/utils/CustomModel";
 import ThemeSwitcher from "@/app/utils/ThemeSwitcher";
+import { useSocialAuthMutation } from "@/app/redux/features/auth/authApi";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 
 const Header: FC<TProps> = ({
   open,
@@ -23,9 +28,11 @@ const Header: FC<TProps> = ({
   setRoute,
   activeItems,
 }) => {
+  const { data } = useSession();
   const { theme, setTheme } = useTheme();
   const [active, setActive] = useState(false);
   const [openSideBar, setOpenSideBar] = useState(false);
+  const [socialAuth, { isError, isSuccess, error }] = useSocialAuthMutation();
   const { user }: { user: IUser } = useAppSelector((state) => state.auth);
 
   // if (typeof window !== "undefined") {
@@ -39,9 +46,34 @@ const Header: FC<TProps> = ({
     if (e.target.id === "screen") setOpenSideBar(false);
   };
 
+  console.log("user: ", user);
+  console.log("data: ", data);
+
   useEffect(() => setActive(!active), [theme]);
 
-  console.log("user: ", user);
+  useEffect(() => {
+    if (isObjectEmpty(user) && data) {
+      try {
+        const { name, email, image } = data.user!;
+        socialAuth({ name: name!, email: email!, avatar: image! });
+      } catch (err) {
+        console.log("Error 1 Social Auth: ", err);
+      }
+    }
+  }, [user, data]);
+
+  useEffect(
+    function () {
+      if (isSuccess) toast.success("Login Successfully");
+
+      if (isError)
+        if (("data" in error) as any) {
+          const errorData = (error as FetchBaseQueryError).data as any;
+          toast.error(errorData.message);
+        } else toast.error("Some Error Occured");
+    },
+    [isSuccess, isError, error]
+  );
 
   return (
     <div className="w-full relative">
@@ -74,7 +106,13 @@ const Header: FC<TProps> = ({
                 />
               </div>
 
-              {user ? (
+              {isObjectEmpty(user) ? (
+                <HiOutlineUserCircle
+                  size={25}
+                  onClick={() => setOpen(true)}
+                  className="hidden 800px:block cursor-pointer dark:text-white text-black"
+                />
+              ) : (
                 <Link href={"/profile"}>
                   <Image
                     width={30}
@@ -84,12 +122,6 @@ const Header: FC<TProps> = ({
                     src={user?.avatar ? user.avatar : avatar}
                   />
                 </Link>
-              ) : (
-                <HiOutlineUserCircle
-                  size={25}
-                  onClick={() => setOpen(true)}
-                  className="hidden 800px:block cursor-pointer dark:text-white text-black"
-                />
               )}
             </div>
           </div>

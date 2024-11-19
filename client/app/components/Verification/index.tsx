@@ -62,11 +62,9 @@ const Verification: FC<IProps> = ({ setRoute }) => {
 
       if (isError)
         if (("data" in error) as any) {
-          if ("data" in error) {
-            const errorData = (error as FetchBaseQueryError).data as any;
-            toast.error(errorData.message);
-          } else toast.error("Some Error Occured");
-        }
+          const errorData = (error as FetchBaseQueryError).data as any;
+          toast.error(errorData.message);
+        } else toast.error("Some Error Occured");
     },
     [isSuccess, isError, error]
   );
