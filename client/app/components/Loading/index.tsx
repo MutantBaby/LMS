@@ -4,7 +4,7 @@ import "./index.css";
 import { FC } from "react";
 
 const Loading: FC = () => {
-  return <div suppressHydrationWarning className="loader"></div>;
+  return <div className="loader"></div>;
 };
 
 export default Loading;

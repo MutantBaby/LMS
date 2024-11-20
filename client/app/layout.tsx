@@ -7,9 +7,9 @@ import { Toaster } from "react-hot-toast";
 import { Josefin_Sans } from "next/font/google";
 import { SessionProvider } from "next-auth/react";
 
-import { Providers } from "./Provider";
-import { ThemeProvider } from "./utils/ThemeProvider";
-import CustomCover from "./CustomCover";
+import { ReduxProvider } from "../utils/ReduxProvider";
+import { ThemeProvider } from "../utils/ThemeProvider";
+import CustomCover from "../utils/CustomCover";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -32,7 +32,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body
         className={`${poppins.variable} ${josefin.variable} bg-white bg-no-repeat dark:bg-gradient-to-b dark:to-black duration-300`}>
-        <Providers>
+        <ReduxProvider>
           <SessionProvider>
             <ThemeProvider
               attribute="class"
@@ -42,7 +42,7 @@ export default function RootLayout({
               <Toaster position="top-center" reverseOrder={false} />
             </ThemeProvider>
           </SessionProvider>
-        </Providers>
+        </ReduxProvider>
       </body>
     </html>
   );

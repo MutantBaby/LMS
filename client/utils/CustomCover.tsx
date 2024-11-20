@@ -1,8 +1,8 @@
 "use client";
 
 import { FC } from "react";
-import { useLoadUserQuery } from "./redux/features/api/apiSlice";
-import Loading from "./components/Loading";
+import { useLoadUserQuery } from "../app/redux/features/api/apiSlice";
+import Loading from "../app/components/Loading";
 
 interface Props {
   children: React.ReactNode;

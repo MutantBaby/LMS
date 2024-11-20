@@ -14,11 +14,11 @@ import Signup from "../Signup";
 import { IUser } from "@/app/types";
 import avatar from "@/assets/avatar.png";
 import Verification from "../Verification";
-import { isObjectEmpty } from "@/app/utils";
+import { isObjectEmpty } from "@/utils";
 import { useAppSelector } from "@/app/redux";
-import NavbarItems from "@/app/utils/NavbarItems";
-import CustomModel from "@/app/utils/CustomModel";
-import ThemeSwitcher from "@/app/utils/ThemeSwitcher";
+import NavbarItems from "@/utils/NavbarItems";
+import CustomModel from "@/utils/CustomModel";
+import ThemeSwitcher from "@/utils/ThemeSwitcher";
 import { useSocialAuthMutation } from "@/app/redux/features/auth/authApi";
 
 const Header: FC<TProps> = memo(
