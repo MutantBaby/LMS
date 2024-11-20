@@ -9,6 +9,7 @@ import { SessionProvider } from "next-auth/react";
 
 import { Providers } from "./Provider";
 import { ThemeProvider } from "./utils/ThemeProvider";
+import CustomCover from "./CustomCover";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -37,7 +38,7 @@ export default function RootLayout({
               attribute="class"
               enableSystem={true}
               defaultTheme="system">
-              {children}
+              <CustomCover>{children}</CustomCover>
               <Toaster position="top-center" reverseOrder={false} />
             </ThemeProvider>
           </SessionProvider>
