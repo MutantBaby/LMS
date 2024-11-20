@@ -40,7 +40,7 @@ const userSchema: Schema<IUser> = new mongoose.Schema(
       ],
       minlength: [6, "Must be 6 Characters Long"],
     },
-    isverified: {
+    isVerified: {
       type: Boolean,
       default: false,
     },

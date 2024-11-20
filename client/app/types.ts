@@ -4,7 +4,7 @@ export interface IUser {
   email?: string;
   avatar?: string;
   password?: string;
-  isverified?: boolean;
+  isVerified?: boolean;
   isSocialLogin?: boolean;
   signAccessToken?: () => string;
   signRefreshToken?: () => string;

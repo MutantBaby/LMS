@@ -6,6 +6,7 @@ import toast from "react-hot-toast";
 import { useTheme } from "next-themes";
 import { useSession } from "next-auth/react";
 import { FC, useEffect, useState } from "react";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import { HiOutlineMenuAlt3, HiOutlineUserCircle } from "react-icons/hi";
 
 import Login from "../Login";
@@ -19,7 +20,6 @@ import NavbarItems from "@/app/utils/NavbarItems";
 import CustomModel from "@/app/utils/CustomModel";
 import ThemeSwitcher from "@/app/utils/ThemeSwitcher";
 import { useSocialAuthMutation } from "@/app/redux/features/auth/authApi";
-import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 
 const Header: FC<TProps> = ({
   open,
@@ -57,7 +57,7 @@ const Header: FC<TProps> = ({
         const { name, email, image } = data.user!;
         socialAuth({ name: name!, email: email!, avatar: image! });
       } catch (err) {
-        console.log("Error 1 Social Auth: ", err);
+        console.log("Error 1 Header: ", err);
       }
     }
   }, [user, data]);

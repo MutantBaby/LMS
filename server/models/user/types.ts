@@ -5,7 +5,7 @@ export interface IUser extends Document {
   role: string;
   email: string;
   password: string;
-  isverified: boolean;
+  isVerified: boolean;
   isSocialLogin: boolean;
   signAccessToken: () => string;
   signRefreshToken: () => string;

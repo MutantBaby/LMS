@@ -9,7 +9,7 @@ import {
   ISocialAuthReq,
   IRegistrationReq,
   IRegistrationRes,
-} from "./types";
+} from "../../types";
 
 export const authApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({

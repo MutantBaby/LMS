@@ -5,7 +5,7 @@ import {
   ILoadUserRes,
   IRefreshTokenReq,
   IRefreshTokenRes,
-} from "../auth/types";
+} from "../../types";
 
 export const apiSlice = createApi({
   reducerPath: "api",
