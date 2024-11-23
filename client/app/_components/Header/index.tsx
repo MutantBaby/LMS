@@ -15,11 +15,11 @@ import { IUser } from "@/app/types";
 import avatar from "@/assets/avatar.png";
 import Verification from "../Verification";
 import { isObjectEmpty } from "@/utils";
-import { useAppSelector } from "@/app/redux";
+import { useAppSelector } from "@/app/_redux";
 import NavbarItems from "@/utils/NavbarItems";
 import CustomModel from "@/utils/CustomModel";
 import ThemeSwitcher from "@/utils/ThemeSwitcher";
-import { useSocialAuthMutation } from "@/app/redux/features/auth/authApi";
+import { useSocialAuthMutation } from "@/app/_redux/features/auth/authApi";
 
 const Header: FC<TProps> = memo(
   ({ open, route, setOpen, setRoute, activeItems }) => {

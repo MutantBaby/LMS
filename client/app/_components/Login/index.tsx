@@ -12,7 +12,7 @@ import {
 } from "react-icons/ai";
 
 import { IProps } from "./types";
-import { useLoginMutation } from "@/app/redux/features/auth/authApi";
+import { useLoginMutation } from "@/app/_redux/features/auth/authApi";
 
 const schema = Yup.object().shape({
   email: Yup.string().email("Invalid Email").required(),

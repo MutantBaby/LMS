@@ -11,7 +11,7 @@ import {
 } from "react-icons/ai";
 
 import { IProps } from "./types";
-import { useRegisterMutation } from "@/app/redux/features/auth/authApi";
+import { useRegisterMutation } from "@/app/_redux/features/auth/authApi";
 
 const schema = Yup.object().shape({
   name: Yup.string().required("Name is required"),

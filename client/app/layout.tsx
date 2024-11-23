@@ -9,7 +9,7 @@ import { SessionProvider } from "next-auth/react";
 
 import { ReduxProvider } from "../utils/ReduxProvider";
 import { ThemeProvider } from "../utils/ThemeProvider";
-import CustomCover from "../utils/CustomCover";
+// import CustomCover from "../utils/CustomCover";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -38,7 +38,9 @@ export default function RootLayout({
               attribute="class"
               enableSystem={true}
               defaultTheme="system">
-              <CustomCover>{children}</CustomCover>
+              {/* <CustomCover> */}
+              {children}
+              {/* </CustomCover> */}
               <Toaster position="top-center" reverseOrder={false} />
             </ThemeProvider>
           </SessionProvider>

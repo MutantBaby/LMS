@@ -1,8 +1,8 @@
 "use client";
 
 import { FC } from "react";
-import { useLoadUserQuery } from "../app/redux/features/api/apiSlice";
-import Loading from "../app/components/Loading";
+import { useLoadUserQuery } from "../app/_redux/features/api/apiSlice";
+import Loading from "../app/_components/Loading";
 
 interface Props {
   children: React.ReactNode;
@@ -10,6 +10,7 @@ interface Props {
 
 const CustomCover: FC<Props> = ({ children }) => {
   const { isLoading } = useLoadUserQuery({});
+
   return (
     <div suppressHydrationWarning>
       {isLoading ? <Loading /> : <>{children}</>}

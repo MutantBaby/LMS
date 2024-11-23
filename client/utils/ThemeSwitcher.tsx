@@ -1,7 +1,6 @@
 "use client";
 
-import { useTheme } from "next-themes";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { BiSun, BiMoon } from "react-icons/bi";
 
 interface Props {

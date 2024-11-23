@@ -1,9 +1,9 @@
 "use client";
 
 import { FC, useState } from "react";
-import Hero from "./components/Hero";
+import Hero from "./_components/Hero";
 import Heading from "../utils/Heading";
-import Header from "./components/Header";
+import Header from "./_components/Header";
 
 interface Props {}
 

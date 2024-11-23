@@ -3,9 +3,9 @@ import { VscWorkspaceTrusted } from "react-icons/vsc";
 import { FC, useEffect, useRef, useState } from "react";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 
-import { useAppSelector } from "@/app/redux";
+import { useAppSelector } from "@/app/_redux";
 import { IProps, IVerifyNumber } from "./types";
-import { useActivationMutation } from "@/app/redux/features/auth/authApi";
+import { useActivationMutation } from "@/app/_redux/features/auth/authApi";
 
 const Verification: FC<IProps> = ({ setRoute }) => {
   const [activation, { isError, isSuccess, error }] = useActivationMutation();
