@@ -95,10 +95,6 @@ dist/
 .idea/
 
 # dotenv environment variable files
-.env
-.env/**.env
-.env.*
-!env.example
 
 # MacOS files
 .DS_Store

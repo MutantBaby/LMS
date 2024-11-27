@@ -2,6 +2,7 @@
 
 import "./globals.css";
 
+import dynamic from "next/dynamic";
 import { Poppins } from "next/font/google";
 import { Toaster } from "react-hot-toast";
 import { Josefin_Sans } from "next/font/google";
@@ -9,7 +10,10 @@ import { SessionProvider } from "next-auth/react";
 
 import { ReduxProvider } from "../utils/ReduxProvider";
 import { ThemeProvider } from "../utils/ThemeProvider";
-// import CustomCover from "../utils/CustomCover";
+
+const CustomCover = dynamic(() => import("../utils/CustomCover"), {
+  ssr: false,
+});
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -38,9 +42,7 @@ export default function RootLayout({
               attribute="class"
               enableSystem={true}
               defaultTheme="system">
-              {/* <CustomCover> */}
-              {children}
-              {/* </CustomCover> */}
+              <CustomCover>{children}</CustomCover>
               <Toaster position="top-center" reverseOrder={false} />
             </ThemeProvider>
           </SessionProvider>
