@@ -49,9 +49,7 @@ const Header: FC<TProps> = memo(
           try {
             const { name, email, image } = data.user!;
 
-            console.log("IM IN 0", name, email, image);
             await socialAuth({ name: name, email: email, avatar: image });
-            console.log("IM IN 1", name, email, image);
           } catch (err) {
             console.log("Error 1 Header: ", err);
           }
@@ -60,21 +58,21 @@ const Header: FC<TProps> = memo(
       socialLogin(user, data);
     }, [user, data]);
 
-    // useEffect(
-    //   function () {
-    //     if (isSuccess) toast.success("Login Successfully");
+    useEffect(
+      function () {
+        if (isSuccess) toast.success("Login Successfully");
 
-    //     if (isError)
-    //       if (("data" in error) as any) {
-    //         const errorData = (error as FetchBaseQueryError).data as any;
-    //         toast.error(errorData.message);
-    //       } else toast.error("Some Error Occured");
-    //   },
-    //   [isSuccess, isError, error]
-    // );
+        if (isError)
+          if (("data" in error) as any) {
+            const errorData = (error as FetchBaseQueryError).data as any;
+            toast.error(errorData.message);
+          } else toast.error("Some Error Occured");
+      },
+      [isSuccess, isError, error]
+    );
 
-    console.log("user: ", user);
-    console.log("data: ", data);
+    // console.log("user: ", user);
+    // console.log("data: ", data);
 
     return (
       <div className="w-full relative">

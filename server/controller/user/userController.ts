@@ -211,10 +211,7 @@ export const socialAuth_post = asyncErrorMiddleware(async function (
   res: Response,
   next: NextFunction
 ) {
-  console.log("IM IN 4");
   const { name, email, avatar } = req.body as ISocialAuth;
-
-  console.log("IM IN 5", name, email, avatar);
 
   try {
     const user = (await userModel.findOne({ email: email })) as IUser;

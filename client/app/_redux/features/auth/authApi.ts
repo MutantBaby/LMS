@@ -81,10 +81,7 @@ export const authApi = apiSlice.injectEndpoints({
         { dispatch, getState, extra, requestId, queryFulfilled, getCacheEntry }
       ) {
         try {
-          console.log("IM IN 2");
           const result = await queryFulfilled;
-
-          console.log("IM IN 3");
 
           dispatch(
             userloggedIn({
