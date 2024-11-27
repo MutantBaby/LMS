@@ -14,7 +14,7 @@ import Signup from "../Signup";
 import { IUser } from "@/app/types";
 import avatar from "@/assets/avatar.png";
 import Verification from "../Verification";
-import { isObjectEmpty } from "@/utils";
+import { isUserExist } from "@/utils";
 import { useAppSelector } from "@/app/_redux";
 import NavbarItems from "@/utils/NavbarItems";
 import CustomModel from "@/utils/CustomModel";
@@ -45,7 +45,7 @@ const Header: FC<TProps> = memo(
 
     useEffect(() => {
       async function socialLogin(user: any, data: any) {
-        if (isObjectEmpty(user) && data)
+        if (!isUserExist(user) && data)
           try {
             const { name, email, image } = data.user!;
 
@@ -105,13 +105,7 @@ const Header: FC<TProps> = memo(
                   />
                 </div>
 
-                {isObjectEmpty(user) ? (
-                  <HiOutlineUserCircle
-                    size={25}
-                    onClick={() => setOpen(true)}
-                    className="hidden 800px:block cursor-pointer dark:text-white text-black"
-                  />
-                ) : (
+                {isUserExist(user) ? (
                   <Link href={"/profile"}>
                     <Image
                       width={30}
@@ -121,6 +115,12 @@ const Header: FC<TProps> = memo(
                       src={user?.avatar ? user.avatar : avatar}
                     />
                   </Link>
+                ) : (
+                  <HiOutlineUserCircle
+                    size={25}
+                    onClick={() => setOpen(true)}
+                    className="hidden 800px:block cursor-pointer dark:text-white text-black"
+                  />
                 )}
               </div>
             </div>
