@@ -9,7 +9,7 @@ import {
 
 export const apiSlice = createApi({
   reducerPath: "api",
-  baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXTAUTH_URL }),
+  baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_PUBLIC_API_URL }),
   endpoints: (builder) => ({
     refreshToken: builder.query<IRefreshTokenRes, IRefreshTokenReq>({
       query: (arg) => ({
