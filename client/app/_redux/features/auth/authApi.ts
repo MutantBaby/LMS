@@ -1,8 +1,10 @@
 import { apiSlice } from "../api/apiSlice";
-import { userloggedIn, userRegisteration } from "./authSlice";
+import { userloggedIn, userloggedOut, userRegisteration } from "./authSlice";
 import {
   ILoginReq,
   ILoginRes,
+  ILogoutRes,
+  ILogoutReq,
   IActivationReq,
   IActivationRes,
   ISocialAuthRes,
@@ -94,10 +96,33 @@ export const authApi = apiSlice.injectEndpoints({
         }
       },
     }),
+    logout: builder.query<ILogoutRes, ILogoutReq>({
+      query: (arg) => ({
+        method: "GET",
+        url: "user/logout",
+        credentials: "include" as const,
+      }),
+      async onQueryStarted(
+        arg,
+        { dispatch, getState, extra, requestId, queryFulfilled, getCacheEntry }
+      ) {
+        try {
+          dispatch(
+            userloggedOut({
+              token: "",
+              user: {},
+            })
+          );
+        } catch (err) {
+          console.log("Error 4 authApi: ", err);
+        }
+      },
+    }),
   }),
 });
 
 export const {
+  useLogoutQuery,
   useLoginMutation,
   useRegisterMutation,
   useActivationMutation,

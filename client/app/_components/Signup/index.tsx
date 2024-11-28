@@ -54,7 +54,7 @@ const Signup: FC<IProps> = ({ setRoute }) => {
         const errorData = (error as FetchBaseQueryError).data as any;
         toast.error(errorData.message);
       } else toast.error("Some Error Occured");
-  }, [isSuccess, isError, error]);
+  }, [isSuccess, isError]);
 
   return (
     <div className="flex h-full flex-col justify-center gap-4 p-6">

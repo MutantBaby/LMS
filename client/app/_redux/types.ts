@@ -46,6 +46,12 @@ export interface ILoadUserRes {
 
 export interface ILoadUserReq {}
 
+export interface ILogoutRes {
+  message: string;
+}
+
+export interface ILogoutReq {}
+
 export interface ISocialAuthRes {
   user: Object;
   accessToken: string;

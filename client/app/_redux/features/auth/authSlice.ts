@@ -20,8 +20,8 @@ const authSlice = createSlice({
       state.token = action.payload.token;
     },
     userloggedOut: (state, action: PayloadAction<IInitialState>) => {
-      state.user = {};
-      state.token = "";
+      state.user = action.payload.user;
+      state.token = action.payload.token;
     },
   },
 });

@@ -11,7 +11,7 @@ import { HiOutlineMenuAlt3, HiOutlineUserCircle } from "react-icons/hi";
 
 import Login from "../Login";
 import Signup from "../Signup";
-import { IUser } from "@/app/types";
+import { IUser } from "@/types";
 import avatar from "@/assets/avatar.png";
 import Verification from "../Verification";
 import { isUserExist } from "@/utils";
@@ -50,29 +50,26 @@ const Header: FC<TProps> = memo(
             const { name, email, image } = data.user!;
 
             await socialAuth({ name: name, email: email, avatar: image });
+
+            if (isSuccess) toast.success("Login Successfully");
+
+            if (isError)
+              if (("data" in error) as any) {
+                const errorData = (error as FetchBaseQueryError).data as any;
+                toast.error(errorData.message);
+              } else toast.error("Some Error Occured");
           } catch (err) {
             console.log("Error 1 Header: ", err);
           }
       }
 
       socialLogin(user, data);
-    }, [user, data]);
 
-    useEffect(
-      function () {
-        if (isSuccess) toast.success("Login Successfully");
+      // if (data === null) signOut();
+    }, [user, data, isSuccess, isError]);
 
-        if (isError)
-          if (("data" in error) as any) {
-            const errorData = (error as FetchBaseQueryError).data as any;
-            toast.error(errorData.message);
-          } else toast.error("Some Error Occured");
-      },
-      [isSuccess, isError, error]
-    );
-
-    // console.log("user: ", user);
-    // console.log("data: ", data);
+    console.log("user: ", user);
+    console.log("data: ", data);
 
     return (
       <div className="w-full relative">
