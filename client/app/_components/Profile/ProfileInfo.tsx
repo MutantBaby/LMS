@@ -2,7 +2,10 @@
 
 import Image from "next/image";
 import { FC, useEffect, useState } from "react";
-import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
+import {
+  FetchBaseQueryError,
+  QueryActionCreatorResult,
+} from "@reduxjs/toolkit/query";
 
 import { IUser } from "@/types";
 import { styles } from "@/styles";
@@ -21,40 +24,36 @@ const ProfileInfo: FC<Props> = ({ user, avatar }) => {
   const [name, setName] = useState<string>(user.name!);
   const [updateAvatar, { isSuccess, isError, error }] =
     useUpdateAvatarMutation();
-  const [loadUser, setLoadUser] = useState(false);
-  const {} = useLoadUserQuery({}, { skip: loadUser ? false : true });
+  const { refetch } = useLoadUserQuery({}, { skip: !isSuccess });
 
   const imageHandler = (e: any) => {
-    const reader = new FileReader();
+    const file = e.target.files?.[0];
+    if (!file) return;
 
+    const reader = new FileReader();
     reader.onload = () => {
-      if (reader.readyState === 2)
+      if (reader.readyState === 2) {
         updateAvatar({ avatar: reader.result as string });
+      }
     };
 
-    reader.readAsDataURL(e.target.files[0]);
+    reader.readAsDataURL(file);
   };
 
   const handleSubmit = (e: any) => {};
 
   useEffect(() => {
-    async function loadUserHandler() {
-      try {
-        if (isSuccess) {
-          setLoadUser(true);
-          toast.success("Avatar Updated Successfully");
-        }
-      } catch (err) {
-        if (isError)
-          if (("data" in error) as any) {
-            const errorData = (error as FetchBaseQueryError).data as any;
-            toast.error(errorData.message);
-          } else toast.error("Some Error Occured");
-      }
+    if (isSuccess) {
+      toast.success("Avatar updated successfully!");
+      refetch();
     }
 
-    loadUserHandler();
-  }, [isSuccess, isError]);
+    if (isError)
+      if (("data" in error) as any) {
+        const errorData = (error as FetchBaseQueryError).data as any;
+        toast.error(errorData.message);
+      } else toast.error("Some Error Occured");
+  }, [isSuccess, isError, error, refetch]);
 
   return (
     <>
