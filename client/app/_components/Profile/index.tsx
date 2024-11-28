@@ -5,6 +5,7 @@ import { FC, useState } from "react";
 import SideBarProfile from "./SideBarProfile";
 import { useLogoutQuery } from "@/app/_redux/features/auth/authApi";
 import { signOut } from "next-auth/react";
+import ProfileInfo from "./ProfileInfo";
 
 interface Props {
   user: IUser;
@@ -47,6 +48,12 @@ const Profile: FC<Props> = ({ user }) => {
           logoutHandler={logoutHandler}
         />
       </div>
+
+      {active === 1 && (
+        <div className="w-full h-full bg-transparent mt-[80px]">
+          <ProfileInfo user={user} avatar={avatar} />
+        </div>
+      )}
     </div>
   );
 };
