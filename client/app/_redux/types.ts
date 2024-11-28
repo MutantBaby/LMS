@@ -62,3 +62,11 @@ export interface ISocialAuthReq {
   email: string;
   avatar: string;
 }
+
+export interface IUpdateAvatarReq {
+  avatar: string;
+}
+
+export interface IUpdateAvatarRes {
+  user: Object;
+}

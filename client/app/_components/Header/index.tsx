@@ -108,8 +108,14 @@ const Header: FC<TProps> = memo(
                       width={30}
                       height={30}
                       alt="avatar"
-                      style={{ borderRadius: "100%" }}
-                      src={user?.avatar ? user.avatar : avatar}
+                      style={{
+                        borderRadius: "100%",
+                        maxWidth: "30px",
+                        height: "30px",
+                      }}
+                      src={
+                        user?.avatar ? (user!.avatar?.url as string) : avatar
+                      }
                     />
                   </Link>
                 ) : (

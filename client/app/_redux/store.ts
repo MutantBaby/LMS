@@ -22,6 +22,8 @@ const initializedApp = async function () {
   await store.dispatch(
     apiSlice.endpoints.loadUser.initiate({}, { forceRefetch: true })
   );
+
+  console.log("APP Fetch - Token & User");
 };
 
 initializedApp();

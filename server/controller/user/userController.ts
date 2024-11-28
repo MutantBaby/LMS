@@ -326,7 +326,7 @@ export const updateUserProfile_patch = asyncErrorMiddleware(async function (
     if (user.avatar.publicId)
       await cloudinary.uploader.destroy(user.avatar.publicId);
 
-    const result = await cloudinary.uploader.upload(avatar.url, {
+    const result = await cloudinary.uploader.upload(avatar, {
       folder: "avatars",
       width: 150,
     });

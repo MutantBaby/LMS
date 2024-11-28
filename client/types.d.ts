@@ -2,7 +2,10 @@ export interface IUser {
   name?: string;
   role?: string;
   email?: string;
-  avatar?: string;
+  avatar?: {
+    url?: string;
+    public_id?: string;
+  };
   password?: string;
   isVerified?: boolean;
   isSocialLogin?: boolean;
