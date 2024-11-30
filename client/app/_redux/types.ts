@@ -79,3 +79,12 @@ export interface IEditProfileReq {
   name: string;
   email: string;
 }
+
+export interface IChangePasswordRes {
+  user: Object;
+}
+
+export interface IChangePasswordReq {
+  oldPassword: string;
+  newPassword: string;
+}

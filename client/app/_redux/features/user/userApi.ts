@@ -4,6 +4,8 @@ import {
   IEditProfileRes,
   IUpdateAvatarReq,
   IUpdateAvatarRes,
+  IChangePasswordReq,
+  IChangePasswordRes,
 } from "../../types";
 
 export const userApi = apiSlice.injectEndpoints({
@@ -24,7 +26,19 @@ export const userApi = apiSlice.injectEndpoints({
         credentials: "include" as const,
       }),
     }),
+    changePassword: builder.mutation<IChangePasswordRes, IChangePasswordReq>({
+      query: (arg) => ({
+        body: arg,
+        method: "PATCH",
+        url: "user/update-password",
+        credentials: "include" as const,
+      }),
+    }),
   }),
 });
 
-export const { useUpdateAvatarMutation, useEditProfileMutation } = userApi;
+export const {
+  useEditProfileMutation,
+  useUpdateAvatarMutation,
+  useChangePasswordMutation,
+} = userApi;

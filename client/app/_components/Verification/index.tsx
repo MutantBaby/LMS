@@ -66,7 +66,7 @@ const Verification: FC<IProps> = ({ setRoute }) => {
           toast.error(errorData.message);
         } else toast.error("Some Error Occured");
     },
-    [isSuccess, isError, error]
+    [isSuccess]
   );
 
   return (

@@ -74,14 +74,7 @@ const ProfileInfo: FC<Props> = ({ user, avatar }) => {
           ((errorForProfile as FetchBaseQueryError).data as any);
         toast.error(errorData.message);
       } else toast.error("Some Error Occured");
-  }, [
-    isSuccessForAvatar,
-    isErrorForAvatar,
-    errorForAvatar,
-    isSuccessForProfile,
-    isErrorForProfile,
-    errorForProfile,
-  ]);
+  }, [isSuccessForAvatar, isSuccessForProfile]);
 
   return (
     <>

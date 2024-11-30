@@ -66,7 +66,7 @@ const Header: FC<TProps> = memo(
       socialLogin(user, data);
 
       // if (data === null) signOut();
-    }, [user, data, isSuccess, isError]);
+    }, [user, data, isSuccess]);
 
     console.log("user: ", user);
     console.log("data: ", data);
