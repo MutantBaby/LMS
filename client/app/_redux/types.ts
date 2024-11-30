@@ -70,3 +70,12 @@ export interface IUpdateAvatarReq {
 export interface IUpdateAvatarRes {
   user: Object;
 }
+
+export interface IEditProfileRes {
+  user: Object;
+}
+
+export interface IEditProfileReq {
+  name: string;
+  email: string;
+}

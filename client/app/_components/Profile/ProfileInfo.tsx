@@ -2,18 +2,18 @@
 
 import Image from "next/image";
 import { FC, useEffect, useState } from "react";
-import {
-  FetchBaseQueryError,
-  QueryActionCreatorResult,
-} from "@reduxjs/toolkit/query";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 
 import { IUser } from "@/types";
 import { styles } from "@/styles";
 import toast from "react-hot-toast";
 import avatarDefault from "@/assets/avatar.png";
 import { AiOutlineCamera } from "react-icons/ai";
-import { useUpdateAvatarMutation } from "@/app/_redux/features/user/userApi";
 import { useLoadUserQuery } from "@/app/_redux/features/api/apiSlice";
+import {
+  useUpdateAvatarMutation,
+  useEditProfileMutation,
+} from "@/app/_redux/features/user/userApi";
 
 interface Props {
   user: IUser;
@@ -22,38 +22,66 @@ interface Props {
 
 const ProfileInfo: FC<Props> = ({ user, avatar }) => {
   const [name, setName] = useState<string>(user.name!);
-  const [updateAvatar, { isSuccess, isError, error }] =
-    useUpdateAvatarMutation();
-  const { refetch } = useLoadUserQuery({}, { skip: !isSuccess });
+  const { refetch } = useLoadUserQuery({});
+  const [
+    updateAvatar,
+    {
+      isSuccess: isSuccessForAvatar,
+      isError: isErrorForAvatar,
+      error: errorForAvatar,
+    },
+  ] = useUpdateAvatarMutation();
+  const [
+    editProfile,
+    {
+      isSuccess: isSuccessForProfile,
+      isError: isErrorForProfile,
+      error: errorForProfile,
+    },
+  ] = useEditProfileMutation();
 
   const imageHandler = (e: any) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
     const reader = new FileReader();
-    reader.onload = () => {
-      if (reader.readyState === 2) {
-        updateAvatar({ avatar: reader.result as string });
-      }
+    reader.onload = async () => {
+      if (reader.readyState === 2)
+        await updateAvatar({ avatar: reader.result as string });
     };
 
     reader.readAsDataURL(file);
   };
 
-  const handleSubmit = (e: any) => {};
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+
+    if (name === "") return toast.error("Name is required!");
+
+    await editProfile({ name, email: user.email! });
+  };
 
   useEffect(() => {
-    if (isSuccess) {
-      toast.success("Avatar updated successfully!");
+    if (isSuccessForAvatar || isSuccessForProfile) {
+      toast.success("Profile updated successfully!");
       refetch();
     }
 
-    if (isError)
-      if (("data" in error) as any) {
-        const errorData = (error as FetchBaseQueryError).data as any;
+    if (isErrorForAvatar || isErrorForProfile)
+      if (("data" in errorForAvatar! || "data" in errorForProfile!) as any) {
+        const errorData =
+          ((errorForAvatar as FetchBaseQueryError).data as any) ||
+          ((errorForProfile as FetchBaseQueryError).data as any);
         toast.error(errorData.message);
       } else toast.error("Some Error Occured");
-  }, [isSuccess, isError, error, refetch]);
+  }, [
+    isSuccessForAvatar,
+    isErrorForAvatar,
+    errorForAvatar,
+    isSuccessForProfile,
+    isErrorForProfile,
+    errorForProfile,
+  ]);
 
   return (
     <>

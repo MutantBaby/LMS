@@ -112,6 +112,8 @@ const Header: FC<TProps> = memo(
                         borderRadius: "100%",
                         maxWidth: "30px",
                         height: "30px",
+                        border:
+                          activeItems === 5 ? "2px solid #ffc106" : "none",
                       }}
                       src={
                         user?.avatar ? (user!.avatar?.url as string) : avatar

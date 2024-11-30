@@ -1,5 +1,10 @@
 import { apiSlice } from "../api/apiSlice";
-import { IUpdateAvatarReq, IUpdateAvatarRes } from "../../types";
+import {
+  IEditProfileReq,
+  IEditProfileRes,
+  IUpdateAvatarReq,
+  IUpdateAvatarRes,
+} from "../../types";
 
 export const userApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -11,7 +16,15 @@ export const userApi = apiSlice.injectEndpoints({
         credentials: "include" as const,
       }),
     }),
+    editProfile: builder.mutation<IEditProfileRes, IEditProfileReq>({
+      query: (arg) => ({
+        body: arg,
+        method: "PATCH",
+        url: "user/update-info",
+        credentials: "include" as const,
+      }),
+    }),
   }),
 });
 
-export const { useUpdateAvatarMutation } = userApi;
+export const { useUpdateAvatarMutation, useEditProfileMutation } = userApi;

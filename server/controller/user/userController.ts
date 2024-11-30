@@ -252,25 +252,27 @@ export const updateUserInfo_patch = asyncErrorMiddleware(async function (
   const { name, email } = req.body as IUpdateUserInfo;
 
   try {
-    const sessionUser = await userModel.findById(userId);
+    const user = await userModel.findById(userId);
 
-    if (!sessionUser) return next(errorHandler(404, "No User Found"));
+    if (!user) return next(errorHandler(404, "No User Found"));
 
     if (email) {
-      if (sessionUser.email !== email) {
+      if (user.email !== email) {
         const newUser = await userModel.findOne({ email });
 
         if (newUser) return next(errorHandler(400, "User Already Exist"));
-        sessionUser.email = email;
+        user.email = email;
       }
     }
 
-    if (name) sessionUser.name = name;
+    if (name) user.name = name;
 
-    await sessionUser?.save();
-    await redis.set(userId, JSON.stringify(sessionUser));
+    await user?.save();
+    await redis.set(userId, JSON.stringify(user));
 
-    res.status(200).json({ user: sessionUser, success: true });
+    console.log("User Updated: ", user);
+
+    res.status(200).json({ user, success: true });
   } catch (error: any) {
     return next(errorHandler(400, error.message));
   }

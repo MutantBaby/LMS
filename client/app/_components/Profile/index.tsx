@@ -54,6 +54,12 @@ const Profile: FC<Props> = ({ user }) => {
           <ProfileInfo user={user} avatar={avatar} />
         </div>
       )}
+
+      {active === 2 && (
+        <div className="w-full h-full bg-transparent mt-[80px]">
+          <ProfileInfo user={user} avatar={avatar} />
+        </div>
+      )}
     </div>
   );
 };
