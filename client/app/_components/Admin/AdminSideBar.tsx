@@ -308,6 +308,24 @@ const AdminSideBar: FC<Props> = () => {
               className="!text-[18px] text-black dark:text-white capitalize !font-[400]">
               {!isCollapsed && "Extras"}
             </Typography>
+
+            <Item
+              to="/admin/settings"
+              title="Settings"
+              selected={selected}
+              icon={<Settings />}
+              setSelected={setSelected}
+            />
+
+            <div onClick={logoutHandle}>
+              <Item
+                to="/"
+                title="Logout"
+                selected={selected}
+                icon={<ExitToApp />}
+                setSelected={setSelected}
+              />
+            </div>
           </Box>
         </Menu>
       </ProSidebar>
