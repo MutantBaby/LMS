@@ -1,12 +1,13 @@
 "use client";
 
-import { IUser } from "@/types";
 import { FC, useState } from "react";
-import SideBarProfile from "./SideBarProfile";
-import { useLogoutQuery } from "@/app/_redux/features/auth/authApi";
 import { signOut } from "next-auth/react";
+
+import { IUser } from "@/types";
 import ProfileInfo from "./ProfileInfo";
 import ChangePassword from "./ChangePassword";
+import SideBarProfile from "./SideBarProfile";
+import { useLogoutQuery } from "@/app/_redux/features/auth/authApi";
 
 interface Props {
   user: IUser;
