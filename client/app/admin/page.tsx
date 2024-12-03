@@ -5,6 +5,7 @@ import { FC } from "react";
 import Heading from "@/utils/Heading";
 import AdminSideBar from "../_components/Admin/AdminSideBar";
 import AdminProtectedHook from "@/hooks/useAdminProtectedHook";
+import DashboardHero from "../_components/Admin/DashboardHero";
 
 interface Props {}
 
@@ -22,7 +23,9 @@ const Page: FC<Props> = () => {
           <AdminSideBar />
         </div>
 
-        <div className="w-[85]"></div>
+        <div className="w-[85]">
+          <DashboardHero />
+        </div>
       </div>
     </AdminProtectedHook>
   );

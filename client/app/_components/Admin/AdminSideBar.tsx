@@ -331,8 +331,6 @@ const AdminSideBar: FC<Props> = () => {
       </ProSidebar>
     </Box>
   );
-
-  return <div>Admin Sidebar</div>;
 };
 
 export default AdminSideBar;
