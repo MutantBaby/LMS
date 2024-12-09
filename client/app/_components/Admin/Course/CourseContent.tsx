@@ -18,7 +18,7 @@ type Props = {
 const CourseContent: FC<Props> = ({
   active,
   setActive,
-  handleSubmit,
+  handleSubmit: handleCourseSubmit,
   courseContentData,
   setCourseContentData,
 }) => {
@@ -26,6 +26,10 @@ const CourseContent: FC<Props> = ({
   const [isCollapsed, setIsCollapsed] = useState(
     Array(courseContentData.length).fill(false)
   );
+
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
+  };
 
   const handleCollapseToggle = (index: number) => {
     const updatedCollapsed = [...isCollapsed];
@@ -74,6 +78,48 @@ const CourseContent: FC<Props> = ({
         },
       ]);
     }
+  };
+
+  const addNewSection = () => {
+    if (
+      courseContentData[courseContentData.length - 1].title === "" ||
+      courseContentData[courseContentData.length - 1].videoUrl === "" ||
+      courseContentData[courseContentData.length - 1].description === "" ||
+      courseContentData[courseContentData.length - 1].links[0].url === "" ||
+      courseContentData[courseContentData.length - 1].links[0].title === ""
+    )
+      return toast.error("Please Fill All The Fields");
+    else {
+      setActiveSection(activeSection + 1);
+
+      setCourseContentData([
+        ...courseContentData,
+        {
+          title: "",
+          videoUrl: "",
+          description: "",
+          videoSection: `Untitled Section ${activeSection}`,
+          links: [{ title: "", url: "" }],
+        },
+      ]);
+    }
+  };
+
+  const prevButton = () => {
+    setActive(active - 1);
+  };
+
+  const handleOptions = () => {
+    if (
+      courseContentData[courseContentData.length - 1].title !== "" &&
+      courseContentData[courseContentData.length - 1].videoUrl !== "" &&
+      courseContentData[courseContentData.length - 1].description !== "" &&
+      courseContentData[courseContentData.length - 1].links[0].url !== "" &&
+      courseContentData[courseContentData.length - 1].links[0].title !== ""
+    ) {
+      setActive(active + 1);
+      handleCourseSubmit();
+    } else toast.error("Please Fill All The Fields");
   };
 
   return (
@@ -284,7 +330,29 @@ const CourseContent: FC<Props> = ({
             </div>
           );
         })}
+
+        <br />
+        <div
+          className="flex items-center text-[20px] dark:text-white text-black cursor-pointer"
+          onClick={() => addNewSection()}>
+          <AiOutlinePlusCircle className="mr-2" />
+          Add new content
+        </div>
       </form>
+
+      <br />
+      <div className="w-full flex items-center justify-between">
+        <div
+          className="w-full 800px:w-[180px] cursor-pointer h-[40px] bg-[#37a39a] text-center text-[#fff] rounded mt-8 "
+          onClick={() => prevButton()}>
+          Prev
+        </div>
+        <div
+          className="w-full 800px:w-[180px] cursor-pointer h-[40px] bg-[#37a39a] text-center text-[#fff] rounded mt-8 "
+          onClick={() => handleOptions()}>
+          Next
+        </div>
+      </div>
     </div>
   );
 };
