@@ -1,6 +1,8 @@
+"use strict";
+
 import { styles } from "@/styles";
-import React, { FC, useState } from "react";
 import toast from "react-hot-toast";
+import React, { FC, useState } from "react";
 
 type Props = {
   active: number;
@@ -36,6 +38,7 @@ const CourseInformation: FC<Props> = ({
       if (reader.readyState === 2)
         setCourseInfo({ ...courseInfo, thumbnail: reader.result });
     };
+
     reader.readAsDataURL(file);
   };
 
@@ -147,7 +150,7 @@ const CourseInformation: FC<Props> = ({
           </label>
           <input
             id="tags"
-            type="email"
+            type="string"
             name=""
             required
             value={courseInfo.tags}
@@ -205,11 +208,11 @@ const CourseInformation: FC<Props> = ({
           />
 
           <label
-            htmlFor=""
+            htmlFor="file"
             onDrop={handleDrop}
             onDragOver={handleDragOver}
             onDragLeave={handleDragLeave}
-            className={`w-full min-h-[10vh] dark:border-white border-[#00000026] p-3 border flex items-center justify-center ${
+            className={`cursor-pointer w-full min-h-[10vh] dark:border-white border-[#00000026] p-3 border flex items-center justify-center ${
               dragging ? "bg-blue-500" : "bg-transparent"
             }`}>
             {courseInfo.thumbnail ? (
@@ -225,6 +228,18 @@ const CourseInformation: FC<Props> = ({
             )}
           </label>
         </div>
+
+        <br />
+        <div className="w-full flex items-center justify-end">
+          <input
+            type="submit"
+            value={"Next"}
+            className="w-full 800px:w-[180px] h-[40px] bg-[#37a39a] text-center text-[#fff] rounded mt-8 cursor-pointer"
+          />
+        </div>
+
+        <br />
+        <br />
       </form>
     </div>
   );

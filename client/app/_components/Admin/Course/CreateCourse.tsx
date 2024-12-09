@@ -1,13 +1,15 @@
 "use client";
 
 import React, { FC, useState } from "react";
-import CourseInformation from "./CourseInformation";
+
 import CourseOptions from "./CourseOptions";
+import CourseInformation from "./CourseInformation";
+import CourseData from "./CourseData";
 
 type Props = {};
 
 const CreateCourse: FC<Props> = () => {
-  const [active, setActive] = useState(0);
+  const [active, setActive] = useState(1);
   const [courseData, setCourseData] = useState({});
   const [benefits, setBenefits] = useState([{ title: "" }]);
   const [preRequisites, setPreRequisites] = useState([{ title: "" }]);
@@ -41,6 +43,17 @@ const CreateCourse: FC<Props> = () => {
             setActive={setActive}
             courseInfo={courseInfo}
             setCourseInfo={setCourseInfo}
+          />
+        )}
+
+        {active === 1 && (
+          <CourseData
+            active={active}
+            setActive={setActive}
+            benefits={benefits}
+            preRequisites={preRequisites}
+            setBenefits={setBenefits}
+            setPreRequisites={setPreRequisites}
           />
         )}
       </div>

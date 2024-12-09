@@ -1,3 +1,5 @@
+"use strict";
+
 import React, { FC } from "react";
 import { IoMdCheckmark } from "react-icons/io";
 

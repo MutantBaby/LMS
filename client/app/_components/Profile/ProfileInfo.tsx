@@ -45,6 +45,7 @@ const ProfileInfo: FC<Props> = ({ user, avatar }) => {
     if (!file) return;
 
     const reader = new FileReader();
+
     reader.onload = async () => {
       if (reader.readyState === 2)
         await updateAvatar({ avatar: reader.result as string });
