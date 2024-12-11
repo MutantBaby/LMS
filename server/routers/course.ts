@@ -14,6 +14,7 @@ import {
   getAllCourses_get,
   addReviewReply_put,
   deleteCourse_delete,
+  generateVideoUrl_post,
   courseContentByUser_get,
 } from "@courContr/courseController";
 
@@ -46,6 +47,8 @@ router.post(
   authorizeRolesMiddleware("admin"),
   courseUpload_post
 );
+
+router.post("/getVdoCipherOTP", generateVideoUrl_post);
 
 router.patch(
   "/edit/:id",

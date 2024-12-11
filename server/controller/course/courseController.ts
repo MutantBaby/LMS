@@ -23,6 +23,7 @@ import {
   ICourReview,
   ICourQuestion,
 } from "@courseMod/types";
+import axios from "axios";
 
 export const courseUpload_post = asyncErrorMiddleware(async function (
   req: Request,
@@ -395,7 +396,33 @@ export const deleteCourse_delete = asyncErrorMiddleware(async function (
     await courseModel.findByIdAndDelete(courseId);
     await redis.del(courseId);
 
-    res.status(200).json({ success: true, message: "Course Deleted" });
+    res.status(200).json({ success: true, message: "Video URL generated" });
+  } catch (error: any) {
+    return next(errorHandler(400, error.message));
+  }
+});
+
+export const generateVideoUrl_post = asyncErrorMiddleware(async function (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  const { videoId } = req.body;
+
+  try {
+    const response = await axios.post(
+      `https://dev.vdocipher.com/api/videos/${videoId}/otp`,
+      { ttl: 300 },
+      {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: `Apisecret ${process.env.VDOCIPHER_API_KEY}`,
+        },
+      }
+    );
+
+    res.json(response.data);
   } catch (error: any) {
     return next(errorHandler(400, error.message));
   }
