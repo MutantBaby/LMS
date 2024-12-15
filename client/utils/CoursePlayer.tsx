@@ -16,7 +16,7 @@ const CoursePlayer: FC<Props> = ({ title, videoUrl }) => {
 
   useEffect(() => {
     axios
-      .post(`${process.env.NEXT_PUBLIC_API_URL}/getVdoCipherOtp`, {
+      .post(`http://localhost:8000/course/cipher-otp`, {
         videoId: videoUrl,
       })
       .then((res) => {

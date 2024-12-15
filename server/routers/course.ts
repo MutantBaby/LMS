@@ -48,7 +48,7 @@ router.post(
   courseUpload_post
 );
 
-router.post("/getVdoCipherOTP", generateVideoUrl_post);
+router.post("/cipher-otp", generateVideoUrl_post);
 
 router.patch(
   "/edit/:id",

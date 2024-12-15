@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 import ejs from "ejs";
 import path from "path";
 import mongoose from "mongoose";
@@ -417,13 +419,15 @@ export const generateVideoUrl_post = asyncErrorMiddleware(async function (
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
-          Authorization: `Apisecret ${process.env.VDOCIPHER_API_KEY}`,
+          Authorization:
+            "Apisecret GuSoxafyr2hOXHISRtNEyH5FFSjxtFzjOCO1wiGxLLmOex6y1VU1SxCniJ2lwC9t",
         },
       }
     );
 
     res.json(response.data);
   } catch (error: any) {
+    console.log("Error: ", error);
     return next(errorHandler(400, error.message));
   }
 });
