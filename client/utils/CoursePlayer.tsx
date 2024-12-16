@@ -22,7 +22,7 @@ const CoursePlayer: FC<Props> = ({ title, videoUrl }) => {
       .then((res) => {
         setVideoData(res.data);
       });
-  }, [videoData]);
+  }, [videoUrl]);
 
   return (
     <div style={{ paddingTop: "41%", position: "relative" }}>

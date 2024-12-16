@@ -130,7 +130,7 @@ const CoursePreview: FC<Props> = ({
             Course Details
           </h1>
 
-          {courseData?.description}
+          {courseData?.desc}
         </div>
 
         <br />

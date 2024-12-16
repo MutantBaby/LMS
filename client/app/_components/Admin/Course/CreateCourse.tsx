@@ -2,35 +2,66 @@
 
 import React, { FC, useEffect, useState } from "react";
 
-import CourseOptions from "./CourseOptions";
-import CourseInformation from "./CourseInformation";
+import toast from "react-hot-toast";
+import { redirect } from "next/navigation";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
+
 import CourseData from "./CourseData";
+import CourseOptions from "./CourseOptions";
 import CourseContent from "./CourseContent";
 import CoursePreview from "./CoursePreview";
+import CourseInformation from "./CourseInformation";
+import { useCreateCourseMutation } from "@/app/_redux/features/courses/courseApi";
 
 type Props = {};
 
+interface ICourseData {
+  desc: string;
+  title: string;
+  videoUrl: string;
+  suggestion: string;
+  videoSection: string;
+  links: { url: string; title: string }[];
+}
+
+interface IData {
+  name: string;
+  tags: string;
+  desc: string;
+  price: string;
+  demoUrl: string;
+  diffLevel: string;
+  purchased: number;
+  estimatedPrice: string;
+  benefits: { title: string }[];
+  preRequisites: { title: string }[];
+  thumbnail: { publicId: string; url: string };
+  courseData: ICourseData[];
+}
+
 const CreateCourse: FC<Props> = () => {
+  const [createCourse, { isError, isSuccess, error, isLoading }] =
+    useCreateCourseMutation();
   const [active, setActive] = useState(0);
   const [courseData, setCourseData] = useState({});
   const [benefits, setBenefits] = useState([{ title: "" }]);
   const [preRequisites, setPreRequisites] = useState([{ title: "" }]);
   const [courseInfo, setCourseInfo] = useState({
     name: "",
+    desc: "",
     tags: "",
     price: "",
-    level: "",
     demoUrl: "",
+    diffLevel: "",
     thumbnail: "",
-    description: "",
     estimatedPrice: "",
   });
-  const [courseContentData, setCourseContentData] = useState([
+  const [courseContentData, setCourseContentData] = useState<ICourseData[]>([
     {
       title: "",
       videoUrl: "",
       suggestion: "",
-      description: "",
+      desc: "",
       videoSection: "",
       links: [{ title: "", url: "" }],
     },
@@ -46,10 +77,10 @@ const CreateCourse: FC<Props> = () => {
     }));
     const formattedCourseContentData = courseContentData.map(
       (courseContentData) => ({
+        desc: courseContentData.desc,
         title: courseContentData.title,
         videoUrl: courseContentData.videoUrl,
         suggestion: courseContentData.suggestion,
-        description: courseContentData.description,
         videoSection: courseContentData.videoSection,
         links: courseContentData.links.map((link) => ({
           url: link.url,
@@ -58,25 +89,46 @@ const CreateCourse: FC<Props> = () => {
       })
     );
 
-    const data = {
+    const data: IData = {
       name: courseInfo.name,
       tags: courseInfo.tags,
+      desc: courseInfo.desc,
       price: courseInfo.price,
-      level: courseInfo.level,
       demoUrl: courseInfo.demoUrl,
-      thumbnail: courseInfo.thumbnail,
-      description: courseInfo.description,
-      estimatedPrice: courseInfo.estimatedPrice,
-      totalVideos: courseContentData.length,
       benefits: formattedBenefits,
+      diffLevel: courseInfo.diffLevel,
+      purchased: courseContentData.length,
       preRequisites: formattedPreRequisites,
-      courseContentData: formattedCourseContentData,
+      courseData: formattedCourseContentData,
+      estimatedPrice: courseInfo.estimatedPrice,
+      thumbnail: { url: courseInfo.thumbnail, publicId: "" },
     };
 
     setCourseData(data);
   };
 
-  const handleCourseCreate = async (e: any) => {};
+  const handleCourseCreate = async (e: any) => {
+    try {
+      const data = courseData;
+
+      if (!isLoading) await createCourse(data);
+    } catch (err) {
+      console.log("Error 1 CreateCourse: ", err);
+    }
+  };
+
+  useEffect(() => {
+    if (isSuccess) {
+      toast.success("Course Created Successfully");
+      redirect("/admin/courses");
+    }
+
+    if (isError)
+      if (("data" in error) as any) {
+        const errorData = (error as FetchBaseQueryError).data as any;
+        toast.error(errorData.message);
+      } else toast.error("Some Error Occured");
+  }, [isSuccess]);
 
   return (
     <div className="w-full flex min-h-screen">

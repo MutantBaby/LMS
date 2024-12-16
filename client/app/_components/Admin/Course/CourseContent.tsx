@@ -53,7 +53,7 @@ const CourseContent: FC<Props> = ({
     if (
       item.title === "" ||
       item.videoUrl === "" ||
-      item.description === "" ||
+      item.desc === "" ||
       item.links[0].url === "" ||
       item.links[0].title === ""
     ) {
@@ -72,7 +72,7 @@ const CourseContent: FC<Props> = ({
         {
           title: "",
           videoUrl: "",
-          description: "",
+          desc: "",
           videoSection: newVideoSection,
           links: [{ title: "", url: "" }],
         },
@@ -84,7 +84,7 @@ const CourseContent: FC<Props> = ({
     if (
       courseContentData[courseContentData.length - 1].title === "" ||
       courseContentData[courseContentData.length - 1].videoUrl === "" ||
-      courseContentData[courseContentData.length - 1].description === "" ||
+      courseContentData[courseContentData.length - 1].desc === "" ||
       courseContentData[courseContentData.length - 1].links[0].url === "" ||
       courseContentData[courseContentData.length - 1].links[0].title === ""
     )
@@ -97,7 +97,7 @@ const CourseContent: FC<Props> = ({
         {
           title: "",
           videoUrl: "",
-          description: "",
+          desc: "",
           videoSection: `Untitled Section ${activeSection}`,
           links: [{ title: "", url: "" }],
         },
@@ -113,7 +113,7 @@ const CourseContent: FC<Props> = ({
     if (
       courseContentData[courseContentData.length - 1].title !== "" &&
       courseContentData[courseContentData.length - 1].videoUrl !== "" &&
-      courseContentData[courseContentData.length - 1].description !== "" &&
+      courseContentData[courseContentData.length - 1].desc !== "" &&
       courseContentData[courseContentData.length - 1].links[0].url !== "" &&
       courseContentData[courseContentData.length - 1].links[0].title !== ""
     ) {
@@ -244,10 +244,10 @@ const CourseContent: FC<Props> = ({
                         rows={5}
                         className={`${styles.input} !h-min py-2`}
                         placeholder="Edit Description..."
-                        value={item?.description}
+                        value={item?.desc}
                         onChange={(e: any) => {
                           const updateData = [...courseContentData];
-                          updateData[index].description = e.target.value;
+                          updateData[index].desc = e.target.value;
                           setCourseContentData(updateData);
                         }}
                       />

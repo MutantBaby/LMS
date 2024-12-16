@@ -99,9 +99,9 @@ const CourseInformation: FC<Props> = ({
             rows={6}
             cols={3}
             placeholder="Write somethings amazing"
-            value={courseInfo.description}
+            value={courseInfo.desc}
             onChange={(e) =>
-              setCourseInfo({ ...courseInfo, description: e.target.value })
+              setCourseInfo({ ...courseInfo, desc: e.target.value })
             }
             className={`${styles.input} !h-min !py-2`}></textarea>
         </div>
@@ -171,9 +171,9 @@ const CourseInformation: FC<Props> = ({
               type="string"
               name=""
               required
-              value={courseInfo.level}
+              value={courseInfo.diffLevel}
               onChange={(e) =>
-                setCourseInfo({ ...courseInfo, level: e.target.value })
+                setCourseInfo({ ...courseInfo, diffLevel: e.target.value })
               }
               placeholder="Beginner/Intermediate/Expert"
               className={`${styles.input}`}

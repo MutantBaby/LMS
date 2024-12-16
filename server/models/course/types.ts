@@ -23,10 +23,10 @@ export interface ICourData extends Document {
   videoUrl: string;
   links: ICourLink[];
   suggestion: string;
-  videoLength: number;
-  videoPlayer: string;
   videoSection: string;
-  questions: ICourQuestion[];
+  videoLength?: number;
+  videoPlayer?: string;
+  questions?: ICourQuestion[];
 }
 
 export interface ICourLink extends Document {

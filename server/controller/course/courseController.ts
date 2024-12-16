@@ -35,6 +35,8 @@ export const courseUpload_post = asyncErrorMiddleware(async function (
   const data = req.body as ICourse;
   const thumbnail = data.thumbnail;
 
+  console.log("\n\nInside 1");
+
   try {
     if (thumbnail) {
       const result = await cloudinary.uploader.upload(thumbnail.url, {
@@ -46,6 +48,8 @@ export const courseUpload_post = asyncErrorMiddleware(async function (
         publicId: result.public_id,
       };
     }
+
+    console.log("Inside 2");
 
     createCourse(data, res, next);
   } catch (error: any) {
@@ -203,7 +207,7 @@ export const addQuestion_put = asyncErrorMiddleware(async function (
       userId: new mongoose.Types.ObjectId(req.user?._id as string),
     };
 
-    courseContent.questions.push(newQuestion as ICourQuestion);
+    courseContent?.questions?.push(newQuestion as ICourQuestion);
 
     await notificationModel.create({
       title: "New Question Received",
@@ -242,7 +246,7 @@ export const addAnswer_put = asyncErrorMiddleware(async function (
     if (!courseContent) return next(errorHandler(404, "Content not found"));
 
     // finding specific question
-    const question = courseContent.questions.find(
+    const question = courseContent?.questions?.find(
       (item: ICourQuestion) => item._id!.toString() === questionId
     );
 

@@ -28,14 +28,22 @@ const questionSchema = new Schema<ICourQuestion>({
 
 const dataSchema = new Schema<ICourData>({
   desc: String,
+  title: String,
   videoUrl: String,
-  links: [linkSchema],
   suggestion: String,
   videoLength: Number,
+  links: [linkSchema],
   videoPlayer: String,
   videoSection: String,
   questions: [questionSchema],
 });
+
+// desc;
+// title;
+// videoUrl;
+// suggestion;
+// videoSection;
+// links;
 
 const courseSchema = new Schema<ICourse>(
   {
