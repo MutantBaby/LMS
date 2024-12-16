@@ -21,11 +21,13 @@ import authMiddleware, {
 
 const router = Router();
 
-router.get("/me", authMiddleware, getUserInfo_get);
-router.get("/logout", authMiddleware, userLogout_get);
+router.get("/me", updateAccessToken_get, authMiddleware, getUserInfo_get);
+router.get("/logout", updateAccessToken_get, authMiddleware, userLogout_get);
 router.get("/update-accToken", updateAccessToken_get);
 router.get(
   "/get-all",
+
+  updateAccessToken_get,
   authMiddleware,
   authorizeRolesMiddleware("admin"),
   getAllUsers_get
@@ -36,11 +38,28 @@ router.post("/social-auth", socialAuth_post);
 router.post("/activate", userActivation_post);
 router.post("/register", userRegisteration_post);
 
-router.patch("/update-info", authMiddleware, updateUserInfo_patch);
-router.patch("/update-avatar", authMiddleware, updateUserProfile_patch);
-router.patch("/update-password", authMiddleware, updateUserPassword_patch);
+router.patch(
+  "/update-info",
+  updateAccessToken_get,
+  authMiddleware,
+  updateUserInfo_patch
+);
+router.patch(
+  "/update-avatar",
+  updateAccessToken_get,
+  authMiddleware,
+  updateUserProfile_patch
+);
+router.patch(
+  "/update-password",
+  updateAccessToken_get,
+  authMiddleware,
+  updateUserPassword_patch
+);
 router.patch(
   "/update-role",
+
+  updateAccessToken_get,
   authMiddleware,
   authorizeRolesMiddleware("admin"),
   updateUserRole_patch
@@ -48,6 +67,8 @@ router.patch(
 
 router.delete(
   "/delete/:id",
+
+  updateAccessToken_get,
   authMiddleware,
   authorizeRolesMiddleware("admin"),
   deleteUser_delete

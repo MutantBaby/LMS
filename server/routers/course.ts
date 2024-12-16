@@ -17,25 +17,45 @@ import {
   generateVideoUrl_post,
   courseContentByUser_get,
 } from "@courContr/courseController";
+import { updateAccessToken_get } from "@userContr/userController";
 
 const router = Router();
 
 router.get("/all", allCourse_get);
 router.get("/single/:id", singleCourse_get);
-router.get("/content/:id", authMiddleware, courseContentByUser_get);
+router.get(
+  "/content/:id",
+  updateAccessToken_get,
+  authMiddleware,
+  courseContentByUser_get
+);
 router.get(
   "/get-all",
+
+  updateAccessToken_get,
   authMiddleware,
   authorizeRolesMiddleware("admin"),
   getAllCourses_get
 );
 
-router.put("/add-answer", authMiddleware, addAnswer_put);
-router.put("/add-question", authMiddleware, addQuestion_put);
+router.put("/add-answer", updateAccessToken_get, authMiddleware, addAnswer_put);
+router.put(
+  "/add-question",
+  updateAccessToken_get,
+  authMiddleware,
+  addQuestion_put
+);
 
-router.put("/add-review/:id", authMiddleware, addReview_put);
+router.put(
+  "/add-review/:id",
+  updateAccessToken_get,
+  authMiddleware,
+  addReview_put
+);
 router.put(
   "/add-reply",
+
+  updateAccessToken_get,
   authMiddleware,
   authorizeRolesMiddleware("admin"),
   addReviewReply_put
@@ -43,6 +63,8 @@ router.put(
 
 router.post(
   "/create",
+
+  updateAccessToken_get,
   authMiddleware,
   authorizeRolesMiddleware("admin"),
   courseUpload_post
@@ -52,6 +74,8 @@ router.post("/cipher-otp", generateVideoUrl_post);
 
 router.patch(
   "/edit/:id",
+
+  updateAccessToken_get,
   authMiddleware,
   authorizeRolesMiddleware("admin"),
   courseEdit_patch
@@ -59,6 +83,8 @@ router.patch(
 
 router.delete(
   "/delete/:id",
+
+  updateAccessToken_get,
   authMiddleware,
   authorizeRolesMiddleware("admin"),
   deleteCourse_delete

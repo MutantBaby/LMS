@@ -190,7 +190,8 @@ export const updateAccessToken_get = asyncErrorMiddleware(async function (
 
     await redis.set(user._id as string, JSON.stringify(user), "EX", 604800); // 7days
 
-    res.status(200).json({ accessToken, success: true });
+    // res.status(200).json({ accessToken, success: true });
+    next();
   } catch (error: any) {
     return next(errorHandler(400, error.message));
   }
