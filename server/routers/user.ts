@@ -26,7 +26,6 @@ router.get("/logout", updateAccessToken_get, authMiddleware, userLogout_get);
 router.get("/update-accToken", updateAccessToken_get);
 router.get(
   "/get-all",
-
   updateAccessToken_get,
   authMiddleware,
   authorizeRolesMiddleware("admin"),

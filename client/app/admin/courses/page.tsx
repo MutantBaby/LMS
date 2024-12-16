@@ -1,15 +1,15 @@
 "use client";
 
-import { FC } from "react";
-
-import Heading from "@/utils/Heading";
-import AdminSideBar from "../_components/Admin/AdminSideBar";
+import AdminSideBar from "@/app/_components/Admin/AdminSideBar";
+import AllCourses from "@/app/_components/Admin/Course/AllCourses";
+import DashboardHero from "@/app/_components/Admin/DashboardHero";
 import AdminProtectedHook from "@/hooks/useAdminProtectedHook";
-import DashboardHero from "../_components/Admin/DashboardHero";
+import Heading from "@/utils/Heading";
+import React, { FC } from "react";
 
-interface Props {}
+type Props = {};
 
-const Page: FC<Props> = () => {
+const page: FC<Props> = () => {
   return (
     <AdminProtectedHook>
       <Heading
@@ -25,10 +25,11 @@ const Page: FC<Props> = () => {
 
         <div className="w-[85%]">
           <DashboardHero />
+          <AllCourses />
         </div>
       </div>
     </AdminProtectedHook>
   );
 };
 
-export default Page;
+export default page;
