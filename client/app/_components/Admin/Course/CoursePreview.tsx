@@ -5,17 +5,19 @@ import Ratings from "@/utils/Ratings";
 import { IoCheckmarkDoneOutline } from "react-icons/io5";
 
 type Props = {
+  isEdit?: boolean;
   active: number;
   setActive: (active: number) => void;
   courseData: any;
-  handleCourseCreate: any;
+  handleCourseCreateOrUpdate: any;
 };
 
 const CoursePreview: FC<Props> = ({
+  isEdit,
   active,
   setActive,
   courseData,
-  handleCourseCreate,
+  handleCourseCreateOrUpdate,
 }) => {
   const discountPercentage =
     ((courseData?.estimatedPrice - courseData?.price) /
@@ -27,7 +29,7 @@ const CoursePreview: FC<Props> = ({
   };
 
   const createCourse = () => {
-    handleCourseCreate();
+    handleCourseCreateOrUpdate();
   };
 
   return (
@@ -146,7 +148,7 @@ const CoursePreview: FC<Props> = ({
         <div
           className="w-full 800px:w-[180px] cursor-pointer h-[40px] bg-[#37a39a] text-center text-[#fff] rounded mt-8 "
           onClick={() => createCourse()}>
-          Next
+          {isEdit ? "Update" : "Create"}
         </div>
       </div>
     </div>

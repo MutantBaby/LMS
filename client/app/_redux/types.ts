@@ -123,3 +123,12 @@ export interface IDeleteUserReq {}
 export interface IDeleteCourseRes {}
 
 export interface IDeleteCourseReq {}
+
+export interface IEditCourseRes {
+  course: ICourse;
+}
+
+export interface IEditCourseReq {
+  id: string;
+  course: ICourse;
+}

@@ -1,8 +1,11 @@
+import { use } from "react";
 import {
   ICreateCourseReq,
   ICreateCourseRes,
   IDeleteCourseReq,
   IDeleteCourseRes,
+  IEditCourseReq,
+  IEditCourseRes,
   IGetAllCoursesReq,
   IGetAllCoursesRes,
 } from "../../types";
@@ -19,7 +22,7 @@ export const courseApi = apiSlice.injectEndpoints({
       }),
     }),
     getAllCourses: builder.query<IGetAllCoursesRes, IGetAllCoursesReq>({
-      query: () => ({
+      query: (data) => ({
         method: "GET",
         url: "course/get-all",
         credentials: "include" as const,
@@ -32,10 +35,19 @@ export const courseApi = apiSlice.injectEndpoints({
         credentials: "include" as const,
       }),
     }),
+    editCourse: builder.mutation<IEditCourseRes, IEditCourseReq>({
+      query: (arg) => ({
+        body: arg.course,
+        method: "DELETE",
+        url: `course/delete/${arg.id}`,
+        credentials: "include" as const,
+      }),
+    }),
   }),
 });
 
 export const {
+  useEditCourseMutation,
   useGetAllCoursesQuery,
   useCreateCourseMutation,
   useDeleteCourseMutation,

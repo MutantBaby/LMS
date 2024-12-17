@@ -34,6 +34,8 @@ const AllCourses: FC<Props> = () => {
     },
   ] = useDeleteCourseMutation();
 
+  console.log("data in all courses", data);
+
   const [open, setOpen] = useState(false);
   const [courseId, setCourseId] = useState("");
 
