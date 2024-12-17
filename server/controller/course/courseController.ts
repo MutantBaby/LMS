@@ -129,12 +129,12 @@ export const allCourse_get = asyncErrorMiddleware(async function (
   next: NextFunction
 ) {
   try {
-    const isCached = await redis.get("allCourses");
+    // const isCached = await redis.get("allCourses");
 
-    if (isCached)
-      return res
-        .status(200)
-        .json({ course: JSON.parse(isCached), success: true });
+    // if (isCached)
+    //   return res
+    //     .status(200)
+    //     .json({ course: JSON.parse(isCached), success: true });
 
     const courses = await courseModel
       .find()
@@ -144,7 +144,7 @@ export const allCourse_get = asyncErrorMiddleware(async function (
 
     if (!courses) return next(errorHandler(404, "Courses not found"));
 
-    await redis.set("allCourses", JSON.stringify(courses));
+    // await redis.set("allCourses", JSON.stringify(courses));
 
     res.status(200).json({ courses, success: true });
   } catch (error: any) {

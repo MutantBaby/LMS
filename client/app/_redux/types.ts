@@ -1,3 +1,5 @@
+import { ICourse } from "@/types";
+
 export interface IInitialState {
   user: Object;
   token: string;
@@ -88,3 +90,13 @@ export interface IChangePasswordReq {
   oldPassword: string;
   newPassword: string;
 }
+
+export interface ICreateCourseRes extends ICourse {}
+
+export interface ICreateCourseReq extends ICourse {}
+
+export interface IGetAllCoursesRes {
+  courses: ICourse[];
+}
+
+export interface IGetAllCoursesReq {}

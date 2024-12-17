@@ -31,7 +31,6 @@ router.get(
 );
 router.get(
   "/get-all",
-
   updateAccessToken_get,
   authMiddleware,
   authorizeRolesMiddleware("admin"),
@@ -54,7 +53,6 @@ router.put(
 );
 router.put(
   "/add-reply",
-
   updateAccessToken_get,
   authMiddleware,
   authorizeRolesMiddleware("admin"),
@@ -63,7 +61,6 @@ router.put(
 
 router.post(
   "/create",
-
   updateAccessToken_get,
   authMiddleware,
   authorizeRolesMiddleware("admin"),
@@ -74,7 +71,6 @@ router.post("/cipher-otp", generateVideoUrl_post);
 
 router.patch(
   "/edit/:id",
-
   updateAccessToken_get,
   authMiddleware,
   authorizeRolesMiddleware("admin"),
@@ -83,7 +79,6 @@ router.patch(
 
 router.delete(
   "/delete/:id",
-
   updateAccessToken_get,
   authMiddleware,
   authorizeRolesMiddleware("admin"),

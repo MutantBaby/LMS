@@ -1,19 +1,24 @@
 "use client";
 
 import React from "react";
+import { format } from "timeago.js";
 import { useTheme } from "next-themes";
 import { Box, Button } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { AiOutlineDelete, AiOutlineEdit } from "react-icons/ai";
+import { useGetAllCoursesQuery } from "@/app/_redux/features/courses/courseApi";
 
 type Props = {};
 
 const AllCourses = (props: Props) => {
   const { theme, setTheme } = useTheme();
+  const { data } = useGetAllCoursesQuery({});
+
+  console.log(" Data U ", data);
 
   const columns: GridColDef[] = [
     { field: "id", headerName: "ID", flex: 0.5 },
-    { field: "ratings", headerName: "Ratings", flex: 0.5 },
+    { field: "rating", headerName: "Ratings", flex: 0.5 },
     { field: "title", headerName: "Course Title", flex: 0.5 },
     { field: "purchased", headerName: "Purchased", flex: 0.5 },
     { field: "created_at", headerName: "Created At", flex: 0.5 },
@@ -39,15 +44,22 @@ const AllCourses = (props: Props) => {
     },
   ];
 
-  const rows = [
-    {
-      id: "1234",
-      ratings: "5",
-      title: "React",
-      purchased: "30",
-      created_at: "12/12/12",
-    },
-  ];
+  const rows: any[] = [];
+
+  rows.forEach((item: any) => {});
+
+  {
+    data &&
+      data.courses?.forEach((item: any) => {
+        rows.push({
+          id: item._id,
+          title: item.name,
+          rating: item.rating,
+          purchased: item.purchased,
+          created_at: format(item.createdAt, "en_US"),
+        });
+      });
+  }
 
   return (
     <div className="mt-[120px]">
