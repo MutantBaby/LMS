@@ -32,11 +32,16 @@ export async function getAllUsersService(res: Response) {
 }
 
 export async function updateUserRoleService(
-  id: string,
+  email: string,
   role: string,
   res: Response
 ) {
-  const user = await userModel.findByIdAndUpdate(id, { role }, { new: true });
+  // const user = await userModel.findByIdAndUpdate(id, { role }, { new: true });
+  const user = await userModel.findOneAndUpdate(
+    { email },
+    { role },
+    { new: true }
+  );
 
   res.status(200).json({ user, success: true });
 }

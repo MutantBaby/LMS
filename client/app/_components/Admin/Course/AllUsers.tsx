@@ -46,7 +46,7 @@ const AllUsers: FC<Props> = ({ isTeam }) => {
   const [active, setActive] = useState(false);
   const [email, setEmail] = useState("");
   const [userId, setUserId] = useState("");
-  const [role, setRole] = useState("admin");
+  const [role, setRole] = useState("user");
   const [open, setOpen] = useState(false);
 
   const columns: GridColDef[] = [
@@ -119,6 +119,16 @@ const AllUsers: FC<Props> = ({ isTeam }) => {
       const id = userId;
       await deleteUser(id);
       setOpen(false);
+    } catch (err) {
+      console.log("Error in AllUsers: ", err);
+    }
+  };
+
+  const handleRole = async () => {
+    try {
+      const data = { email, role };
+      await updateUserRole(data);
+      setActive(false);
     } catch (err) {
       console.log("Error in AllUsers: ", err);
     }
@@ -228,21 +238,48 @@ const AllUsers: FC<Props> = ({ isTeam }) => {
             aria-labelledby={"modal-modal-title"}
             aria-describedby={"modal-modal-description"}>
             <Box
-              className={`absolute top-[50%] left-[50%] -translate-x-1/2 bg-[#07090f] p-3 rounded-lg`}>
+              className={` absolute top-[30%] left-[50%] -translate-x-1/2 dark:bg-[#181f35] bg-[#a4a9fc] p-3 rounded-lg`}>
               <h1 className={`${styles.title}`}>
                 Enter Email you want to change
               </h1>
 
-              <div className={`flex w-full items-center justify-between mb-6`}>
-                <div
-                  onClick={() => setActive(!open)}
-                  className={`${styles.input} !w-[120px] h-[30px] !bg-[#57c7A3]`}></div>
-
-                <div
-                  onClick={handleDelete}
-                  className={`${styles.input} !w-[120px] h-[30px] !bg-[#c75757]`}>
-                  Delete
+              <div>
+                <div>
+                  <label className={`${styles.label} !text-left`}>
+                    Enter Email:
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="example@mail.com"
+                    onClick={() => setActive(!open)}
+                    className={`${styles.input} h-[30px]`}
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
                 </div>
+
+                <br />
+                <div>
+                  <label
+                    htmlFor="role"
+                    className={`${styles.label} !text-left`}>
+                    Choose a Role:
+                    <select
+                      id="role"
+                      name="role"
+                      defaultValue="user"
+                      onChange={(e) => setRole(e.target.value)}
+                      className={`${styles.input} h-[30px] dark:!bg-[#2d395b] `}>
+                      <option value="user">User</option>
+                      <option value="admin">Admin</option>
+                    </select>
+                  </label>
+                </div>
+
+                <input
+                  type="submit"
+                  onClick={handleRole}
+                  className={`${styles.button} mt-3 h-[30px]`}
+                />
               </div>
             </Box>
           </Modal>

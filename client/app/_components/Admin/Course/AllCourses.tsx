@@ -15,6 +15,7 @@ import Loading from "../../Loading";
 import { styles } from "@/styles";
 import toast from "react-hot-toast";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
+import Link from "next/link";
 
 type Props = {};
 
@@ -47,9 +48,9 @@ const AllCourses: FC<Props> = () => {
       headerName: "Edit",
       flex: 0.2,
       renderCell: (params: any) => (
-        <Button>
+        <Link href={`/admin/edit-course/${params.row.id}`} passHref>
           <AiOutlineEdit size={20} className="dark:text-white text-black" />
-        </Button>
+        </Link>
       ),
     },
     {
@@ -190,8 +191,8 @@ const AllCourses: FC<Props> = () => {
               aria-labelledby={"modal-modal-title"}
               aria-describedby={"modal-modal-description"}>
               <Box
-                className={`absolute top-[50%] left-[50%] -translate-x-1/2 p-3 bg-[#07090f] rounded-lg`}>
-                <h1 className={`${styles.title}`}>
+                className={`absolute top-[50%] !text-white left-[50%] -translate-x-1/2 p-3 bg-[#07090f] rounded-lg`}>
+                <h1 className={`${styles.title} !text-white`}>
                   Are you sure you want to delete this course?
                 </h1>
                 <div

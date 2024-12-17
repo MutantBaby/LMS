@@ -112,7 +112,7 @@ export interface IUpdateUserRoleRes {
 }
 
 export interface IUpdateUserRoleReq {
-  id: string;
+  email: string;
   role: string;
 }
 

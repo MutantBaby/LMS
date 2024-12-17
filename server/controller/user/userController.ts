@@ -365,10 +365,10 @@ export const updateUserRole_patch = asyncErrorMiddleware(async function (
   res: Response,
   next: NextFunction
 ) {
-  const { id, role } = req.body as { id: string; role: string };
+  const { email, role } = req.body as { email: string; role: string };
 
   try {
-    await updateUserRoleService(id, role, res);
+    await updateUserRoleService(email, role, res);
   } catch (error: any) {
     return next(errorHandler(400, error.message));
   }
