@@ -6,6 +6,12 @@ import {
   IUpdateAvatarRes,
   IChangePasswordReq,
   IChangePasswordRes,
+  IGetAllUsersRes,
+  IGetAllUsersReq,
+  IUpdateUserRoleRes,
+  IUpdateUserRoleReq,
+  IDeleteUserRes,
+  IDeleteUserReq,
 } from "../../types";
 
 export const userApi = apiSlice.injectEndpoints({
@@ -34,11 +40,36 @@ export const userApi = apiSlice.injectEndpoints({
         credentials: "include" as const,
       }),
     }),
+    getAllUsers: builder.query<IGetAllUsersRes, IGetAllUsersReq>({
+      query: () => ({
+        method: "GET",
+        url: "user/get-all",
+        credentials: "include" as const,
+      }),
+    }),
+    updateUserRole: builder.mutation<IUpdateUserRoleRes, IUpdateUserRoleReq>({
+      query: (arg) => ({
+        body: arg,
+        method: "PATCH",
+        url: "user/update-role",
+        credentials: "include" as const,
+      }),
+    }),
+    deleteUser: builder.mutation<IDeleteUserRes, IDeleteUserReq>({
+      query: (arg) => ({
+        method: "DELETE",
+        url: `user/delete/${arg}`,
+        credentials: "include" as const,
+      }),
+    }),
   }),
 });
 
 export const {
+  useGetAllUsersQuery,
+  useDeleteUserMutation,
   useEditProfileMutation,
   useUpdateAvatarMutation,
   useChangePasswordMutation,
+  useUpdateUserRoleMutation,
 } = userApi;

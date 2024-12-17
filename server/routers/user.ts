@@ -57,7 +57,6 @@ router.patch(
 );
 router.patch(
   "/update-role",
-
   updateAccessToken_get,
   authMiddleware,
   authorizeRolesMiddleware("admin"),
@@ -66,7 +65,6 @@ router.patch(
 
 router.delete(
   "/delete/:id",
-
   updateAccessToken_get,
   authMiddleware,
   authorizeRolesMiddleware("admin"),

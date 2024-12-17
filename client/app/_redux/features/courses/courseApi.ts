@@ -1,6 +1,8 @@
 import {
   ICreateCourseReq,
   ICreateCourseRes,
+  IDeleteCourseReq,
+  IDeleteCourseRes,
   IGetAllCoursesReq,
   IGetAllCoursesRes,
 } from "../../types";
@@ -23,7 +25,18 @@ export const courseApi = apiSlice.injectEndpoints({
         credentials: "include" as const,
       }),
     }),
+    deleteCourse: builder.mutation<IDeleteCourseRes, IDeleteCourseReq>({
+      query: (arg) => ({
+        method: "DELETE",
+        url: `course/delete/${arg}`,
+        credentials: "include" as const,
+      }),
+    }),
   }),
 });
 
-export const { useCreateCourseMutation, useGetAllCoursesQuery } = courseApi;
+export const {
+  useGetAllCoursesQuery,
+  useCreateCourseMutation,
+  useDeleteCourseMutation,
+} = courseApi;

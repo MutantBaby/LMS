@@ -22,7 +22,7 @@ interface Props {
 
 const ProfileInfo: FC<Props> = ({ user, avatar }) => {
   const [name, setName] = useState<string>(user.name!);
-  const { refetch } = useLoadUserQuery({});
+  const { refetch } = useLoadUserQuery({}, { refetchOnMountOrArgChange: true });
   const [
     updateAvatar,
     {
