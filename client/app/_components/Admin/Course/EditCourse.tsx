@@ -35,13 +35,16 @@ interface IData {
   price: string;
   demoUrl: string;
   diffLevel: string;
-  purchased: number;
+  totalVideos: number;
   estimatedPrice: string;
   benefits: { title: string }[];
   preRequisites: { title: string }[];
   thumbnail: { publicId: string; url: string };
   courseData: ICourseData[];
 }
+
+//! Check user course (match there ids)
+//! Fix issue of edit (course deleted from db)
 
 const EditCourse: FC<Props> = ({ id }) => {
   const [
@@ -108,7 +111,7 @@ const EditCourse: FC<Props> = ({ id }) => {
       demoUrl: courseInfo.demoUrl,
       benefits: formattedBenefits,
       diffLevel: courseInfo.diffLevel,
-      purchased: courseContentData.length,
+      totalVideos: courseContentData.length,
       preRequisites: formattedPreRequisites,
       courseData: formattedCourseContentData,
       estimatedPrice: courseInfo.estimatedPrice,
@@ -163,8 +166,10 @@ const EditCourse: FC<Props> = ({ id }) => {
       } else toast.error("Some Error Occured");
   }, [isSuccess]);
 
+  console.log("courseData", courseData);
+
   return (
-    <div className="w-full flex min-h-screen">
+    <div suppressHydrationWarning className="w-full flex min-h-screen">
       <div className="w-[80%]">
         {active === 0 && (
           <CourseInformation

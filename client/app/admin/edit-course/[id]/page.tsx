@@ -1,16 +1,16 @@
 "use client";
 
-import { FC } from "react";
+import { FC, use } from "react";
 import Heading from "@/utils/Heading";
 import AdminSideBar from "@/app/_components/Admin/AdminSideBar";
-import DashboardHeader from "@/app/_components/Admin/DashboardHeader";
-import CreateCourse from "@/app/_components/Admin/Course/CreateCourse";
 import EditCourse from "@/app/_components/Admin/Course/EditCourse";
+import DashboardHeader from "@/app/_components/Admin/DashboardHeader";
 
 interface Props {}
 
 const Page: FC<Props> = ({ params }: any) => {
-  const id = params?.id;
+  const paramsVal: any = use(params);
+  const id = paramsVal?.id;
 
   return (
     <div>

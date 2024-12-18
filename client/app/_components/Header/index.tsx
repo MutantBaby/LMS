@@ -68,9 +68,6 @@ const Header: FC<TProps> = memo(
       // if (data === null) signOut();
     }, [user, data, isSuccess]);
 
-    console.log("user: ", user);
-    console.log("data: ", data);
-
     return (
       <div className="w-full relative">
         <div

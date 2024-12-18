@@ -44,7 +44,7 @@ const CourseContent: FC<Props> = ({
   };
 
   const handleAddLink = (index: number) => {
-    const updateData = [...courseContentData];
+    const updateData = structuredClone(courseContentData);
     updateData[index].links.push({ title: "", url: "" });
     setCourseContentData(updateData);
   };

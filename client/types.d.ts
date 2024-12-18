@@ -24,6 +24,7 @@ export interface ICourse {
   rating?: number;
   diffLevel?: string;
   purchased?: number;
+  totalVideos?: number;
   reviews?: ICourReview[];
   courseData?: ICourData[];
   estimatedPrice?: number;

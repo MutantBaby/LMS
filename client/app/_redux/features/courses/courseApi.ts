@@ -38,8 +38,8 @@ export const courseApi = apiSlice.injectEndpoints({
     editCourse: builder.mutation<IEditCourseRes, IEditCourseReq>({
       query: (arg) => ({
         body: arg.course,
-        method: "DELETE",
-        url: `course/delete/${arg.id}`,
+        method: "PATCH",
+        url: `course/edit/${arg.id}`,
         credentials: "include" as const,
       }),
     }),

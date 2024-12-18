@@ -35,8 +35,6 @@ export const courseUpload_post = asyncErrorMiddleware(async function (
   const data = req.body as ICourse;
   const thumbnail = data.thumbnail;
 
-  console.log("\n\nInside 1");
-
   try {
     if (thumbnail) {
       const result = await cloudinary.uploader.upload(thumbnail.url, {
@@ -48,8 +46,6 @@ export const courseUpload_post = asyncErrorMiddleware(async function (
         publicId: result.public_id,
       };
     }
-
-    console.log("Inside 2");
 
     createCourse(data, res, next);
   } catch (error: any) {

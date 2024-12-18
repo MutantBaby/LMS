@@ -31,7 +31,7 @@ interface IData {
   price: string;
   demoUrl: string;
   diffLevel: string;
-  purchased: number;
+  totalVideos: number;
   estimatedPrice: string;
   benefits: { title: string }[];
   preRequisites: { title: string }[];
@@ -75,19 +75,17 @@ const CreateCourse: FC<Props> = () => {
     const formattedPreRequisites = preRequisites.map((preRequisite) => ({
       title: preRequisite.title,
     }));
-    const formattedCourseContentData = courseContentData.map(
-      (courseContentData) => ({
-        desc: courseContentData.desc,
-        title: courseContentData.title,
-        videoUrl: courseContentData.videoUrl,
-        suggestion: courseContentData.suggestion,
-        videoSection: courseContentData.videoSection,
-        links: courseContentData.links.map((link) => ({
-          url: link.url,
-          title: link.title,
-        })),
-      })
-    );
+    const formattedCourseContentData = courseContentData.map((data) => ({
+      desc: data.desc,
+      title: data.title,
+      videoUrl: data.videoUrl,
+      suggestion: data.suggestion,
+      videoSection: data.videoSection,
+      links: data.links.map((link) => ({
+        url: link.url,
+        title: link.title,
+      })),
+    }));
 
     const data: IData = {
       name: courseInfo.name,
@@ -97,7 +95,7 @@ const CreateCourse: FC<Props> = () => {
       demoUrl: courseInfo.demoUrl,
       benefits: formattedBenefits,
       diffLevel: courseInfo.diffLevel,
-      purchased: courseContentData.length,
+      totalVideos: courseContentData.length,
       preRequisites: formattedPreRequisites,
       courseData: formattedCourseContentData,
       estimatedPrice: courseInfo.estimatedPrice,

@@ -6,8 +6,8 @@ import { Request, Response, NextFunction } from "express";
 import { IOrder } from "./orderType";
 import userModel from "@userMod/User";
 import courseModel from "@courseMod/Course";
+import { errorHandler, sendMail } from "@utils";
 import notificationModel from "@notifiMod/notification";
-import { calReviewRating, errorHandler, sendMail } from "@utils";
 import asyncErrorMiddleware from "@middleware/asyncErrorMiddleware";
 import { createNewOrder, getAllOrdersService } from "@services/order";
 

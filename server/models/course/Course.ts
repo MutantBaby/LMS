@@ -56,6 +56,7 @@ const courseSchema = new Schema<ICourse>(
     purchased: { type: Number, default: 0 },
     demoUrl: { type: String, required: true },
     diffLevel: { type: String, required: true },
+    totalVideos: Number,
     reviews: [reviewSchema],
     courseData: [dataSchema],
     benefits: [{ title: String }],

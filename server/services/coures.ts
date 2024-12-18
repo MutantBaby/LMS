@@ -9,7 +9,6 @@ export async function createCourse(
   next: NextFunction
 ) {
   try {
-    console.log("Inside 3");
     const course = await courseModel.create(data);
 
     res.status(201).json({ course, success: true });

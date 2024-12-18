@@ -18,12 +18,9 @@ const initializedApp = async function () {
   // await store.dispatch(
   //   apiSlice.endpoints.refreshToken.initiate({}, { forceRefetch: true })
   // );
-
-  await store.dispatch(
-    apiSlice.endpoints.loadUser.initiate({}, { forceRefetch: true })
-  );
-
-  console.log("APP Fetch - Token & User");
+  // await store.dispatch(
+  //   apiSlice.endpoints.loadUser.initiate({}, { forceRefetch: true })
+  // );
 };
 
 initializedApp();

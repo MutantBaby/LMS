@@ -43,7 +43,7 @@ const AllCourses: FC<Props> = () => {
     { field: "id", headerName: "ID", flex: 0.5 },
     { field: "rating", headerName: "Ratings", flex: 0.5 },
     { field: "title", headerName: "Course Title", flex: 0.5 },
-    { field: "purchased", headerName: "Purchased", flex: 0.5 },
+    { field: "videos", headerName: "Total Video", flex: 0.5 },
     { field: "created_at", headerName: "Created At", flex: 0.5 },
     {
       field: "edit",
@@ -80,7 +80,7 @@ const AllCourses: FC<Props> = () => {
           id: item._id,
           title: item.name,
           rating: item.rating,
-          purchased: item.purchased,
+          videos: item.totalVideos,
           created_at: format(item.createdAt, "en_US"),
         });
       });
