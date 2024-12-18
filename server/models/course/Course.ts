@@ -36,14 +36,11 @@ const dataSchema = new Schema<ICourData>({
   videoPlayer: String,
   videoSection: String,
   questions: [questionSchema],
+  videoThumbnail: {
+    publicId: { type: String },
+    url: { type: String },
+  },
 });
-
-// desc;
-// title;
-// videoUrl;
-// suggestion;
-// videoSection;
-// links;
 
 const courseSchema = new Schema<ICourse>(
   {

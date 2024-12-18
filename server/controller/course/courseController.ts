@@ -60,10 +60,15 @@ export const courseEdit_patch = asyncErrorMiddleware(async function (
 ) {
   const data = req.body as ICourse;
   const thumbnail = data.thumbnail;
+  const courseId = req.params.id as string;
 
   try {
-    if (thumbnail) {
-      await cloudinary.uploader.destroy(thumbnail.publicId);
+    const courseData = await courseModel.findById(courseId);
+
+    if (!courseData) return next(errorHandler(404, "Course not found"));
+
+    if (thumbnail && !thumbnail.url.startsWith("https")) {
+      await cloudinary.uploader.destroy(courseData.thumbnail.publicId);
 
       const result = await cloudinary.uploader.upload(thumbnail.url, {
         folder: "course",
@@ -75,7 +80,13 @@ export const courseEdit_patch = asyncErrorMiddleware(async function (
       };
     }
 
-    const courseId = req.params.id;
+    if (thumbnail.url.startsWith("https")) {
+      data.thumbnail = {
+        url: courseData.thumbnail.url,
+        publicId: courseData.thumbnail.publicId,
+      };
+    }
+
     const course = await courseModel.findByIdAndUpdate(
       courseId,
       { $set: data },

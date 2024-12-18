@@ -28,6 +28,7 @@ export interface ICourData extends Document {
   videoLength?: number;
   videoPlayer?: string;
   questions?: ICourQuestion[];
+  videoThumbnail: { publicId: string; url: string };
 }
 
 export interface ICourLink extends Document {
