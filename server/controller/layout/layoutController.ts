@@ -13,6 +13,8 @@ export const createLayout_post = asyncErrorMiddleware(async function (
 ) {
   const type = req.body.type as string;
 
+  console.log("type", type);
+
   if (!type) return next(errorHandler(400, "Please provide a layout type"));
 
   try {
@@ -22,22 +24,27 @@ export const createLayout_post = asyncErrorMiddleware(async function (
       return next(errorHandler(400, `Type ${type} Already Exist`));
 
     if (type === "Banner") {
-      const { title, img, subTitle } = req.body;
+      console.log("inside");
+      const { banner } = req.body;
 
-      const myCloud = await cloudinary.v2.uploader.upload(img, {
+      console.log("banner", banner);
+      const myCloud = await cloudinary.v2.uploader.upload(banner.img, {
         folder: "layout",
       });
 
-      const banner: IBanner = {
-        img: {
-          url: myCloud.secure_url,
-          publicId: myCloud.public_id,
+      const newBanner: IBanner = {
+        type: "Banner",
+        banner: {
+          title: banner.title,
+          subTitle: banner.subTitle,
+          img: {
+            url: myCloud.secure_url,
+            publicId: myCloud.public_id,
+          },
         },
-        title,
-        subTitle,
       };
 
-      await layoutModel.create({ type, banner });
+      await layoutModel.create(newBanner);
     }
 
     if (type === "Categories") {
@@ -79,12 +86,15 @@ export const editLayout_put = asyncErrorMiddleware(async function (
       });
 
       const banner: IBanner = {
-        img: {
-          url: myCloud.secure_url,
-          publicId: myCloud.public_id,
+        type: "Banner",
+        banner: {
+          img: {
+            url: myCloud.secure_url,
+            publicId: myCloud.public_id,
+          },
+          title,
+          subTitle,
         },
-        title,
-        subTitle,
       };
 
       await layoutModel.findByIdAndUpdate(bannerData?._id, { banner });
@@ -115,7 +125,8 @@ export const getLayoutByType_get = asyncErrorMiddleware(async function (
   res: Response,
   next: NextFunction
 ) {
-  const type = req.body.type as string;
+  const { type } = req.params;
+
   try {
     const layout = await layoutModel.findOne({ type });
 

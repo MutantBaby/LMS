@@ -132,3 +132,34 @@ export interface IEditCourseReq {
   id: string;
   course: ICourse;
 }
+
+interface IBanner {
+  img: {
+    url: string;
+    publicId: string;
+  };
+  title: string;
+  subTitle: string;
+}
+
+interface ICategory {
+  title: string;
+}
+
+interface IFaq {
+  question: string;
+  answer: string;
+}
+
+export interface IHeroDataRes {
+  layout: {
+    type: string;
+    faq: IFaq[];
+    banner: IBanner;
+    categories: ICategory[];
+  };
+}
+
+export interface IHeroDataReq {
+  type: string;
+}

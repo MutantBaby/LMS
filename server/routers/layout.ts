@@ -13,7 +13,7 @@ import { updateAccessToken_get } from "@userContr/userController";
 const router = Router();
 
 router.get(
-  "/get",
+  "/get/:type",
   updateAccessToken_get,
   authMiddleware,
   authorizeRolesMiddleware("admin"),

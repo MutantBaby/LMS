@@ -1,8 +1,11 @@
 export interface IBanner {
-  title: string;
-  subTitle: string;
-  img: {
-    url: string;
-    publicId: string;
+  type: string;
+  banner: {
+    title: string;
+    subTitle: string;
+    img: {
+      url: string;
+      publicId: string;
+    };
   };
 }
