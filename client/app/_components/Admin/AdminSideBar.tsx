@@ -241,7 +241,7 @@ const AdminSideBar: FC<Props> = () => {
             />
 
             <Item
-              to="/faq"
+              to="/admin/faq"
               title="FAQ"
               selected={selected}
               icon={<Quiz />}

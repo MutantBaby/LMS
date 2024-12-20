@@ -151,7 +151,7 @@ interface IFaq {
   answer: string;
 }
 
-export interface IHeroDataRes {
+export interface IGetHeroRes {
   layout: {
     type: string;
     faq: IFaq[];
@@ -160,6 +160,15 @@ export interface IHeroDataRes {
   };
 }
 
-export interface IHeroDataReq {
+export interface IGetHeroReq {
   type: string;
+}
+
+export interface IEditHeroRes {}
+
+export interface IEditHeroReq {
+  type: string;
+  faq?: IFaq[];
+  banner?: IBanner;
+  categories?: ICategory[];
 }

@@ -13,8 +13,6 @@ export const createLayout_post = asyncErrorMiddleware(async function (
 ) {
   const type = req.body.type as string;
 
-  console.log("type", type);
-
   if (!type) return next(errorHandler(400, "Please provide a layout type"));
 
   try {
@@ -24,16 +22,13 @@ export const createLayout_post = asyncErrorMiddleware(async function (
       return next(errorHandler(400, `Type ${type} Already Exist`));
 
     if (type === "Banner") {
-      console.log("inside");
       const { banner } = req.body;
 
-      console.log("banner", banner);
       const myCloud = await cloudinary.v2.uploader.upload(banner.img, {
         folder: "layout",
       });
 
       const newBanner: IBanner = {
-        type: "Banner",
         banner: {
           title: banner.title,
           subTitle: banner.subTitle,
@@ -44,7 +39,7 @@ export const createLayout_post = asyncErrorMiddleware(async function (
         },
       };
 
-      await layoutModel.create(newBanner);
+      await layoutModel.create({ type, newBanner });
     }
 
     if (type === "Categories") {
@@ -76,28 +71,34 @@ export const editLayout_put = asyncErrorMiddleware(async function (
     if (type === "Banner") {
       const bannerData = await layoutModel.findOne({ type: "Banner" });
 
-      if (bannerData)
-        await cloudinary.v2.uploader.destroy(bannerData.banner.img.publicId);
+      const { banner } = req.body;
 
-      const { title, img, subTitle } = req.body;
+      console.log("Edit Banner", banner);
 
-      const myCloud = await cloudinary.v2.uploader.upload(img, {
-        folder: "layout",
-      });
+      const myData: any = banner?.img.url.startsWith("https")
+        ? bannerData
+        : await cloudinary.v2.uploader.upload(banner?.img.url, {
+            folder: "layout",
+          });
 
-      const banner: IBanner = {
-        type: "Banner",
+      const newbanner: IBanner = {
         banner: {
           img: {
-            url: myCloud.secure_url,
-            publicId: myCloud.public_id,
+            url: banner?.img.url.startsWith("https")
+              ? bannerData?.banner.img.url
+              : myData?.secure_url,
+            publicId: banner?.img.url.startsWith("https")
+              ? bannerData?.banner.img.publicId
+              : myData?.public_id,
           },
-          title,
-          subTitle,
+          title: banner?.title,
+          subTitle: banner?.subTitle,
         },
       };
 
-      await layoutModel.findByIdAndUpdate(bannerData?._id, { banner });
+      console.log("Edit Banner 2", newbanner);
+
+      await layoutModel.findByIdAndUpdate(bannerData?._id, newbanner);
     }
 
     if (type === "Categories") {
@@ -129,6 +130,8 @@ export const getLayoutByType_get = asyncErrorMiddleware(async function (
 
   try {
     const layout = await layoutModel.findOne({ type });
+
+    console.log("Get Layout", layout);
 
     res.status(200).json({ success: true, layout });
   } catch (error: any) {

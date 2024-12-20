@@ -1,5 +1,4 @@
 export interface IBanner {
-  type: string;
   banner: {
     title: string;
     subTitle: string;
