@@ -7,7 +7,7 @@ export async function genLast12MthDate<T extends Document>(
   const last12Mths: IMonthDate[] = [];
   const currentDate = new Date();
 
-  currentDate.setDate(currentDate.getDate() + 1);
+  currentDate.setDate(currentDate.getDate() + 2);
 
   for (let i = 11; i >= 0; i--) {
     const endDate = new Date(

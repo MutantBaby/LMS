@@ -172,3 +172,21 @@ export interface IEditHeroReq {
   banner?: IBanner;
   categories?: ICategory[];
 }
+
+export interface ICoursesAnalyticsRes {
+  course: { month: string; count: number }[];
+}
+
+export interface ICoursesAnalyticsReq {}
+
+export interface IOrdersAnalyticsRes {
+  order: { month: string; count: number }[];
+}
+
+export interface IOrdersAnalyticsReq {}
+
+export interface IUsersAnalyticsRes {
+  users: { month: string; count: number }[];
+}
+
+export interface IUsersAnalyticsReq {}
