@@ -57,6 +57,7 @@ const courseSchema = new Schema<ICourse>(
     reviews: [reviewSchema],
     courseData: [dataSchema],
     benefits: [{ title: String }],
+    categories: [{ title: String }],
     preRequisites: [{ title: String }],
     thumbnail: {
       publicId: { type: String },

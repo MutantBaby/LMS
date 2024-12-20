@@ -8,18 +8,22 @@ import { IoAddCircle } from "react-icons/io5";
 type Props = {
   active: number;
   benefits: { title: string }[];
+  categories: { title: string }[];
   preRequisites: { title: string }[];
   setActive: (active: number) => void;
   setBenefits: (benefits: { title: string }[]) => void;
+  setCategories: (categories: { title: string }[]) => void;
   setPreRequisites: (benefits: { title: string }[]) => void;
 };
 
 const CourseData: FC<Props> = ({
   active,
   benefits,
+  categories,
   preRequisites,
   setActive,
   setBenefits,
+  setCategories,
   setPreRequisites,
 }) => {
   const handleBenefitsChange = (index: number, value: any) => {

@@ -14,6 +14,7 @@ export interface ICourse extends Document {
   courseData: ICourData[];
   estimatedPrice?: number;
   benefits: { title: string }[];
+  categories: { title: string }[];
   preRequisites: { title: string }[];
   thumbnail: { publicId: string; url: string };
 }

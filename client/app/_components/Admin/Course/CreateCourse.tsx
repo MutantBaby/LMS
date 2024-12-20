@@ -20,6 +20,7 @@ interface ICourseData {
   title: string;
   videoUrl: string;
   suggestion: string;
+  videoLength: number;
   videoSection: string;
   links: { url: string; title: string }[];
 }
@@ -34,6 +35,7 @@ interface IData {
   totalVideos: number;
   estimatedPrice: string;
   benefits: { title: string }[];
+  categories: { title: string }[];
   preRequisites: { title: string }[];
   thumbnail: { publicId: string; url: string };
   courseData: ICourseData[];
@@ -42,9 +44,11 @@ interface IData {
 const CreateCourse: FC<Props> = () => {
   const [createCourse, { isError, isSuccess, error, isLoading }] =
     useCreateCourseMutation();
+
   const [active, setActive] = useState(0);
   const [courseData, setCourseData] = useState({});
   const [benefits, setBenefits] = useState([{ title: "" }]);
+  const [categories, setCategories] = useState([{ title: "" }]);
   const [preRequisites, setPreRequisites] = useState([{ title: "" }]);
   const [courseInfo, setCourseInfo] = useState({
     name: "",
@@ -54,14 +58,16 @@ const CreateCourse: FC<Props> = () => {
     demoUrl: "",
     diffLevel: "",
     thumbnail: "",
+    categories: "",
     estimatedPrice: "",
   });
   const [courseContentData, setCourseContentData] = useState<ICourseData[]>([
     {
+      desc: "",
       title: "",
       videoUrl: "",
       suggestion: "",
-      desc: "",
+      videoLength: 0,
       videoSection: "",
       links: [{ title: "", url: "" }],
     },
@@ -72,6 +78,9 @@ const CreateCourse: FC<Props> = () => {
     const formattedBenefits = benefits.map((benefit) => ({
       title: benefit.title,
     }));
+    const formattedCategories = benefits.map((categorie) => ({
+      title: categorie.title,
+    }));
     const formattedPreRequisites = preRequisites.map((preRequisite) => ({
       title: preRequisite.title,
     }));
@@ -80,6 +89,7 @@ const CreateCourse: FC<Props> = () => {
       title: data.title,
       videoUrl: data.videoUrl,
       suggestion: data.suggestion,
+      videoLength: data.videoLength,
       videoSection: data.videoSection,
       links: data.links.map((link) => ({
         url: link.url,
@@ -94,6 +104,7 @@ const CreateCourse: FC<Props> = () => {
       price: courseInfo.price,
       demoUrl: courseInfo.demoUrl,
       benefits: formattedBenefits,
+      categories: formattedCategories,
       diffLevel: courseInfo.diffLevel,
       totalVideos: courseContentData.length,
       preRequisites: formattedPreRequisites,
@@ -143,10 +154,12 @@ const CreateCourse: FC<Props> = () => {
         {active === 1 && (
           <CourseData
             active={active}
-            setActive={setActive}
             benefits={benefits}
-            preRequisites={preRequisites}
+            setActive={setActive}
+            categories={categories}
             setBenefits={setBenefits}
+            preRequisites={preRequisites}
+            setCategories={setCategories}
             setPreRequisites={setPreRequisites}
           />
         )}

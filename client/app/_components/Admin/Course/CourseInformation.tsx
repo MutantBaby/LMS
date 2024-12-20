@@ -2,7 +2,8 @@
 
 import { styles } from "@/styles";
 import toast from "react-hot-toast";
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
+import { useGetHeroQuery } from "@/app/_redux/features/layout/layoutApi";
 
 type Props = {
   active: number;
@@ -17,7 +18,12 @@ const CourseInformation: FC<Props> = ({
   courseInfo,
   setCourseInfo,
 }) => {
+  const { data, refetch, isLoading } = useGetHeroQuery(
+    { type: "Categories" },
+    { refetchOnMountOrArgChange: true }
+  );
   const [dragging, setDragging] = useState(false);
+  const [categories, setCategories] = useState<any[]>([]);
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
@@ -70,6 +76,10 @@ const CourseInformation: FC<Props> = ({
     };
     reader.readAsDataURL(file);
   };
+
+  useEffect(() => {
+    if (data) setCategories(data?.layout.categories || "");
+  }, [data]);
 
   return (
     <div className="w-[80%] m-auto mt-24">
@@ -144,22 +154,55 @@ const CourseInformation: FC<Props> = ({
         </div>
 
         <br />
-        <div>
-          <label className={`${styles.label}`} htmlFor="tags">
-            Course Tags
-          </label>
-          <input
-            id="tags"
-            type="string"
-            name=""
-            required
-            value={courseInfo.tags}
-            onChange={(e) =>
-              setCourseInfo({ ...courseInfo, tags: e.target.value })
-            }
-            placeholder="MERN, Python, Redis"
-            className={`${styles.input}`}
-          />
+        <div className="w-full flex justify-between">
+          <div className="w-[45%]">
+            <label className={`${styles.label}`} htmlFor="tags">
+              Course Tags
+            </label>
+            <input
+              id="tags"
+              type="string"
+              name=""
+              required
+              value={courseInfo.tags}
+              onChange={(e) =>
+                setCourseInfo({ ...courseInfo, tags: e.target.value })
+              }
+              placeholder="MERN, Python, Redis"
+              className={`${styles.input}`}
+            />
+          </div>
+
+          <div className="w-[45%]">
+            <label htmlFor="categories">Categories</label>
+            <select
+              className={`${styles.input} dark:text-white text-black dark:bg-black bg-white`}
+              name="categories"
+              id="categories"
+              required
+              value={courseInfo.categories}
+              onChange={(e) =>
+                setCourseInfo({ ...courseInfo, categories: e.target.value })
+              }>
+              {categories?.map((category: any, index: number) => (
+                <option key={index} value={category?.title}>
+                  {category?.title}
+                </option>
+              ))}
+            </select>
+            {/* <input
+              id="categories"
+              type="string"
+              name=""
+              required
+              value={courseInfo.categories}
+              onChange={(e) =>
+                setCourseInfo({ ...courseInfo, categories: e.target.value })
+              }
+              placeholder="AI, ML, Web Development"
+              className={`${styles.input}`}
+            /> */}
+          </div>
         </div>
 
         <br />

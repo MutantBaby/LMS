@@ -26,8 +26,6 @@ const EditCategories: FC<Props> = () => {
 
   const [categories, setCategories] = useState<any[]>([]);
 
-  console.log("Categories: ", data);
-
   const toggleQuestion = (id: string) => {
     setCategories((prevCategories) =>
       prevCategories.map((q) =>
