@@ -1,14 +1,16 @@
 import { useTheme } from "next-themes";
-import React, { FC, useState } from "react";
+import React, { FC } from "react";
 
 import ThemeSwitcher from "@/utils/ThemeSwitcher";
 import { IoMdNotificationsOutline } from "react-icons/io";
 
-type Props = {};
+type Props = {
+  open: boolean;
+  setOpen: (open: boolean) => void;
+};
 
-const DashboardHeader: FC<Props> = () => {
+const DashboardHeader: FC<Props> = ({ open, setOpen }) => {
   const { theme, setTheme } = useTheme();
-  const [open, setOpen] = useState(false);
 
   return (
     <div>

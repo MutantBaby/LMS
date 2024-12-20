@@ -24,10 +24,10 @@ const Page: FC<Props> = () => {
         </div>
 
         <div className="w-[85%]">
-          <DashboardHero />
+          <DashboardHero isDashboard={true} />
         </div>
       </div>
-    </AdminProtectedHook>
+    </AdminProtectedHook>  
   );
 };
 

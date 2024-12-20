@@ -309,14 +309,6 @@ const AdminSideBar: FC<Props> = () => {
               {!isCollapsed && "Extras"}
             </Typography>
 
-            <Item
-              to="/admin/settings"
-              title="Settings"
-              selected={selected}
-              icon={<Settings />}
-              setSelected={setSelected}
-            />
-
             <div onClick={logoutHandle}>
               <Item
                 to="/"

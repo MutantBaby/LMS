@@ -190,3 +190,12 @@ export interface IUsersAnalyticsRes {
 }
 
 export interface IUsersAnalyticsReq {}
+
+export interface IAllOrdersRes {
+  orders: {
+    courseId: string;
+    payment_info: string;
+  }[];
+}
+
+export interface IAllOrdersReq {}
