@@ -1,12 +1,13 @@
+import { Box } from "@mui/material";
+import { useTheme } from "next-themes";
+import { DataGrid } from "@mui/x-data-grid";
+import React, { FC, useEffect } from "react";
+import { AiOutlineMail } from "react-icons/ai";
+
+import Loading from "../../Loading";
 import { useGetAllCoursesQuery } from "@/app/_redux/features/courses/courseApi";
 import { useAllOrdersQuery } from "@/app/_redux/features/orders/ordersApi";
 import { useGetAllUsersQuery } from "@/app/_redux/features/user/userApi";
-import { useTheme } from "next-themes";
-import React, { FC, useEffect } from "react";
-import { AiOutlineMail } from "react-icons/ai";
-import Loading from "../../Loading";
-import { Box, Toolbar } from "@mui/material";
-import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 
 type Props = {
   isDashboard?: boolean;
@@ -19,15 +20,6 @@ const AllVoices: FC<Props> = ({ isDashboard }) => {
   const { isLoading, data: dataForAllOrders } = useAllOrdersQuery({});
 
   const [orderdata, setOrderData] = React.useState<any>([]);
-
-  console.log(
-    "\ndataForAllOrders",
-    dataForAllOrders,
-    "\ndataForAllUsers",
-    dataForAllUsers,
-    "\ndataForAllCourses",
-    dataForAllCourses
-  );
 
   const colums: any = [
     { field: "id", headerName: "ID", flex: 0.3 },
@@ -55,92 +47,10 @@ const AllVoices: FC<Props> = ({ isDashboard }) => {
               </a>
             ),
           },
-          { field: "title", headerName: "Course Title", flex: 1 },
         ]),
   ];
 
-  const rows: any = [
-    {
-      id: "1",
-      userName: "User-QWE123",
-      userEmail: "ASD456@example.com",
-      title: "Title-ZXC789",
-      price: "$150",
-      created_at: "3 days ago",
-    },
-    {
-      id: "2",
-      userName: "User-RTY234",
-      userEmail: "FGH567@example.com",
-      title: "Title-VBN890",
-      price: "$275",
-      created_at: "7 days ago",
-    },
-    {
-      id: "3",
-      userName: "User-UIP345",
-      userEmail: "HJK678@example.com",
-      title: "Title-MLK901",
-      price: "$320",
-      created_at: "12 days ago",
-    },
-    {
-      id: "4",
-      userName: "User-OPL456",
-      userEmail: "ERT789@example.com",
-      title: "Title-QAZ012",
-      price: "$180",
-      created_at: "5 days ago",
-    },
-    {
-      id: "5",
-      userName: "User-ASD567",
-      userEmail: "TYU890@example.com",
-      title: "Title-WSX123",
-      price: "$400",
-      created_at: "10 days ago",
-    },
-    {
-      id: "6",
-      userName: "User-ZXC678",
-      userEmail: "UIO901@example.com",
-      title: "Title-EDC234",
-      price: "$220",
-      created_at: "2 days ago",
-    },
-    {
-      id: "7",
-      userName: "User-DFG789",
-      userEmail: "POL012@example.com",
-      title: "Title-RFV345",
-      price: "$190",
-      created_at: "20 days ago",
-    },
-    {
-      id: "8",
-      userName: "User-HJK890",
-      userEmail: "LKJ123@example.com",
-      title: "Title-TGB456",
-      price: "$340",
-      created_at: "14 days ago",
-    },
-    {
-      id: "9",
-      userName: "User-CVB901",
-      userEmail: "MNB234@example.com",
-      title: "Title-YHN567",
-      price: "$310",
-      created_at: "9 days ago",
-    },
-    {
-      id: "10",
-      userName: "User-NMQ012",
-      userEmail: "BVC345@example.com",
-      title: "Title-UJM678",
-      price: "$290",
-      created_at: "1 day ago",
-    },
-  ];
+  const rows: any = [];
 
   orderdata &&
     orderdata.forEach((item: any) => {
@@ -158,10 +68,10 @@ const AllVoices: FC<Props> = ({ isDashboard }) => {
     if (dataForAllOrders) {
       const temp = dataForAllOrders?.orders.map((item: any) => {
         const user = dataForAllUsers?.users.find(
-          (user: any) => user._id === item.userId
+          (user: any) => String(user._id) === String(item.userId)
         );
         const course = dataForAllCourses?.courses.find(
-          (course: any) => course._id === item.courseId
+          (course: any) => String(course._id) === String(item.courseId)
         );
 
         return {
