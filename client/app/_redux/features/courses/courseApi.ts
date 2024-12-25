@@ -8,6 +8,8 @@ import {
   IEditCourseRes,
   IGetAllCoursesReq,
   IGetAllCoursesRes,
+  IHeroAllCoursesReq,
+  IHeroAllCoursesRes,
 } from "../../types";
 import { apiSlice } from "../api/apiSlice";
 
@@ -43,12 +45,20 @@ export const courseApi = apiSlice.injectEndpoints({
         credentials: "include" as const,
       }),
     }),
+    heroAllCourse: builder.query<IHeroAllCoursesRes, IHeroAllCoursesReq>({
+      query: (arg) => ({
+        method: "GET",
+        url: `course/all`,
+        credentials: "include" as const,
+      }),
+    }),
   }),
 });
 
 export const {
   useEditCourseMutation,
   useGetAllCoursesQuery,
+  useHeroAllCourseQuery,
   useCreateCourseMutation,
   useDeleteCourseMutation,
 } = courseApi;

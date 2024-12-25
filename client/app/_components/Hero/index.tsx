@@ -2,8 +2,11 @@ import { FC } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import img1 from "../../../assets/hero_img.svg";
+import { useGetHeroQuery } from "@/app/_redux/features/layout/layoutApi";
 
 const Hero: FC = () => {
+  const { data, refetch } = useGetHeroQuery({ type: "Banner" });
+
   return (
     <>
       <section className="flex self-center px-2 py-32 bg-white md:px-0  dark:bg-black">
@@ -13,7 +16,8 @@ const Hero: FC = () => {
               <div className="w-full pb-6 space-y-6 sm:max-w-md lg:max-w-lg md:space-y-4 lg:space-y-8 xl:space-y-9 sm:pr-5 lg:pr-0 md:pb-0">
                 <h1 className="dark:text-white text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl md:text-4xl lg:text-5xl xl:text-6xl">
                   <span className="block xl:inline">
-                    Improve Online Learning Exp
+                    {data?.layout?.banner?.title ||
+                      "Improve Online Learning Exp"}
                   </span>
                   <br />
                   <span className="block text-indigo-600 xl:inline">
@@ -21,7 +25,8 @@ const Hero: FC = () => {
                   </span>
                 </h1>
                 <p className="dark:text-white mx-auto text-base text-gray-500 sm:max-w-md lg:text-xl md:max-w-3xl">
-                  We Have 2k Online courses. Find your desired course and start
+                  {data?.layout?.banner?.subTitle ||
+                    "We Have 2k Online courses. Find your desired course and start"}
                 </p>
                 <div className="relative flex flex-col sm:flex-row sm:space-x-4">
                   <Link
@@ -51,7 +56,12 @@ const Hero: FC = () => {
             </div>
             <div className="w-full md:w-1/2">
               <div className="w-full h-auto overflow-hidden rounded-md shadow-xl sm:rounded-xl">
-                <Image alt="img" src={img1} />
+                <Image
+                  height={400}
+                  width={400}
+                  alt="img"
+                  src={(data?.layout?.banner?.img?.url as any) || img1}
+                />
               </div>
             </div>
           </div>

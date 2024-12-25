@@ -4,6 +4,8 @@ import { FC, useState } from "react";
 import Hero from "./_components/Hero";
 import Heading from "../utils/Heading";
 import Header from "./_components/Header";
+import Course from "./_components/Route/Course";
+import Reviews from "./_components/Route/Reviews";
 
 interface Props {}
 
@@ -29,6 +31,8 @@ const Page: FC<Props> = (props) => {
       />
 
       <Hero />
+      <Course />
+      <Reviews />
     </div>
   );
 };

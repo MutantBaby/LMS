@@ -133,6 +133,12 @@ export interface IEditCourseReq {
   course: ICourse;
 }
 
+export interface IHeroAllCoursesRes {
+  courses: ICourse[];
+}
+
+export interface IHeroAllCoursesReq {}
+
 interface IBanner {
   img: {
     url: string;
