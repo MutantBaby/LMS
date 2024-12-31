@@ -1,5 +1,7 @@
 import { use } from "react";
 import {
+  IAllCoursesDetailsReq,
+  IAllCoursesDetailsRes,
   ICreateCourseReq,
   ICreateCourseRes,
   IDeleteCourseReq,
@@ -52,13 +54,21 @@ export const courseApi = apiSlice.injectEndpoints({
         credentials: "include" as const,
       }),
     }),
+    courseContent: builder.query<IAllCoursesDetailsRes, IAllCoursesDetailsReq>({
+      query: (arg) => ({
+        method: "GET",
+        url: `course/content/${arg.id}`,
+        credentials: "include" as const,
+      }),
+    }),
   }),
 });
 
 export const {
-  useEditCourseMutation,
+  useCourseContentQuery,
   useGetAllCoursesQuery,
   useHeroAllCourseQuery,
+  useEditCourseMutation,
   useCreateCourseMutation,
   useDeleteCourseMutation,
 } = courseApi;

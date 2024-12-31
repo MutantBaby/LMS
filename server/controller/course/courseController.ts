@@ -168,11 +168,12 @@ export const courseContentByUser_get = asyncErrorMiddleware(async function (
   const userCourselist = req.user?.courses;
 
   // if user buy course; it will be there
-  const isCourseExist = userCourselist?.find(
+  const isCourseExistInRedis = userCourselist?.find(
     (course) => course.courseId.toString() === courseId
   );
 
-  if (!isCourseExist) return next(errorHandler(404, "Not Eligible For Course"));
+  if (!isCourseExistInRedis)
+    return next(errorHandler(404, "Not Eligible For Course"));
 
   try {
     const course = await courseModel.findById(courseId);

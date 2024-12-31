@@ -3,6 +3,7 @@ require("dotenv").config();
 import cors from "cors";
 import express from "express";
 import { Redis } from "ioredis";
+import { promisify } from "util";
 import cookieParser from "cookie-parser";
 
 import { routers } from "@routers";

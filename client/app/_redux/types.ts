@@ -101,6 +101,14 @@ export interface IGetAllCoursesRes {
 
 export interface IGetAllCoursesReq {}
 
+export interface IAllCoursesDetailsRes {
+  course: ICourse;
+}
+
+export interface IAllCoursesDetailsReq {
+  id: string;
+}
+
 export interface IGetAllUsersRes {
   users: IUser[];
 }
