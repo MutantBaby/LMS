@@ -260,6 +260,7 @@ export const updateUserInfo_patch = asyncErrorMiddleware(async function (
     if (email) {
       if (user.email !== email) {
         const newUser = await userModel.findOne({ email });
+3
 
         if (newUser) return next(errorHandler(400, "User Already Exist"));
         user.email = email;

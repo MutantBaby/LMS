@@ -43,6 +43,7 @@ export interface ICourData {
   videoLength?: number;
   videoPlayer?: string;
   questions?: ICourQuestion[];
+  videoThumbnail?: { publicId?: string; url?: string };
 }
 
 export interface ICourLink {

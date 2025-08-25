@@ -3,11 +3,11 @@
 import { FC, useState } from "react";
 import Hero from "./_components/Hero";
 import Heading from "../utils/Heading";
+import Faq from "./_components/Faq/Faq";
 import Header from "./_components/Header";
 import Course from "./_components/Route/Course";
-import Reviews from "./_components/Route/Reviews";
-import Faq from "./_components/Faq/Faq";
 import Footer from "./_components/Footer/Footer";
+import Reviews from "./_components/Route/Reviews";
 
 interface Props {}
 

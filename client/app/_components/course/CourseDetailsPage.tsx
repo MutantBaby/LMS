@@ -1,7 +1,10 @@
 import { FC, useState } from "react";
-import { useCourseContentQuery } from "@/app/_redux/features/courses/courseApi";
+import { useSingleCourseContentQuery } from "@/app/_redux/features/courses/courseApi";
 import Loading from "../Loading";
 import Heading from "@/utils/Heading";
+import Header from "../Header";
+import Footer from "../Footer/Footer";
+import CourseDetails from "./CourseDetails";
 
 type Props = {
   id: string;
@@ -10,7 +13,7 @@ type Props = {
 const CourseDetailsPage: FC<Props> = ({ id }) => {
   const [route, setRoute] = useState("login");
   const [open, setOpen] = useState(false);
-  const { data, isLoading } = useCourseContentQuery({ id });
+  const { data, isLoading } = useSingleCourseContentQuery({ id });
 
   console.log("data", data);
 
@@ -18,11 +21,23 @@ const CourseDetailsPage: FC<Props> = ({ id }) => {
     <Loading />
   ) : (
     <div>
-      {/* <Heading
+      <Heading
         description="Learn Online Courses"
-        keywords={data?.courses[0].tags as string}
-        title={data?.courses[0].name + " - LE-Course"}
-      /> */}
+        keywords={data?.course.tags as string}
+        title={data?.course.name + " - LE-Course"}
+      />
+
+      <Header
+        activeItems={0}
+        open={open}
+        setOpen={setOpen}
+        route={route}
+        setRoute={setRoute}
+      />
+
+      <CourseDetails data={data?.course} />
+
+      <Footer />
     </div>
   );
 };

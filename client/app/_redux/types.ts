@@ -1,4 +1,4 @@
-import { ICourse, IUser } from "@/types";
+import { ICourData, ICourse, IUser } from "@/types";
 
 export interface IInitialState {
   user: Object;
@@ -101,11 +101,11 @@ export interface IGetAllCoursesRes {
 
 export interface IGetAllCoursesReq {}
 
-export interface IAllCoursesDetailsRes {
+export interface ISingleCourseContentRes {
   course: ICourse;
 }
 
-export interface IAllCoursesDetailsReq {
+export interface ISingleCourseContentReq {
   id: string;
 }
 

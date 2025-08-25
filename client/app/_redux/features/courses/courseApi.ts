@@ -1,7 +1,4 @@
-import { use } from "react";
 import {
-  IAllCoursesDetailsReq,
-  IAllCoursesDetailsRes,
   ICreateCourseReq,
   ICreateCourseRes,
   IDeleteCourseReq,
@@ -12,6 +9,8 @@ import {
   IGetAllCoursesRes,
   IHeroAllCoursesReq,
   IHeroAllCoursesRes,
+  ISingleCourseContentReq,
+  ISingleCourseContentRes,
 } from "../../types";
 import { apiSlice } from "../api/apiSlice";
 
@@ -54,10 +53,13 @@ export const courseApi = apiSlice.injectEndpoints({
         credentials: "include" as const,
       }),
     }),
-    courseContent: builder.query<IAllCoursesDetailsRes, IAllCoursesDetailsReq>({
+    singleCourseContent: builder.query<
+      ISingleCourseContentRes,
+      ISingleCourseContentReq
+    >({
       query: (arg) => ({
         method: "GET",
-        url: `course/content/${arg.id}`,
+        url: `course/single/${arg.id}`,
         credentials: "include" as const,
       }),
     }),
@@ -65,10 +67,10 @@ export const courseApi = apiSlice.injectEndpoints({
 });
 
 export const {
-  useCourseContentQuery,
   useGetAllCoursesQuery,
   useHeroAllCourseQuery,
   useEditCourseMutation,
   useCreateCourseMutation,
   useDeleteCourseMutation,
+  useSingleCourseContentQuery,
 } = courseApi;
