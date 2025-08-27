@@ -20,7 +20,7 @@ const CourseCard: FC<Props> = ({ item, isProfile }) => {
           height={300}
           objectFit="contain"
           className="rounded-lg w-full"
-          alt=""
+          alt="course-card-img"
         />
         <br />
 
@@ -58,7 +58,7 @@ const CourseCard: FC<Props> = ({ item, isProfile }) => {
           </div>
         </div>
       </div>
-    </Link> 
+    </Link>
   );
 };
 

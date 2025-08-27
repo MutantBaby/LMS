@@ -29,7 +29,7 @@ const Header: FC<TProps> = memo(
     const [openSideBar, setOpenSideBar] = useState(false);
     const [socialAuth, { isError, isSuccess, error }] = useSocialAuthMutation();
     const { user }: { user: IUser } = useAppSelector((state) => state.auth);
- 
+
     // if (typeof window !== "undefined") {
     //   window.addEventListener("scroll", function () {
     //     if (window.scrollY > 100) setActive(true);

@@ -59,7 +59,7 @@ const Hero: FC = () => {
                 <Image
                   height={400}
                   width={400}
-                  alt="img"
+                  alt="hero-img"
                   src={(data?.layout?.banner?.img?.url as any) || img1}
                 />
               </div>
