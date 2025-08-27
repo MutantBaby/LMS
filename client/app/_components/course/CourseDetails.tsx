@@ -1,12 +1,11 @@
 import React, { FC } from "react";
+import { format } from "timeago.js";
+import { IoCheckmarkDoneOutline } from "react-icons/io5";
 
 import { IUser } from "@/types";
-import { useAppSelector } from "@/app/_redux";
 import Ratings from "@/utils/Ratings";
-import {
-  IoCheckmarkCircleOutline,
-  IoCheckmarkDoneOutline,
-} from "react-icons/io5";
+import { useAppSelector } from "@/app/_redux";
+import CoursePlayer from "@/utils/CoursePlayer";
 
 type Props = {
   data: any;
@@ -133,22 +132,45 @@ const CourseDetails: FC<Props> = ({ data }) => {
                       <div className="w-[50px] h-[50px]">
                         <div className="w-[50px] h-[50px] bg-slate-600 rounded-[50px] flex items-center justify-center cursor-pointer">
                           <h1 className="uppercase text-[18px] text-black dark:text-white">
-                            {/* {item?.userId?.name?.slice(0, 1)} */}
-                            {/* {console.log("item", item)} */}
+                            {item?.user?.name?.slice(0, 1)}
                           </h1>
                         </div>
                       </div>
 
                       <div className="hidden 800px:block pl-2">
                         <div className="flex center">
-                          <h5 className="text-[18px] font-Poppins pr-2 text-black dark:text-white"></h5>
+                          <h5 className="text-[18px] font-Poppins pr-2 text-black dark:text-white">
+                            {item?.user?.name}
+                          </h5>
+                          <Ratings rating={item?.rating} />
                         </div>
+
+                        <p className="text-black dark:text-white">
+                          {item?.comment}
+                        </p>
+
+                        <small className="text-black dark:text-white">
+                          {format(item.createdAt)}
+                        </small>
+                      </div>
+
+                      <div className="pl-2 flex 800px:hidden items-center">
+                        <h5 className="text-[18px] font-Poppins pr-2 text-black dark:text-white">
+                          {item?.user?.name}
+                        </h5>
+                        <Ratings rating={item?.rating} />
                       </div>
                     </div>
                   </div>
                 )
               )}
             </div>
+          </div>
+        </div>
+
+        <div className="w-full 800px:w-[35%] relative">
+          <div className="sticky top-[100px] left-0 z-50 w-full">
+            <CoursePlayer videoUrl={data?.demoUrl} title={data?.title} />
           </div>
         </div>
       </div>
