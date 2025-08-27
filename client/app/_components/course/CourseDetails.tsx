@@ -124,6 +124,30 @@ const CourseDetails: FC<Props> = ({ data }) => {
                   Course Rating - {data?.reviews?.length} Reviews
                 </h5>
               </div>
+              <br />
+
+              {(data?.reviews && [...data?.reviews].reverse())?.map(
+                (item: any, index: number) => (
+                  <div className="w-full pb-4" key={index}>
+                    <div className="flex">
+                      <div className="w-[50px] h-[50px]">
+                        <div className="w-[50px] h-[50px] bg-slate-600 rounded-[50px] flex items-center justify-center cursor-pointer">
+                          <h1 className="uppercase text-[18px] text-black dark:text-white">
+                            {/* {item?.userId?.name?.slice(0, 1)} */}
+                            {/* {console.log("item", item)} */}
+                          </h1>
+                        </div>
+                      </div>
+
+                      <div className="hidden 800px:block pl-2">
+                        <div className="flex center">
+                          <h5 className="text-[18px] font-Poppins pr-2 text-black dark:text-white"></h5>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )
+              )}
             </div>
           </div>
         </div>
