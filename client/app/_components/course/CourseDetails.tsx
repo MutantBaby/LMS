@@ -1,7 +1,7 @@
 import Link from "next/link";
 import React, { FC, useState } from "react";
 import { format } from "timeago.js";
-import { IoCheckmarkDoneOutline } from "react-icons/io5";
+import { IoCheckmarkDoneOutline, IoCloseOutline } from "react-icons/io5";
 
 import { IUser } from "@/types";
 import { styles } from "@/styles";
@@ -202,6 +202,7 @@ const CourseDetails: FC<Props> = ({ data }) => {
                   </Link>
                 ) : (
                   <div
+                    onClick={handleOrder}
                     className={`${styles?.button} !w-[180px] my-3 font-Poppins cursor-pointer !bg-[crimson]`}>
                     Buy Now {data?.price}
                   </div>
@@ -226,6 +227,22 @@ const CourseDetails: FC<Props> = ({ data }) => {
       </div>
 
       <>
+        {open && (
+          <div
+            className="fixed top-0 left-0 w-full h-screen bg-[#00000036] z-50 flex items-center justify-center"
+            // onClick={() => setOpen(false)}
+          >
+            <div className="w-[500px] min-h-[500px]  bg-white dark:bg-[#303030] rounded-xl shadow p-3">
+              <div className="w-full flex justify-end">
+                <IoCloseOutline
+                  size={30}
+                  className="cursor-pointer text-black dark:text-white"
+                  onClick={() => setOpen(false)}
+                />
+              </div>
+            </div>
+          </div>
+        )}
       </>
     </div>
   );
