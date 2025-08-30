@@ -1,11 +1,14 @@
-import React, { FC } from "react";
+import Link from "next/link";
+import React, { FC, useState } from "react";
 import { format } from "timeago.js";
 import { IoCheckmarkDoneOutline } from "react-icons/io5";
 
 import { IUser } from "@/types";
+import { styles } from "@/styles";
 import Ratings from "@/utils/Ratings";
 import { useAppSelector } from "@/app/_redux";
 import CoursePlayer from "@/utils/CoursePlayer";
+import CourseContentList from "./CourseContentList";
 
 type Props = {
   data: any;
@@ -15,6 +18,8 @@ const CourseDetails: FC<Props> = ({ data }) => {
   const { user }: { user: IUser } = useAppSelector(
     (state: { auth: { user: IUser } }) => state.auth
   );
+  const [open, setOpen] = useState(false);
+
   const discountPercentage =
     ((data?.estimatedPrice - data?.price) / data?.estimatedPrice) * 100;
 
@@ -23,7 +28,9 @@ const CourseDetails: FC<Props> = ({ data }) => {
     user &&
     user?.courses?.find((item) => String(item.courseId) === String(data?._id));
 
-  const handleOrder = (e: any) => {};
+  const handleOrder = (e: any) => {
+    setOpen(true);
+  };
 
   return (
     <div>
@@ -31,7 +38,7 @@ const CourseDetails: FC<Props> = ({ data }) => {
         <div className="w-full flex flex-col-reverse 800px:flex-row">
           <div className="w-full 800px:w-[65%] 800px:pr-5">
             <h1 className="text-[25px] font-Poppins font-[600] text-black dark:text-white">
-              {data.name}
+              {data?.name!}
             </h1>
 
             <div className="flex justify-between items-center pt-3">
@@ -95,7 +102,9 @@ const CourseDetails: FC<Props> = ({ data }) => {
             <h1 className="text-[25px] font-Poppins font-[600] text-black dark:text-white">
               Course Overview
             </h1>
-            {/* courseLIST */}
+
+            <CourseContentList data={data?.courseData} isDemo={true} />
+
             <br />
             <br />
 
@@ -166,14 +175,58 @@ const CourseDetails: FC<Props> = ({ data }) => {
               )}
             </div>
           </div>
-        </div>
 
-        <div className="w-full 800px:w-[35%] relative">
-          <div className="sticky top-[100px] left-0 z-50 w-full">
-            <CoursePlayer videoUrl={data?.demoUrl} title={data?.title} />
+          <div className="w-full 800px:w-[35%] relative">
+            <div className="sticky top-[100px] left-0 z-50 w-full">
+              <CoursePlayer videoUrl={data?.demoUrl} title={data?.title} />
+
+              <div className="flex items-center">
+                <h1 className="pt-5 text-[25px] text-black dark:text-white">
+                  {data?.price === 0 ? "Free" : `$${data?.price}`}
+                </h1>
+
+                <h5 className="pl-3 text-[20px] mt-2 line-through opacity-80 text-black dark:text-white">
+                  {data?.estimatedPrice}$
+                </h5>
+                <h4 className="pl-5 pt-4 text-[22px] text-black dark:text-white">
+                  {discountPercentagePrice}% Off
+                </h4>
+              </div>
+
+              <div className="flex items-center">
+                {isPurchased ? (
+                  <Link
+                    href={`/course-access/${data?._id}`}
+                    className={`${styles?.button} !w-[180px] my-3 font-Poppins cursor-pointer !bg-[crimson]`}>
+                    Enter to Course
+                  </Link>
+                ) : (
+                  <div
+                    className={`${styles?.button} !w-[180px] my-3 font-Poppins cursor-pointer !bg-[crimson]`}>
+                    Buy Now {data?.price}
+                  </div>
+                )}
+              </div>
+
+              <p className="pb-1 text-black dark:text-white">
+                - Source Code included
+              </p>
+              <p className="pb-1 text-black dark:text-white">
+                - Full lifetime access
+              </p>
+              <p className="pb-1 text-black dark:text-white">
+                - Certificate of completion
+              </p>
+              <p className="pb-1 text-black dark:text-white">
+                - Premium Support
+              </p>
+            </div>
           </div>
         </div>
       </div>
+
+      <>
+      </>
     </div>
   );
 };
